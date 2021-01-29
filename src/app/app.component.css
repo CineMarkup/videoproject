@@ -1,0 +1,14 @@
+.main {
+    margin-left:2em;
+    margin-right:2em;
+}
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+.logo span {
+    color: var(--secondary-color);
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin-right: 2px;
+}

@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+:root {
+    --primary-color:rgb(103,58,183);
+    --secondary-color:rgb(255, 215, 64);
+    --hover-color:rgb(70, 40, 125, .3);
+}
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+}
+.nav span {
+    font-family: 'Montserrat', sans-serif;
+}
+.mat-button:hover {
+    /* color: var(--secondary-color); */
+    font-weight:600;
+    background-color:var(--hover-color);
+}
