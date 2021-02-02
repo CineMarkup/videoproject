@@ -14,11 +14,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecorderComponent } from './recorder/recorder.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RecorderComponent
+    RecorderComponent,
+    HomeComponent
   ],
   imports:      [ 
     BrowserModule,
