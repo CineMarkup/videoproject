@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RecorderComponent } from './recorder/recorder.component';
 
 const routes: Routes = [
-  { path: "", redirectTo:"record-mixed", pathMatch:"full" },
+  { path: '', redirectTo: 'record', pathMatch: 'full' },
   { path: 'record', component: RecorderComponent }
 ];
 

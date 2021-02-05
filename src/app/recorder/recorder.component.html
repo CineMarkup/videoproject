@@ -1,1 +1,71 @@
-<p>recorder works!</p>
+<!-- HEADER -->
+<div class="header-group">
+    <h1>
+      Recording
+    </h1>
+    <h2 *ngIf="videoName.length">: {{videoName}} </h2>
+</div>
+  
+<!-- INPUT -->
+<span class="recorder-input">
+
+<mat-form-field class="video-input" >
+    <mat-label>Name Video</mat-label>
+    <textarea matInput 
+    placeholder="Ex. Feminist_Perspectives_on_Class"
+    [(ngModel)]="videoName"
+    
+    ></textarea>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Microphone</mat-label>
+    <mat-select [(ngModel)]="audioDeviceId">
+    <mat-option *ngFor="let audio of audioDevices" [ngValue]="audio.id">
+        {{audio.name}}
+    </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Share your: </mat-label>
+    <mat-select [(value)]="selectedScreenCamera">
+        <mat-option value="withCameraAndScreen">Camera and Screen</mat-option>
+        <mat-option value="withCamera">Camera</mat-option>
+        <mat-option value="withScreen">Screen</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<div class="button-group">
+
+    <button mat-raised-button color="primary" 
+    (click)="startRecording()">
+    Record
+    </button>
+
+    <button mat-raised-button color="accent" 
+    (click)="saveRecording()" [disabled]="isRecording ? false : true">
+    Save
+    </button>
+
+    <button mat-raised-button color="accent" 
+    (click)="download()" [disabled]="isSaved ? false : true">
+    Download
+    </button>
+
+</div>
+</span>
+
+<br>
+
+<!-- LIVE PREVIEW -->
+<div
+class="cs-video">
+
+<video     
+    #videoElement
+    class="video"></video>
+
+</div>
+  
+  
