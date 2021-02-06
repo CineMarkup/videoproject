@@ -6,6 +6,7 @@
     --primary-color:rgb(103,58,183);
     --secondary-color:rgb(255, 215, 64);
     --hover-color:rgb(70, 40, 125, .3);
+    --third-color: #4c9ad4;
 }
 h1, h2, h3 {
     font-family: 'Montserrat', sans-serif;

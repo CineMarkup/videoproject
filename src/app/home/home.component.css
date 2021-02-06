@@ -1,0 +1,105 @@
+.header {
+    position: relative;
+    height: 80vh;
+    display: block;
+}
+.header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(19deg, var(--third-color), var(--primary-color));
+    transform-origin: 0px 0px;
+    transform: skewY(-10deg);
+    overflow: hidden;
+    z-index: -1;
+}
+.header-background::before, .header-background::after {
+    display: block;
+    position: absolute;
+    content: '';
+    width: 80%;
+    height: 33.333333333333336%;
+    opacity: 0.3;
+    filter: blur(15px);
+}
+.header-background::before {
+    right: 0;
+}
+.header-background::after {
+    bottom: 0;
+}
+.header-content {
+    text-align: center;
+    padding-top: 6rem;
+    margin: 0 auto;
+}
+@media (min-width: 1000px) {
+    .header-content {
+        text-align: left;
+        max-width: 54rem;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.header-text h1, .header-text p {
+    color: #fff;
+    text-shadow: 0 0.5rem 1rem rgba(50,0,100,0.1);
+}
+.header-text h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+.header-text p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+.header-visuals {
+    position: relative;
+    margin-top: 5rem;
+    height: 700px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0 0 80% 30%/ 80%;
+}
+@media (min-width: 58rem) {
+    .header-visuals {
+        margin: 0;
+    }
+}
+@media (max-width: 1000px) {
+    .header-visuals {
+        display: none;
+    }
+}
+.banner {
+    display: block;
+    padding: 4rem 0.6rem 0;
+    text-align: center;
+    width: 500px;
+    margin: 0.6rem;
+    padding: 1.4rem;
+}
+.banner-image {
+    background-image: url(/assets/images/bannerHome.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: right;
+    width: 100%;
+    height: 500px;
+}
+.cover {
+    background-color: white;
+    height: 16px;
+    transform-origin: 0px 0px;
+    overflow: hidden;
+    z-index: 2;
+    position: absolute;
+    top: -80px;
+    left: 0;
+    right: 0;
+}
