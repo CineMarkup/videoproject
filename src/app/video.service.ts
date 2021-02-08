@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {VideoModel} from '../_models/video-model';
 import {PlaylistModel} from '../_models/playlist-model.';
+import { HttpClient } from '@angular/common/http';
 import {v4 as uuid} from 'uuid';
 
 @Injectable({
@@ -16,8 +17,7 @@ import {v4 as uuid} from 'uuid';
  */
 export class VideoService {
 
-    constructor() {
-    }
+    constructor(private http: HttpClient) {}
 
     playList: PlaylistModel = {
         playlistVideos: [{
@@ -44,6 +44,11 @@ export class VideoService {
             }
         ]
     };
+
+    getAnnotations(): any {
+        return this.http.get( 'http://localhost:8080/videos/all')
+        // return this.http.get( '/videos/all'); // .map(response => response.json());
+    }
 
     getPlaylist(): Promise<PlaylistModel> {
         return new Promise(resolve => {

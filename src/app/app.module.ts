@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { Ng5SliderModule } from 'ng5-slider';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { AnnotationsComponent } from './annotations/annotations.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,

@@ -20,8 +20,15 @@ export class PlaylistComponent implements OnInit {
   currentVideo: VideoModel;
   currentVideoIndex: number;
   hasPlaylist = false;
+  annotations: any;
 
-  constructor(private videoService: VideoService, private router: Router) {}
+  constructor(private videoService: VideoService, private router: Router) {
+    videoService.getAnnotations().subscribe(
+      result => this.annotations = result,
+      () => {},
+      () => console.log('REST call:' + this.annotations)
+    );
+  }
 
   ngOnInit(): void {
     this.videoService.getPlaylist().then((playlist) => {
@@ -34,6 +41,13 @@ export class PlaylistComponent implements OnInit {
         this.hasPlaylist = false;
       }
     });
+
+    // // Test getting the annotations from the express url
+    // this.videoService.getAnnotations().then((annotations) => {
+    //   if (annotations) {
+    //     console.log(annotations);
+    //   }
+    // });
   }
 
   addMainVideo(): void {
