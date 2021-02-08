@@ -6,6 +6,9 @@ import {
 } from '@angular/core';
 import * as RecordRTC from 'recordrtc';
 
+/**
+ * Records a video
+ */
 @Component({
   selector: 'app-recorder',
   templateUrl: './recorder.component.html',

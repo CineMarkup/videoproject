@@ -1,0 +1,62 @@
+<div class="body">
+    <div class="header-group">
+        <h1>
+        Video Player
+        </h1>
+    </div>
+
+    <ng-container *ngIf="playlist&&playlist.playlistVideos">
+        <div class="row videos" >
+
+            <div class="col-md-8 videoplayer">
+                <!-- Play the video -->
+                <ng-container *ngIf="currentVideo">
+                    <app-video-player [video]="currentVideo"
+                                        [autoplay]="true"
+                                        (ended)="onEndedVideo()" 
+                                        [showTitle]="true"
+                                        >
+                    </app-video-player>
+                </ng-container>
+            </div>
+
+            <div class="col-md-4 videoplaylist" > 
+            <ng-container *ngIf="playlist">
+               <!-- List the annotations -->
+               <button mat-raised-button 
+               class="add-clip-btn"
+               color="primary"
+               (click)="addClip()">Add clip</button>
+                <ng-container *ngFor="let video of playlist.playlistVideos;let i=index">
+                    <app-annotations [video]="video" 
+                                        [editable]="editable&&!video.isMain" 
+                                        [isPlaying]="video.id==currentVideo.id"
+                                        (editVideo)="onEditVideo(video)" 
+                                        (deleteVideo)="onDeleteVideo(video,i)"
+                                        (playThisVideo)="onPlayThisVideo(video,i)"
+                                        >
+                    </app-annotations>
+                </ng-container>
+            </ng-container>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+            </div>
+        </div>
+    </ng-container>
+  
+    <ng-container *ngIf="!playlist||!playlist.playlistVideos">
+      <div class="d-flex align-items-center justify-content-center init-container">
+        <div class="d-flex flex-column">
+              <span class="message">To start editing clips, please add the main video</span>
+         
+              <!-- <button mat-raised-button color="primary" (click)="addMainVideo()">
+                  Add Video
+              </button> -->
+        </div>
+      </div>
+    </ng-container>
+
+</div>

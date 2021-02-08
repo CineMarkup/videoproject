@@ -1,0 +1,10 @@
+mat-card{
+    margin-bottom: 10px;
+  }
+.playing{
+    background-color: var(--primary-color);
+}
+.time {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}

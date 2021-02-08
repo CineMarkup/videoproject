@@ -1,0 +1,13 @@
+.error{
+    color: rgb(180, 18, 18);
+    margin: 10px 0;
+}
+.width100{
+    width: 100%;
+}
+mat-card{
+    margin: 10px 0;
+}
+.mat-card-title {
+    font-size: 17px;
+}

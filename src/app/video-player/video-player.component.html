@@ -1,0 +1,14 @@
+<div class="embed-responsive embed-responsive-16by9">
+    <video #videoplayer *ngIf="video" controls  >
+        <source [src]="getVideoUrl()"  />
+    </video>
+</div>
+
+<ng-container *ngIf="showTitle">
+    <div class="d-flex flex-column">      
+        <h1>{{video.annotation}}</h1>
+        <ng-container *ngIf="video.start >= 0 && video.end >= 0"><br>
+            <p class="time">From {{video.start}}s to {{video.end}}s</p>
+        </ng-container>
+    </div>
+</ng-container>

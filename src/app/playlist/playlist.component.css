@@ -1,0 +1,9 @@
+.init-container{
+    height: 100vh;
+}
+.init-container .message {
+    margin-bottom:20px;
+}
+.add-clip-btn{
+    margin-bottom: 10px;
+}

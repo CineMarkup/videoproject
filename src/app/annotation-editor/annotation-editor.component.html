@@ -1,0 +1,88 @@
+<div class="body">
+    <div class="header-group">
+        <h1>
+        Add an Annotation
+        </h1>
+    </div>
+
+    <app-video-player *ngIf="video" 
+        [video]="video" 
+        [showTitle]="false"
+        (loadedMetaData)="onLoadedMetaData($event)"
+        >
+    </app-video-player>
+
+    <ng-container *ngIf="loaded">
+        <form  #clipForm="ngForm"  videoClipEditorValidator>
+            <input type="hidden" [(ngModel)]="video.duration"  name="duration"  #duration="ngModel">
+
+            <mat-card>
+                <div class="row" >
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="width100">
+                        <mat-label>Clip Name</mat-label>
+                        <input matInput type="text"  [(ngModel)]="video.annotation" required name="annotation"  #annotation="ngModel" >
+                        <mat-error *ngIf="annotation.invalid">Please add a video annotation</mat-error>
+                        </mat-form-field>
+                    </div> 
+                </div>
+            </mat-card>
+
+            <mat-card>
+                <mat-card-title>
+                Choose start and end time
+                </mat-card-title>
+
+                <mat-card-content>
+                    <div class="row" >
+                    <div class="col-3">
+                            <mat-form-field >
+                            <mat-label>Clip Start Time</mat-label>
+                            <input matInput type="number"  [(ngModel)]="video.start"  name="start" #start="ngModel"   required min="0">
+                            <mat-error *ngIf="start.invalid">Please add the start time</mat-error>  
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field >
+                        <mat-label>Clip End Time</mat-label>
+                        <input matInput type="number"  [(ngModel)]="video.end"  name="end"   #end="ngModel" required [attr.max]="video.duration">
+                        <mat-error *ngIf="end.invalid">Please add the end time</mat-error>  
+                    </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                    <div *ngIf="clipForm.errors?.startMajorThanEnd && (clipForm.touched || clipForm.dirty)" class="error">
+                        Start time can't be larger than end time
+                    </div>
+                    <!-- Added this because Angular has this issue still??
+                    https://github.com/angular/angular/issues/16352
+                    -->
+                    <div *ngIf="clipForm.errors?.startLessThanZero && (clipForm.touched || clipForm.dirty)" class="error">
+                        Start time should be greater than 0
+                        </div>
+                    <div *ngIf="clipForm.errors?.endMajorThanDuration && (clipForm.touched || clipForm.dirty)" class="error">
+                        End time should be lower than video duration
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="row" >
+                        <div class="col-md-6">
+                            <div class="custom-slider">
+                            <ng5-slider [(value)]="video.start" [(highValue)]="video.end" [options]="rangeOptions"></ng5-slider>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <div class="row">
+                <div class="col-12">
+                    <button  
+                    (click)="save()"
+                    [disabled]="!clipForm.form.valid"
+                    mat-raised-button color="primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</div>

@@ -1,0 +1,33 @@
+<mat-card *ngIf="video"  
+        [class.mat-elevation-z12]="isPlaying"
+        [class.playing]="isPlaying"
+        (dblclick)="onPlayThisVideo()">
+  <mat-card-title>
+
+    <div class="row">
+      <div class="col-10">
+        {{video.annotation}}
+      </div>
+
+      <div class="col-1" *ngIf="editable">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item  (click)="onEditVideo()">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="onDeleteVideo()">
+              <mat-icon>delete</mat-icon>
+              <span>Remove</span>
+            </button>
+          </mat-menu>
+      </div>
+    </div> 
+  </mat-card-title>
+
+  <mat-card-content *ngIf="editable">
+    <p class="time">From {{video.start}}s to {{video.end}}s</p>
+  </mat-card-content>
+</mat-card>
