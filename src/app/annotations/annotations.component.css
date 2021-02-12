@@ -1,7 +1,7 @@
-mat-card{
+mat-card {
     margin-bottom: 10px;
   }
-.playing{
+.playing {
     background-color: var(--primary-color);
 }
 .time {

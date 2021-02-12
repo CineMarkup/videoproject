@@ -10,9 +10,9 @@ const routes: Routes = [
   { path: 'record', component: RecorderComponent },
   { path: 'home', component: HomeComponent },
   { path: 'playlist', component: PlaylistComponent },
-  { path: 'video', component: AnnotationEditorComponent },
-  { path: 'video/:id', component: AnnotationEditorComponent }
-
+  { path: 'playlist/:id', component: PlaylistComponent },
+  { path: 'annotation', component: AnnotationEditorComponent },
+  { path: 'annotation/:id', component: AnnotationEditorComponent }
 ];
 
 @NgModule({

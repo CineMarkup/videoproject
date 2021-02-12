@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { VideoModel } from '../../_models/video-model';
-import { VideoService } from '../video.service';
+import { PlaylistService } from '../_services/playlist.service';
 import { PlaylistModel } from '../../_models/playlist-model.';
-import { Router } from '@angular/router';
-import { HotkeysService, Hotkey } from 'angular2-hotkeys';
+import { AnnotationModel } from 'src/_models/annotation-model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /**
  * Play a video along with the annotations
@@ -17,90 +17,100 @@ export class PlaylistComponent implements OnInit {
 
   @Input() editable = true;
   playlist: PlaylistModel;
-  currentVideo: VideoModel;
-  currentVideoIndex: number;
+  video: VideoModel;
+  currentAnnotation: AnnotationModel;
+  currentAnnotationIndex: number;
   hasPlaylist = false;
   annotations: any;
+  videoCurrentTime = 0;
+  playlists: Array<PlaylistModel>;
 
-  constructor(private videoService: VideoService, private router: Router) {
-    videoService.getAnnotations().subscribe(
-      result => this.annotations = result,
-      () => {},
-      () => console.log('REST call:' + this.annotations)
-    );
-  }
+  constructor(private playlistService: PlaylistService,
+              private route: ActivatedRoute,
+              private router: Router) {
 
-  ngOnInit(): void {
-    this.videoService.getPlaylist().then((playlist) => {
-      if (playlist && playlist.playlistVideos.length > 0) {
-        console.log(playlist);
-        this.playlist = playlist;
-        this.playVideo(0);
-        this.hasPlaylist = true;
-      } else {
-        this.hasPlaylist = false;
+    this.route.params.subscribe(params => {
+      const playListId = params.id;
+      if (playListId) {
+        this.playlistService.getPlaylistById(playListId).subscribe(
+          result => {
+            console.log('Test');
+            console.log(result);
+            if (result) {
+              this.playlist = result;
+              this.video = result.video;
+              this.playAnnotation(0);
+              this.hasPlaylist = true;
+            }
+            else {
+              this.hasPlaylist = false;
+            }
+          },
+          (err) => { console.log('ERROR ' + err); },
+        );
       }
     });
+  }
 
-    // // Test getting the annotations from the express url
-    // this.videoService.getAnnotations().then((annotations) => {
-    //   if (annotations) {
-    //     console.log(annotations);
-    //   }
+  ngOnInit(): void {}
+
+  addAnnotation(): void {
+    this.router.navigate(['/annotation/'], { queryParams: {
+      videoId: this.video.videoID
+    }});
+  }
+
+  playAnnotation(index: number = 0): void {
+    if (this.playlist.annotations && this.playlist.annotations.length > index) {
+      this.currentAnnotationIndex = index;
+      this.currentAnnotation = this.playlist.annotations[index];
+    }
+  }
+
+  playNextAnnotation(): void {
+    if (this.playlist.annotations.length > (this.currentAnnotationIndex + 1)) {
+      this.currentAnnotationIndex++;
+      this.playAnnotation(this.currentAnnotationIndex);
+    }
+  }
+
+  onEndedAnnotation(): void {
+    this.playNextAnnotation();
+  }
+
+  onSeekVideo(seeked: any): void {
+    this.playlist.annotations.forEach((clip, ind) => {
+      if (seeked >= clip.startTime && seeked <=  clip.stopTime) {
+        this.currentAnnotationIndex = ind;
+        this.currentAnnotation = clip;
+      }
+    });
+  }
+
+  onEditAnnotation(annotation: AnnotationModel): void {
+     this.router.navigate(['/annotation/'], { queryParams: {
+       annotationId: annotation.annotationId,
+       videoId: this.video.videoID
+     }});
+  }
+
+  onplayFromAnnotationStart(annotations: AnnotationModel, index: number): void {
+    this.playAnnotation(index);
+    this.videoCurrentTime = annotations.startTime;
+  }
+
+  onDeleteAnnotation(annotation: AnnotationModel, index: number): void {
+    // TODO connect to service call for deleting annotation
+    // this.playlistService.deleteAnnotation(video.id).then(() => {
+    //   this.playlistService.getPlaylist().then(playlist => {
+    //     this.playlist = playlist;
+    //   });
     // });
   }
 
-  addMainVideo(): void {
-    this.router.navigateByUrl('/main-video');
-  }
-
-  addClip(): void {
-    this.router.navigateByUrl('/video');
-  }
-
-  playVideo(index: number = 0): void {
-    if (this.playlist.playlistVideos && this.playlist.playlistVideos.length > index) {
-      console.log(this.playlist);
-      this.currentVideoIndex = index;
-      this.currentVideo = this.playlist.playlistVideos[index];
-    }
-  }
-
-  onEndedVideo(): void {
-      this.playNextVideo();
-  }
-
-  playNextVideo(): void {
-    if (this.playlist.playlistVideos.length > (this.currentVideoIndex + 1)) {
-      this.currentVideoIndex++;
-      this.playVideo(this.currentVideoIndex);
-    }
-  }
-  playPreviusVideo(): void {
-    if (this.currentVideoIndex - 1 >= 0){
-      this.currentVideoIndex--;
-      this.playVideo(this.currentVideoIndex);
-    }
-  }
-
-  onEditVideo(video: VideoModel): void {
-     this.router.navigateByUrl('/video/' + video.id);
-  }
-
-  onDeleteVideo(video: VideoModel, index: number): void{
-    this.videoService.deleteVideo(video.id).then(() => {
-      this.videoService.getPlaylist().then(playlist => {
-        this.playlist = playlist;
-      });
-    });
-  }
-
-  onPlayThisVideo(video: VideoModel, index: number): void {
-    this.playVideo(index);
-  }
-
   onSaveToStorage(): void {
-    this.videoService.saveToStorage();
+    // TODO connect to service call for saving
+    // this.playlistService.saveToStorage();
   }
 
 }
