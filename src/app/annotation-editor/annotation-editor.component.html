@@ -1,0 +1,130 @@
+<div class="body">
+    <div class="header-group">
+        <h1>
+        Add an Annotation
+        </h1>
+    </div>
+    
+    <div class="video"> 
+        <app-video-player *ngIf="video"
+            [annotation]="annotation"
+            [video]="video"
+            (loadedMetaData)="onLoadedMetaData($event)"
+            [autoplay]="true"
+            [showTitle]="true"
+        >
+        </app-video-player>
+    </div>
+    
+    <ng-container *ngIf="loaded">
+        <form  #clipForm="ngForm"  videoClipEditorValidator>
+
+            <div class="row">
+                <div class="col-6">
+                <mat-card>
+                    <div class="row" >
+                        
+                        <div class="col-12">
+                            <mat-form-field class="form-input">
+                            <mat-label>Annotation Text</mat-label>
+                            <input matInput type="text" class="form-control" id="annotation-text"
+                                    required [(ngModel)]="annotation.text" name="annotation-text">
+                            </mat-form-field>
+                        </div> 
+                    </div>
+                </mat-card>
+
+                <mat-card>
+                    <mat-card-title>
+                    Choose start and end time
+                    </mat-card-title>
+
+                    <mat-card-content>
+                        <div class="row" >
+                            <div class="col-6">
+                                    <mat-form-field >
+                                    <mat-label>Annotation Start Time</mat-label>
+                                    <input matInput type="number" class="form-control" id="startTime"
+                                    required [(ngModel)]="annotation.startTime" name="startTime" min="0">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field >
+                                    <mat-label>Annotation End Time</mat-label>
+                                    <input matInput type="number" class="form-control" id="stopTime"
+                                    required [(ngModel)]="annotation.stopTime" name="stopTime" [attr.max]="video.duration">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12">
+                                <div *ngIf="clipForm.errors?.startMajorThanEnd && (clipForm.touched || clipForm.dirty)" class="error">
+                                    Start time can't be larger than end time
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" >
+                            <div class="col-12">
+                                <div class="custom-slider">
+                                <ng5-slider [(value)]="annotation.startTime" 
+                                    [(highValue)]="annotation.stopTime" 
+                                    [options]="rangeOptions"></ng5-slider>
+                                </div>
+                            </div>
+                        </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div class="col-6">
+                    <mat-card>
+                        <div class="row" >
+                            <div class="col-6">
+                                <mat-form-field class="form-input">
+                                <mat-label>Width</mat-label>
+                                <input matInput type="number" class="form-control" id="width"
+                                    required [(ngModel)]="annotation.width" name="width" min="10">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="form-input">
+                                <mat-label>Height</mat-label>
+                                <input matInput type="number" class="form-control" id="height"
+                                    required [(ngModel)]="annotation.height" name="height" min="10">
+                                </mat-form-field>
+                            </div> 
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <div class="row" >
+                            <div class="col-6">
+                                <mat-form-field class="form-input">
+                                <mat-label>PositionY (# pixels from the top)</mat-label>
+                                <input matInput type="number" class="form-control" id="positionY"
+                                    required [(ngModel)]="annotation.positionY" name="positionY">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="form-input">
+                                <mat-label>PositionX (# pixels from the left)</mat-label>
+                                <input matInput type="number" class="form-control" id="positionX"
+                                    required [(ngModel)]="annotation.positionX" name="positionX">
+                                </mat-form-field>
+                            </div> 
+                        </div>
+
+                    </mat-card>
+                </div> 
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <button  
+                    (click)="save()"
+                    [disabled]="!clipForm.form.valid"
+                    mat-raised-button color="primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</div>

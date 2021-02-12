@@ -1,0 +1,33 @@
+<mat-card *ngIf="annotation"  
+        [class.mat-elevation-z12]="isPlaying"
+        [class.playing]="isPlaying"
+        (dblclick)="onplayFromAnnotationStart()">
+
+  <mat-card-title>
+     <div class="row">
+      <div class="col-10">
+        {{annotation.text}}
+      </div>
+
+      <div class="col-1" *ngIf="editable">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item  (click)="onEditAnnotation()">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="onDeleteAnnotation()">
+              <mat-icon>delete</mat-icon>
+              <span>Remove</span>
+            </button>
+          </mat-menu>
+      </div>
+    </div> 
+  </mat-card-title>
+
+  <mat-card-content *ngIf="editable">
+    <p class="time">From {{annotation.startTime}}s to {{annotation.stopTime}}s</p>
+  </mat-card-content>
+</mat-card>

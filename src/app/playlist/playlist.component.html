@@ -1,0 +1,76 @@
+<div class="body">
+    <div class="header-group">
+        <h1>
+        Video Player
+        </h1>
+    </div>
+
+    <ng-container *ngIf="playlist&&playlist.video">
+        <div class="row videos" >
+            <div class="col-md-8 videoplayer">
+                <button mat-raised-button
+                class="publish-btn"
+                color="accent">Save</button>
+
+                <ng-container *ngIf="currentAnnotation">
+                    <app-video-player 
+                                        [annotation]="currentAnnotation"
+                                        [video]="video"
+                                        [autoplay]="true"
+                                        (ended)="onEndedAnnotation()"
+                                        (seeked)="onSeekVideo($event)"
+                                        [showTitle]="true"
+                                        [currentTime]="videoCurrentTime"
+                                        >
+                    </app-video-player>
+                </ng-container>
+            </div>
+
+            <div class="col-md-4" >
+                <ng-container *ngIf="playlist">
+                <div class="group">
+                    <button mat-raised-button
+                        class="add-annotation-btn"
+                        color="primary"
+                        (click)="addAnnotation()">Add Annotation</button>
+                    <form class="search">
+                        <mat-form-field class="search-full-width">
+                            <mat-label>Search the annotations</mat-label>
+                            <textarea matInput placeholder="..."></textarea>
+                        </mat-form-field>
+                    </form>
+                </div>
+                
+                <div class="annotations">
+                    <ng-container *ngFor="let annotation of playlist.annotations;let i=index">
+                        <app-annotations #annotations [video]="playlist.video"
+                                            [annotation]="annotation"
+                                            [editable]="editable"
+                                            [isPlaying]="annotation.annotationId==currentAnnotation.annotationId"
+                                            (editAnnotation)="onEditAnnotation(annotation)" 
+                                            (deleteAnnotation)="onDeleteAnnotation(annotation,i)"
+                                            (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"
+                                            >
+                        </app-annotations>
+                    </ng-container>
+                </div>
+
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+            </div>
+        </div>
+    </ng-container>
+  
+    <ng-container *ngIf="!playlist||!playlist.video">
+      <div class="d-flex align-items-center justify-content-center init-container">
+        <div class="d-flex flex-column">
+              <span class="message">To start editing clips, please add the main video</span>
+        </div>
+      </div>
+    </ng-container>
+
+</div>

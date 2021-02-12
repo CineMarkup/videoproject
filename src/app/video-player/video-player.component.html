@@ -1,0 +1,18 @@
+<div class="video-responsive embed-responsive-16by9">
+
+    <!-- Display annotation -->
+    <ng-container *ngIf="showAnnotation">
+        <div class="d-flex flex-column video-overlays" 
+            [style.width.px]="width"
+            [style.height.px]="height"
+            [style.top]="positionY"
+            [style.left]="positionX">
+            <p>{{annotation.text}}</p>
+        </div>
+    </ng-container>
+
+    <video #videoplayer *ngIf="video" controls  class="video-player">
+        <source [src]="getVideoUrl()"  />
+    </video>
+</div>
+

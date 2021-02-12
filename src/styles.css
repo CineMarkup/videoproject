@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import '~ngx-toastr/toastr.css';
+@import "../scss/bootstrap-grid.scss";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 :root {
     --primary-color:rgb(103,58,183);
@@ -19,7 +22,10 @@ p {
     font-family: 'Montserrat', sans-serif;
 }
 .mat-button:hover {
-    /* color: var(--secondary-color); */
     font-weight:600;
     background-color:var(--hover-color);
+}
+.body {
+    margin-left:2em;
+    margin-right:2em;
 }
