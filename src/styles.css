@@ -4,6 +4,7 @@
 @import '~ngx-toastr/toastr.css';
 @import "../scss/bootstrap-grid.scss";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
 :root {
     --primary-color:rgb(103,58,183);
@@ -11,7 +12,7 @@
     --hover-color:rgb(70, 40, 125, .3);
     --third-color: #4c9ad4;
 }
-h1, h2, h3 {
+h1, h2, h3, h4 {
     font-family: 'Montserrat', sans-serif;
 }
 p {
@@ -28,4 +29,8 @@ p {
 .body {
     margin-left:2em;
     margin-right:2em;
+}
+.toast-container{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;  
 }

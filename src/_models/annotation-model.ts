@@ -10,4 +10,5 @@ export interface AnnotationModel {
     positionX?: number;
     positionY?: number;
     isMain: boolean; // if this is the starter
+    display?: string;
 }

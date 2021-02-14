@@ -1,0 +1,6 @@
+.chip-list {
+    width: 100%;
+}
+.chip{
+    background-color: var(--third-color);
+}

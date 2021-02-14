@@ -9,9 +9,17 @@
         <div class="row videos" >
             <div class="col-md-8 videoplayer">
                 <button mat-raised-button
-                class="publish-btn"
-                color="accent">Save</button>
-
+                    class="publish-btn"
+                    color="accent"
+                    (click)="publishVideo(playlist.video.videoID)"
+                    >Publish
+                </button>
+                <button mat-raised-button
+                    class="publish-btn"
+                    (click)="onSaveToStorage()"
+                    color="accent"
+                    >Save
+                </button>
                 <ng-container *ngIf="currentAnnotation">
                     <app-video-player 
                                         [annotation]="currentAnnotation"
@@ -33,44 +41,92 @@
                         class="add-annotation-btn"
                         color="primary"
                         (click)="addAnnotation()">Add Annotation</button>
-                    <form class="search">
-                        <mat-form-field class="search-full-width">
-                            <mat-label>Search the annotations</mat-label>
-                            <textarea matInput placeholder="..."></textarea>
-                        </mat-form-field>
-                    </form>
+                    <mat-form-field class="search" >
+                        <mat-label>Search the annotations</mat-label>
+                        <textarea matInput 
+                        placeholder="..."
+                        [(ngModel)]="searchText"
+                        (input)="onSearch($event)"
+                        ></textarea>
+                    </mat-form-field>
                 </div>
                 
                 <div class="annotations">
                     <ng-container *ngFor="let annotation of playlist.annotations;let i=index">
-                        <app-annotations #annotations [video]="playlist.video"
-                                            [annotation]="annotation"
-                                            [editable]="editable"
-                                            [isPlaying]="annotation.annotationId==currentAnnotation.annotationId"
-                                            (editAnnotation)="onEditAnnotation(annotation)" 
-                                            (deleteAnnotation)="onDeleteAnnotation(annotation,i)"
-                                            (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"
-                                            >
-                        </app-annotations>
+                            <app-annotations #annotations [video]="playlist.video"
+                                [annotation]="annotation"
+                                [editable]="editable"
+                                [isPlaying]="annotation.annotationId==currentAnnotation.annotationId"
+                                (editAnnotation)="onEditAnnotation(annotation)" 
+                                (deleteAnnotation)="onDeleteAnnotation(annotation,i)"
+                                (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"
+                                [style.display]="annotation.display"
+                                >
+                            </app-annotations>
                     </ng-container>
                 </div>
-
                 </ng-container>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-12 d-flex justify-content-center">
+            <div class="col-8">
+                <app-tags
+                    [tagsList]="videoTags"
+                    [videoID]="video.videoID"
+                    >
+                </app-tags>
             </div>
         </div>
     </ng-container>
-  
-    <ng-container *ngIf="!playlist||!playlist.video">
-      <div class="d-flex align-items-center justify-content-center init-container">
-        <div class="d-flex flex-column">
-              <span class="message">To start editing clips, please add the main video</span>
+
+    <ng-container *ngIf="!playlist">
+        <div class="row">
+            <h4 class="col-6">Click a video to go to edit it.</h4>
+            <div class="col-6">
+            <button mat-raised-button
+                class="upload-btn"
+                color="primary">Upload a New Video</button>
+            </div>
         </div>
-      </div>
+        <div class="row">
+            <div *ngFor="let videoGroup of playlists" class="col-sm">
+                <mat-card class="video-card">
+                    <mat-card-header>
+                      <div mat-card-avatar class="avatar-image"
+                        [ngStyle]="{'background-image': 'url(' + getProfilePic() + ')'}"
+                      ></div>
+                      <mat-card-title class="header">{{videoGroup.video.title}}</mat-card-title>
+                      <mat-card-subtitle>Author: {{videoGroup.video.createdBy}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img mat-card-image  
+                        (click)="editPlaylist(videoGroup.id)"
+                        [src]="getThumbnail(videoGroup.video.thumbnail)"
+                        loading="lazy"
+                        >
+                    <mat-card-content>
+                      <p>
+                        {{videoGroup.video.description}}
+                      </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary"
+                            (click)="editPlaylist(videoGroup.id)">
+                            EDIT
+                        </button>
+                        <ng-container *ngIf="videoGroup.video.publishedAt===''">
+                            <button mat-raised-button color="primary"
+                                (click)="publishVideo(videoGroup.video.videoID)"
+                                >PUBLISH</button>
+                        </ng-container>
+                        <span class="details">Created: {{videoGroup.video.createdAt}}</span>
+                        <ng-container *ngIf="videoGroup.video.publishedAt!==''">
+                        <span class="details">Published: {{videoGroup.video.publishedAt}}</span>
+                        </ng-container>
+                    </mat-card-actions>
+                  </mat-card>
+            </div>
+        </div>
     </ng-container>
 
 </div>

@@ -1,0 +1,16 @@
+<mat-form-field class="chip-list">
+    <mat-label>Add some tags</mat-label>
+    <mat-chip-list #chipList aria-label="tag selection">
+      <mat-chip *ngFor="let tag of tags" [selectable]="selectable"
+               [removable]="removable" (removed)="remove(tag)" 
+               class="chip">
+        {{tag.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="New tag..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
