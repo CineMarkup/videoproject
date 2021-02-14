@@ -4,6 +4,8 @@ import { PlaylistService } from '../_services/playlist.service';
 import { PlaylistModel } from '../../_models/playlist-model.';
 import { AnnotationModel } from 'src/_models/annotation-model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 /**
  * Play a video along with the annotations
@@ -23,11 +25,14 @@ export class PlaylistComponent implements OnInit {
   hasPlaylist = false;
   annotations: any;
   videoCurrentTime = 0;
-  playlists: Array<PlaylistModel>;
+  playlists: any;
+  searchText = '';
+  videoTags = [];
 
   constructor(private playlistService: PlaylistService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
 
     this.route.params.subscribe(params => {
       const playListId = params.id;
@@ -39,11 +44,22 @@ export class PlaylistComponent implements OnInit {
             if (result) {
               this.playlist = result;
               this.video = result.video;
+              this.videoTags = result.video.tags;
               this.playAnnotation(0);
               this.hasPlaylist = true;
             }
             else {
               this.hasPlaylist = false;
+            }
+          },
+          (err) => { console.log('ERROR ' + err); },
+        );
+      }
+      else {
+        this.playlistService.getPlaylists().subscribe(
+          result => {
+            if (result) {
+              this.playlists = result;
             }
           },
           (err) => { console.log('ERROR ' + err); },
@@ -111,6 +127,39 @@ export class PlaylistComponent implements OnInit {
   onSaveToStorage(): void {
     // TODO connect to service call for saving
     // this.playlistService.saveToStorage();
+    this.toastr.success('Saved your changes!');
   }
 
+  editPlaylist(id: string): void {
+    this.router.navigateByUrl('/playlist/' + id);
+  }
+
+  getThumbnail(v: any): string {
+    return 'assets/images/' + v;
+  }
+
+  getProfilePic(): string {
+    // TODO Connect with user profile
+    return 'http://gravatar.com/avatar/testing?d=identicon';
+  }
+
+  onSearch(event: any): void {
+    this.playlist.annotations.forEach(annotation => {
+      const filter = event.target.value.toUpperCase();
+      const text = annotation.text;
+      console.log(filter);
+      if (text.toUpperCase().indexOf(filter) > -1) {
+        annotation.display = '';
+      }
+      else {
+        annotation.display = 'none';
+      }
+    });
+  }
+
+  publishVideo(videoId: string): void {
+    // TODO make a call to publish video
+    const day = new Date();
+    console.log('video ' +  videoId + ' published ' + day.toDateString());
+  }
 }

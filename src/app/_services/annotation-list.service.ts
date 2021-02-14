@@ -28,7 +28,7 @@ export class AnnotationListService {
   constructor(private http: HttpClient) {}
 
   getAllAnnotationLists(): any {
-    return this.http.get( this.hostUrl + 'annotation/all' );
+    return this.http.get( this.hostUrl + 'annotationlist/all' );
   }
 
   getAnnotationListById(id: string): any {
