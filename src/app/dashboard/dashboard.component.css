@@ -1,0 +1,33 @@
+.header {
+    position: relative;
+    height: 100vh;
+    display: block;
+}
+
+.header-text h1, .header-text p {
+    color: #000;
+    text-shadow: 0 0.5rem 1rem rgba(50,0,100,0.1);
+}
+
+.spacing{
+    padding: 5px;
+    min-height: 100px;
+    background: #ffffff;
+    margin-bottom: 10px;
+}
+
+.frame {
+    height: 250px; /* Can be anything */
+    width: 250px; /* Can be anything */
+    position: relative;
+    margin: 5px;
+
+}
+img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: relative;
+    margin: auto;
+}
