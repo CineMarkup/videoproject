@@ -36,6 +36,7 @@ import { AnnotationValidatorDirective } from './directives/annotation-validator.
 import { AnnotationsComponent } from './annotations/annotations.component';
 import { TagsComponent } from './tags/tags.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { LoginComponent } from './login/login.component';
     AnnotationValidatorDirective,
     AnnotationsComponent,
     TagsComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports:      [
     BrowserModule,
