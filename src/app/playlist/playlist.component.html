@@ -1,7 +1,12 @@
 <div class="body">
     <div class="row header-group">
         <h1 class="col-8">
-            Video Player
+            <ng-container *ngIf="!playListId">
+                Edit Your Videos
+            </ng-container>
+            <ng-container *ngIf="playListId">
+                Video Player
+            </ng-container>
         </h1>
         <ng-container *ngIf="playlist&&playlist.video">
             <div class="col-4">
@@ -93,7 +98,7 @@
             </div>
         </div>
         <div class="row">
-            <div *ngFor="let videoGroup of playlists" class="col-sm">
+            <div *ngFor="let videoGroup of playlists" class="col-lg-4 col-md-6">
                 <mat-card class="video-card">
                     <mat-card-header>
                       <div mat-card-avatar class="avatar-image"
@@ -108,7 +113,7 @@
                         loading="lazy"
                         >
                     <mat-card-content>
-                      <p>
+                      <p class="description">
                         {{videoGroup.video.description}}
                       </p>
                     </mat-card-content>

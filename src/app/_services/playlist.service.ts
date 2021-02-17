@@ -8,8 +8,6 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/zip';
-import { concatMap } from 'rxjs/operators';
-import { concat, zip } from 'rxjs';
 import { AnnotationListModel } from 'src/_models/annotation-list-model';
 import { VideoModel } from 'src/_models/video-model';
 

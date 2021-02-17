@@ -1,0 +1,48 @@
+
+<div class="row header-group">
+    <h1 class="col-11 title">
+        Trending Videos 
+    </h1>
+    <!-- TODO Pull tags from DB -->
+    <div class="col-11 tags">
+        <mat-chip-list aria-label="Video selection" class="tagsList">
+            <mat-chip selected>All</mat-chip>
+            <mat-chip>Math</mat-chip>
+            <mat-chip>Geography</mat-chip>
+            <mat-chip>Pop Culture</mat-chip>
+            <mat-chip>Water Resources</mat-chip>
+            <mat-chip>Nature</mat-chip>
+        </mat-chip-list>
+    </div>
+  </div>
+  
+
+<div class="row video-gallery">
+    <div *ngFor="let video of videos" class="col-lg-3 col-md-6">
+        <mat-card class="video-card">
+            <mat-card-header>
+              <div mat-card-avatar class="avatar-image"
+                [ngStyle]="{'background-image': 'url(' + getProfilePic() + ')'}"
+              ></div>
+              <mat-card-title class="header-video">{{video.title}}</mat-card-title>
+              <mat-card-subtitle>Author: {{video.createdBy}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image  
+                [src]="getThumbnail(video.thumbnail)"
+                loading="lazy"
+                >
+            <mat-card-content>
+              <p class="description">
+                {{video.description}}
+              </p>
+              
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary">
+                  VIEW
+              </button>
+              <span class="details">Created: {{video.createdAt}}</span>
+            </mat-card-actions>
+          </mat-card>
+    </div>
+</div>

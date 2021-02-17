@@ -8,11 +8,12 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
-
+  constructor(private router: Router) {}
+  
+  ngOnInit() {}
+  
+  ngAfterViewInit() {}
+ 
   signUp(): void {
     this.router.navigateByUrl('/register');
   }

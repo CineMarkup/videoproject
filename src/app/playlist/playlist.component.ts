@@ -28,6 +28,7 @@ export class PlaylistComponent implements OnInit {
   playlists: any;
   searchText = '';
   videoTags = [];
+  playListId = '';
 
   constructor(private playlistService: PlaylistService,
               private route: ActivatedRoute,
@@ -35,9 +36,9 @@ export class PlaylistComponent implements OnInit {
               private toastr: ToastrService) {
 
     this.route.params.subscribe(params => {
-      const playListId = params.id;
-      if (playListId) {
-        this.playlistService.getPlaylistById(playListId).subscribe(
+      this.playListId = params.id;
+      if (this.playListId) {
+        this.playlistService.getPlaylistById(this.playListId).subscribe(
           result => {
             console.log('Test');
             console.log(result);
@@ -47,6 +48,7 @@ export class PlaylistComponent implements OnInit {
               this.videoTags = result.video.tags;
               this.playAnnotation(0);
               this.hasPlaylist = true;
+              console.log(this.playlist)
             }
             else {
               this.hasPlaylist = false;

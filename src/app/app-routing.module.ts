@@ -7,6 +7,7 @@ import { RecorderComponent } from './recorder/recorder.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'annotation/:id', component: AnnotationEditorComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'video-gallery', component: VideoGalleryComponent }
 ];
 
 @NgModule({
