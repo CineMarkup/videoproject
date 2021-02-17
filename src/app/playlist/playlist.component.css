@@ -10,11 +10,21 @@
 .publish-btn {
     margin-bottom: 10px;
     margin-right: 20px;
-    float: right;
+    position: absolute;
+    bottom: 10px;
+}
+.save-btn {
+    margin-bottom: 10px;
+    margin-right: 20px;
+    position: absolute;
+    bottom: 10px;
+    left: 110px;
 }
 .upload-btn {
-    float: right;
+    float: left;
     margin-right: 10%;
+    position: absolute;
+    bottom: 10px;
 }
 .group {
     display: inline;
@@ -50,4 +60,7 @@
     color: grey;
     float: right;
     margin-left: 10px;
+}
+::ng-deep #search .mat-form-field-flex {
+    padding: 0px;
 }

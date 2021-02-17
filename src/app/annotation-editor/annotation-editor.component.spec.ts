@@ -23,3 +23,4 @@ describe('AnnotationEditorComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

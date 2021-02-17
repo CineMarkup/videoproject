@@ -1,25 +1,29 @@
 <div class="body">
-    <div class="header-group">
-        <h1>
-        Video Player
+    <div class="row header-group">
+        <h1 class="col-8">
+            Video Player
         </h1>
+        <ng-container *ngIf="playlist&&playlist.video">
+            <div class="col-4">
+                <button mat-raised-button
+                    class="publish-btn"
+                    color="accent"
+                    (click)="publishVideo(playlist.video.videoID)"
+                    > Publish
+                </button>
+                <button mat-raised-button
+                    class="save-btn"
+                    (click)="onSaveToStorage()"
+                    color="accent"
+                    > Save
+                </button>
+            </div>
+        </ng-container>
     </div>
 
     <ng-container *ngIf="playlist&&playlist.video">
         <div class="row videos" >
             <div class="col-md-8 videoplayer">
-                <button mat-raised-button
-                    class="publish-btn"
-                    color="accent"
-                    (click)="publishVideo(playlist.video.videoID)"
-                    >Publish
-                </button>
-                <button mat-raised-button
-                    class="publish-btn"
-                    (click)="onSaveToStorage()"
-                    color="accent"
-                    >Save
-                </button>
                 <ng-container *ngIf="currentAnnotation">
                     <app-video-player 
                                         [annotation]="currentAnnotation"
@@ -41,13 +45,12 @@
                         class="add-annotation-btn"
                         color="primary"
                         (click)="addAnnotation()">Add Annotation</button>
-                    <mat-form-field class="search" >
-                        <mat-label>Search the annotations</mat-label>
-                        <textarea matInput 
-                        placeholder="..."
+                    <mat-form-field class="search"  id="search">
+                        <input matInput 
+                        placeholder="Search the annotations"
                         [(ngModel)]="searchText"
                         (input)="onSearch($event)"
-                        ></textarea>
+                        >
                     </mat-form-field>
                 </div>
                 
@@ -82,8 +85,8 @@
 
     <ng-container *ngIf="!playlist">
         <div class="row">
-            <h4 class="col-6">Click a video to go to edit it.</h4>
-            <div class="col-6">
+            <h4 class="col-lg-2">Click a video to go to edit it.</h4>
+            <div class="col-lg-6">
             <button mat-raised-button
                 class="upload-btn"
                 color="primary">Upload a New Video</button>
