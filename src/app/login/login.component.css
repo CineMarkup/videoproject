@@ -1,0 +1,32 @@
+.login {
+    width: 300px;
+    text-align: center;
+    margin: auto;
+}
+.user-info {
+    width: 250px;
+}
+.background-color {
+    position: absolute;
+    width: 99.2%;
+    height: 80%;
+    background: linear-gradient(19deg, var(--third-color), var(--primary-color));
+    transform-origin: 0px 0px;
+    transform: skewY(-10deg);
+    overflow: hidden;
+    z-index: -1;
+}
+.cover {
+    background-color: white;
+    height: 16px;
+    transform-origin: 0px 0px;
+    overflow: hidden;
+    z-index: 2;
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+}
+.header-group {
+    color: white;
+}
