@@ -4,6 +4,7 @@ import { AnnotationEditorComponent } from './annotation-editor/annotation-editor
 import { HomeComponent } from './home/home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { RecorderComponent } from './recorder/recorder.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'playlist', component: PlaylistComponent },
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'annotation', component: AnnotationEditorComponent },
-  { path: 'annotation/:id', component: AnnotationEditorComponent }
+  { path: 'annotation/:id', component: AnnotationEditorComponent },
+  { path: 'dashboard', component: DashboardComponent }
 ];
 
 @NgModule({
