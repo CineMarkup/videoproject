@@ -6,4 +6,6 @@ export interface VideoModel {
     tags?: Array<string>;
     maxWidth?: number; // calculated based on video width by video-player
     maxHeight?: number; // calculated based on video height by video-player
+    createdBy: string,
+    published: boolean
 }
