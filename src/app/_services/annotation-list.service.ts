@@ -13,46 +13,16 @@ import 'rxjs/add/operator/map';
 export class AnnotationListService {
   hostUrl = 'http://localhost:8080/';
 
-  // annotationList: Array<AnnotationListModel> = [{
-  //     id: 'aL1',
-  //     videoID: 'v1',
-  //     annotationList: ['a1', 'a2', 'a3'],
-  //   },
-  //   {
-  //     id: 'aL2',
-  //     videoID: 'v2',
-  //     annotationList: ['a3'],
-  //   },
-  // ];
-
   constructor(private http: HttpClient) {}
 
   getAllAnnotationLists(): any {
-    return this.http.get( this.hostUrl + 'annotationlist/all' );
+    return this.http.get( this.hostUrl + 'annotationlist' );
   }
 
   getAnnotationListById(id: string): any {
     return this.http.get( this.hostUrl + 'annotationlist/' + id )
     .map(response => response as AnnotationListModel);
   }
-
-  // getAnnotationList(): Promise<Array<AnnotationListModel>> {
-  //   return new Promise(resolve => {
-  //       resolve(this.annotationList);
-  //   });
-  // }
-
-  // getAnnotationListById(id): Promise<AnnotationListModel> {
-  //   return new Promise(resolve => {
-  //     if (!this.annotationList) {
-  //       this.getAnnotationList().then( () => {
-  //         resolve(this.annotationList.find(p => p.id === id));
-  //       });
-  //     } else {
-  //       resolve(this.annotationList.find(p => p.id === id));
-  //     }
-  //   });
-  // }
 
 
 }

@@ -46,8 +46,8 @@ export class PlaylistService {
             video,
             annotations: []
           };
-          annotationLists.forEach((annotationId) => {
-            const annotation = results[2].find(a => a.annotationId === annotationId);
+          annotationLists.forEach((annotationID) => {
+            const annotation = results[2].find(a => a.annotationID === annotationID);
             value.annotations.push(annotation);
           });
           this.playlist = value;
@@ -76,8 +76,8 @@ export class PlaylistService {
               video,
               annotations: []
             };
-            annotationLists.map((annotationId) => {
-              const annotation = results[2].find(a => a.annotationId === annotationId);
+            annotationLists.map((annotationID) => {
+              const annotation = results[2].find(a => a.annotationID === annotationID);
               value.annotations.push(annotation);
             });
             playlists.push(value);

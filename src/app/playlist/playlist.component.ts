@@ -40,15 +40,14 @@ export class PlaylistComponent implements OnInit {
       if (this.playListId) {
         this.playlistService.getPlaylistById(this.playListId).subscribe(
           result => {
-            console.log('Test');
-            console.log(result);
             if (result) {
+              // grab playlist data from db
               this.playlist = result;
               this.video = result.video;
               this.videoTags = result.video.tags;
               this.playAnnotation(0);
               this.hasPlaylist = true;
-              console.log(this.playlist)
+
             }
             else {
               this.hasPlaylist = false;
@@ -107,7 +106,7 @@ export class PlaylistComponent implements OnInit {
 
   onEditAnnotation(annotation: AnnotationModel): void {
      this.router.navigate(['/annotation/'], { queryParams: {
-       annotationId: annotation.annotationId,
+       annotationID: annotation.annotationID,
        videoId: this.video.videoID
      }});
   }

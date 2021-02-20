@@ -16,7 +16,7 @@ export class AnnotationService {
   annotations =  this.getAnnotations();
 
   getAnnotations(): any {
-    return this.http.get( this.hostUrl + 'annotation/all');
+    return this.http.get( this.hostUrl + 'annotation');
   }
 
   getAnnotationById(id: string): any {
@@ -46,7 +46,7 @@ export class AnnotationService {
 //   addAnnotation(annotation: AnnotationModel): Promise<any> {
 //     // @ts-ignore
 //     return new Promise(resolve => {
-//       annotation.annotationId = uuid();
+//       annotation.annotationID = uuid();
 //       this.annotations.push(annotation);
 //       console.log('Width ' + annotation.width);
 //       this.saveToStorage();
@@ -56,20 +56,20 @@ export class AnnotationService {
 
 //   updateAnnotation(annotation: AnnotationModel): Promise<any> {
 //     return new Promise((resolve, reject) => {
-//         const index = this.annotations.findIndex(a => a.annotationId === annotation.annotationId);
+//         const index = this.annotations.findIndex(a => a.annotationID === annotation.annotationID);
 //         if (index >= 0) {
 //             this.annotations[index] = annotation;
 //             this.saveToStorage();
 //             resolve('');
 //         } else {
-//             reject('No video found with the id ' + annotation.annotationId);
+//             reject('No video found with the id ' + annotation.annotationID);
 //         }
 //     });
 //   }
 
 //   deleteAnnotation(id: string): Promise<any> {
 //     return new Promise<void>(resolve => {
-//         const index = this.annotations.findIndex(video => video.annotationId === id);
+//         const index = this.annotations.findIndex(video => video.annotationID === id);
 //         this.annotations.splice(index, 1);
 
 //         this.saveToStorage();

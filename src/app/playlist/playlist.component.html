@@ -28,7 +28,7 @@
 
     <ng-container *ngIf="playlist&&playlist.video">
         <div class="row videos" >
-            <div class="col-md-8 videoplayer">
+            <div class="col-md-8 col-sm-6 videoplayer">
                 <ng-container *ngIf="currentAnnotation">
                     <app-video-player 
                                         [annotation]="currentAnnotation"
@@ -43,7 +43,7 @@
                 </ng-container>
             </div>
 
-            <div class="col-md-4" >
+            <div class="col-md-4 col-sm-6" >
                 <ng-container *ngIf="playlist">
                 <div class="group">
                     <button mat-raised-button
@@ -64,7 +64,7 @@
                             <app-annotations #annotations [video]="playlist.video"
                                 [annotation]="annotation"
                                 [editable]="editable"
-                                [isPlaying]="annotation.annotationId==currentAnnotation.annotationId"
+                                [isPlaying]="annotation.annotationID==currentAnnotation.annotationID"
                                 (editAnnotation)="onEditAnnotation(annotation)" 
                                 (deleteAnnotation)="onDeleteAnnotation(annotation,i)"
                                 (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"

@@ -47,13 +47,13 @@ export class AnnotationEditorComponent implements OnInit {
     private router: Router
     ) {
 
-      const annotationId: string = this.route.snapshot.queryParamMap.get('annotationId');
+      const annotationID: string = this.route.snapshot.queryParamMap.get('annotationID');
       const videoId: string = this.route.snapshot.queryParamMap.get('videoId');
-      console.log( annotationId, ' ', videoId );
+      console.log( annotationID, ' ', videoId );
 
-      if (annotationId && videoId) {
+      if (annotationID && videoId) {
         // Editing a current annotation
-        this.annotationService.getAnnotationById(annotationId).subscribe(annotation => {
+        this.annotationService.getAnnotationById(annotationID).subscribe(annotation => {
             this.annotation = annotation;
         });
         this.videoService.getVideoById(videoId).subscribe(video => {
@@ -65,7 +65,7 @@ export class AnnotationEditorComponent implements OnInit {
         this.videoService.getVideoById(videoId).subscribe(video => {
           this.video = video;
           const newAnnotation = {
-            annotationId: uuid(),
+            annotationID: uuid(),
             createdAt: '2/11/2021',
             startTime: 0,
             text: '',

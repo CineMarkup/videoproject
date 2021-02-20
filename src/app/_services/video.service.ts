@@ -30,7 +30,7 @@ export class VideoService {
     constructor(private http: HttpClient) {}
 
     getVideos(): any {
-        return this.http.get( this.hostUrl + 'video/all');
+        return this.http.get( this.hostUrl + 'video');
     }
 
     getVideoById(id: string): any {
@@ -45,20 +45,11 @@ export class VideoService {
         console.log(url);
         return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
         .pipe(
-          tap( // Log the result or error
+          tap(
             data => console.log(data),
             error => console.log(error)
           )
         );
     }
-    // postTag(data): Observable<any> {
-    //     return this.http.post<TagModel>(this.hostUrl + 'tag', JSON.stringify(data), this.httpOptions)
-    //     .pipe(
-    //       tap( // Log the result or error
-    //         data => console.log(data),
-    //         error => console.log(error)
-    //       )
-    //     );
-    //   }
 
 }

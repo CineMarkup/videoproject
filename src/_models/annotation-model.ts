@@ -1,5 +1,5 @@
 export interface AnnotationModel {
-    annotationId?: string;
+    annotationID?: string;
     text?: string;
     createdAt: string;
     startTime?: number;

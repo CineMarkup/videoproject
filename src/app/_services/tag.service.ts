@@ -30,11 +30,10 @@ export class TagService {
     .map(response => response as TagModel);
   }
 
-  // POST
   postTag(data): Observable<any> {
     return this.http.post<TagModel>(this.hostUrl + 'tag', JSON.stringify(data), this.httpOptions)
     .pipe(
-      tap( // Log the result or error
+      tap(
         data => console.log(data),
         error => console.log(error)
       )
