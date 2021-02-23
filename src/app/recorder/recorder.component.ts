@@ -154,15 +154,12 @@ export class RecorderComponent implements AfterViewInit {
       this.getMediaAccess();
       navigator.mediaDevices.enumerateDevices()
       .then(devices => {
-        console.log(devices);
         this.audioDevices = devices
           .filter(d => d.kind === 'audioinput')
           .map(d => {
             return { name: d.label, id: d.deviceId };
           });
         this.audioDeviceId = this.audioDevices[0].id;
-        console.log( this.audioDevices);
-        console.log( this.audioDeviceId );
       })
       .catch(err => {
         console.error('ERROR: Can not get MediaDeviceInfo list.', err.name, ': ', err.message);
@@ -201,7 +198,6 @@ export class RecorderComponent implements AfterViewInit {
         deviceId: { exact: this.audioDeviceId }
       },
     };
-    console.log('try');
     navigator.mediaDevices.getUserMedia(constraints)
       .then(callback)
       .catch(err => {
@@ -264,7 +260,6 @@ export class RecorderComponent implements AfterViewInit {
           bitsPerSecond: 51200000,
           frameRate: 60,
           previewStream:  (s: MediaStream) => {
-            console.log(s);
             video.srcObject = s;
           },
         }

@@ -1,7 +1,7 @@
 export interface AnnotationModel {
     annotationID?: string;
     text?: string;
-    createdAt: string;
+    createdAt: Date;
     startTime?: number;
     stopTime?: number;
     deletedAt?: string;

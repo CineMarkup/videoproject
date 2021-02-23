@@ -16,12 +16,6 @@
                     (click)="publishVideo(playlist.video.videoID)"
                     > Publish
                 </button>
-                <button mat-raised-button
-                    class="save-btn"
-                    (click)="onSaveToStorage()"
-                    color="accent"
-                    > Save
-                </button>
             </div>
         </ng-container>
     </div>
@@ -66,7 +60,7 @@
                                 [editable]="editable"
                                 [isPlaying]="annotation.annotationID==currentAnnotation.annotationID"
                                 (editAnnotation)="onEditAnnotation(annotation)" 
-                                (deleteAnnotation)="onDeleteAnnotation(annotation,i)"
+                                (deleteAnnotation)="onDeleteAnnotation(annotation.annotationID)"
                                 (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"
                                 [style.display]="annotation.display"
                                 >
@@ -127,9 +121,9 @@
                                 (click)="publishVideo(videoGroup.video.videoID)"
                                 >PUBLISH</button>
                         </ng-container>
-                        <span class="details">Created: {{videoGroup.video.createdAt}}</span>
+                        <span class="details">Created: {{videoGroup.video.createdAt | date: 'mediumDate' }}</span>
                         <ng-container *ngIf="videoGroup.video.publishedAt!==''">
-                            <span class="details">Published: {{videoGroup.video.publishedAt}}</span>
+                            <span class="details">Published: {{videoGroup.video.publishedAt | date: 'mediumDate' }}</span>
                         </ng-container>
                     </mat-card-actions>
                   </mat-card>

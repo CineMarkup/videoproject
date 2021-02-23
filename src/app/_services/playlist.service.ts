@@ -31,7 +31,7 @@ export class PlaylistService {
 
   }
 
-  getPlaylistById(annotationListId: string): Observable<any> {
+  public getPlaylistById(annotationListId: string): Observable<any> {
 
     const annotationList: Promise<AnnotationListModel> = this.annotationList.getAnnotationListById(annotationListId);
     const videos: Promise<Array<VideoModel>> = this.videos.getVideos();
@@ -57,12 +57,11 @@ export class PlaylistService {
             value.annotations.push(annotation);
           });
           this.playlist = value;
-          console.log(value);
           return this.playlist;
        });
   }
 
-  getPlaylists(): Observable<any> {
+  public getPlaylists(): Observable<any> {
 
     const annotationList: Promise<Array<AnnotationListModel>> = this.annotationList.getAllAnnotationLists();
     const videos: Promise<Array<VideoModel>> = this.videos.getVideos();
@@ -74,8 +73,6 @@ export class PlaylistService {
        (results) => {
          const playlists = [];
          results[0].map(item => {
-           console.log("FORK JOIN");
-           console.log(results[3]);
             this.annotationAndVids = item;
             const id = item.id;
             const annotationLists = item.annotationList;
@@ -93,12 +90,11 @@ export class PlaylistService {
             });
             playlists.push(value);
          });
-         console.log(playlists);
          return playlists;
        });
   }
 
-  getVideos(): Observable<any> {
+  public getVideos(): Observable<any> {
     const videos: Promise<Array<VideoModel>> = this.videos.getVideos();
     const users: Promise<Array<UserModel>> = this.users.getUsers();
   
@@ -119,11 +115,8 @@ export class PlaylistService {
             playlist.push(value);
             
          });
-         console.log("Published")
-         console.log(playlist);
          return playlist;
        });
   }
-
 
 }

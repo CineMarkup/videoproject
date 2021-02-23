@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   
   ngAfterViewInit() {}
  
-  signUp(): void {
+  public signUp(): void {
     this.router.navigateByUrl('/register');
   }
 

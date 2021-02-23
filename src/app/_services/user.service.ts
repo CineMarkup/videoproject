@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
+
   hostUrl = 'http://localhost:8080/';
 
   // Http Headers
@@ -21,11 +22,11 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): any {
+  public getUsers(): any {
     return this.http.get( this.hostUrl + 'user');
   }
 
-  getUserById(id: string): any {
+  public getUserById(id: string): any {
     return this.http.get( this.hostUrl + 'user/' + id )
     .map(response => response as TagModel);
   }
