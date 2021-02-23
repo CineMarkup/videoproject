@@ -38,9 +38,52 @@ export class VideoService {
         .map(response => response as VideoModel);
     }
 
-    pushTag(videoID: string, tagID: string): Observable<any> {
+    addTag(videoID: string, tagID: string): Observable<any> {
         const body = { 'tags': tagID };
         const url = this.hostUrl + 'video/push/' + videoID;
+        console.log(body);
+        console.log(url);
+        return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
+        .pipe(
+          tap(
+            data => console.log(data),
+            error => console.log(error)
+          )
+        );
+    }
+
+    addDescription(videoID: string, description: string): Observable<any> {
+        const body = { 'description': description };
+        const url = this.hostUrl + 'video/' + videoID;
+        console.log(body);
+        console.log(url);
+        return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
+        .pipe(
+          tap(
+            data => console.log(data),
+            error => console.log(error)
+          )
+        );
+    }
+
+    addTitle(videoID: string, title: string): Observable<any> {
+        const body = { 'title': title };
+        const url = this.hostUrl + 'video/' + videoID;
+        console.log(body);
+        console.log(url);
+        return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
+        .pipe(
+          tap(
+            data => console.log(data),
+            error => console.log(error)
+          )
+        );
+    }
+
+    //TODO add published at once the model is a Date field on the backend
+    addPublished(videoID: string, published: string): Observable<any> {
+        const body = { 'published': published };
+        const url = this.hostUrl + 'video/' + videoID;
         console.log(body);
         console.log(url);
         return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)

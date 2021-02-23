@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VideoService } from '../_services/video.service';
+import { PlaylistService } from '../_services/playlist.service';
 
 @Component({
   selector: 'app-video-gallery',
@@ -10,8 +10,8 @@ export class VideoGalleryComponent implements OnInit {
 
   videos: any;
 
-  constructor(private videoService: VideoService) { 
-    this.videoService.getVideos().subscribe(
+  constructor(private playlistService: PlaylistService) { 
+    this.playlistService.getVideos().subscribe(
       result => {
         if (result) {
           this.videos = result;
@@ -23,11 +23,6 @@ export class VideoGalleryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-  
-  getProfilePic(): string {
-    // TODO Connect with user profile
-    return 'http://gravatar.com/avatar/testing?d=identicon';
   }
 
   getThumbnail(v: any): string {

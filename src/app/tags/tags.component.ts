@@ -53,7 +53,7 @@ export class TagsComponent implements OnInit {
       const body = { text: value.trim()};
       const response = this.tagService.postTag(body);
       response.subscribe((res) => {
-        const results = this.videoService.pushTag(this.videoID, res.tagID);
+        const results = this.videoService.addTag(this.videoID, res.tagID);
         results.subscribe((r) => {
           console.log(r);
         });

@@ -102,10 +102,10 @@
                 <mat-card class="video-card">
                     <mat-card-header>
                       <div mat-card-avatar class="avatar-image"
-                        [ngStyle]="{'background-image': 'url(' + getProfilePic() + ')'}"
+                        [ngStyle]="{'background-image': 'url(' + videoGroup.user.avatar + ')'}"
                       ></div>
                       <mat-card-title class="header">{{videoGroup.video.title}}</mat-card-title>
-                      <mat-card-subtitle>Author: {{videoGroup.video.createdBy}}</mat-card-subtitle>
+                      <mat-card-subtitle>Author: {{videoGroup.user.displayName}}</mat-card-subtitle>
                     </mat-card-header>
                     <img mat-card-image  
                         (click)="editPlaylist(videoGroup.id)"
@@ -129,7 +129,7 @@
                         </ng-container>
                         <span class="details">Created: {{videoGroup.video.createdAt}}</span>
                         <ng-container *ngIf="videoGroup.video.publishedAt!==''">
-                        <span class="details">Published: {{videoGroup.video.publishedAt}}</span>
+                            <span class="details">Published: {{videoGroup.video.publishedAt}}</span>
                         </ng-container>
                     </mat-card-actions>
                   </mat-card>

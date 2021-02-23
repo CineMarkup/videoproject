@@ -41,6 +41,8 @@ export class PlaylistComponent implements OnInit {
         this.playlistService.getPlaylistById(this.playListId).subscribe(
           result => {
             if (result) {
+              console.log("TEST");
+              console.log(result);
               // grab playlist data from db
               this.playlist = result;
               this.video = result.video;
@@ -139,9 +141,10 @@ export class PlaylistComponent implements OnInit {
     return 'assets/images/' + v;
   }
 
-  getProfilePic(): string {
+  getProfilePic(avatar: string): string {
     // TODO Connect with user profile
-    return 'http://gravatar.com/avatar/testing?d=identicon';
+    console.log(avatar);
+    return `http://gravatar.com/avatar/${avatar}?d=identicon`;
   }
 
   onSearch(event: any): void {
