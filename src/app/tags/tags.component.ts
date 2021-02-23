@@ -16,33 +16,29 @@ export class TagsComponent implements OnInit {
 
   @Input() videoID: string;
 
-  visible = true;
+  public selectable = true;
 
-  selectable = true;
+  public removable = true;
 
-  removable = true;
+  public addOnBlur = true;
 
-  addOnBlur = true;
+  public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  public tags = [];
 
-  tags = [];
-
-  constructor(private tagService: TagService, private videoService: VideoService) {
-  }
+  constructor(private tagService: TagService, 
+              private videoService: VideoService) {}
 
   ngOnInit(): void {
     this.tagsList.forEach((tagID, ind) => {
-      console.log(tagID);
       this.tagService.getTagById(tagID).subscribe((tag) => {
-        const val = { name: tag.text };
-        console.log(val);
+        const val = { name: tag.text, tagID: tag.tagID };
         this.tags.push(val);
       });
     });
   }
 
-  add(event: MatChipInputEvent): void {
+  public add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
@@ -64,12 +60,18 @@ export class TagsComponent implements OnInit {
     }
   }
 
-  remove(tag: any): void {
-    // TODO remove from db
+  public remove(tag: any): void {
+    //remove locally
     const index = this.tags.indexOf(tag);
-
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
+    console.log(tag.tagID + " " +  this.videoID);
+
+    // remove from database
+    this.videoService.deleteTagFromList(this.videoID, tag.tagID)
+      .subscribe((r) => { console.log(r); });
+    this.tagService.deleteTag(tag.tagID)
+      .subscribe((r) => { console.log(r); });
   }
 }

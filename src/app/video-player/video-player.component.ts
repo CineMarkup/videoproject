@@ -67,16 +67,15 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('videoplayer') videoplayer: ElementRef;
 
-  width = 200;
+  public width = 200;
 
-  height = 75;
+  public height = 75;
 
-  loaded = false;
+  public positionY = '10px';
 
-  positionY = '10px';
+  public positionX = '10px';
 
-  positionX = '10px';
-
+  private loaded = false;
 
   constructor(){ }
 
@@ -89,16 +88,23 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.getNativeVideo().addEventListener('seeked', this.onSeek.bind(this));
   }
 
-  playVideo(): void {
+  /**
+   * Get video URL with media fragments
+   */
+  public getVideoUrl(): any {
+    return this.video.url;
+  }
+
+  private playVideo(): void {
     this.getNativeVideo().play();
   }
 
-  onSeek(): void {
+  private onSeek(): void {
     const time = this.getNativeVideo().currentTime;
     this.seeked.emit(time);
   }
 
-  onLoadedMetaData(): void {
+  private onLoadedMetaData(): void {
     this.video.duration = this.getNativeVideo().duration;
     this.setWidthAndHeight();
     this.setPosition();
@@ -109,7 +115,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.loadedMetaData.emit(this.video);
   }
 
-  onTimeUpdate(event): void {
+  private onTimeUpdate(event): void {
     if (this.annotation) {
       if (this.annotation.stopTime && this.getNativeVideo().currentTime >= this.annotation.stopTime) {
         this.ended.emit('');
@@ -123,7 +129,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setWidthAndHeight(): void {
+  private setWidthAndHeight(): void {
     if (this.annotation) {
       if (this.annotation.width) {
         this.width = this.annotation.width;
@@ -134,7 +140,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setPosition(): void {
+  private setPosition(): void {
     if (this.annotation) {
       if (this.annotation.positionX) {
         this.positionX = this.annotation.positionX + 'px';
@@ -150,23 +156,14 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   //   const v = this.getNativeVideo();
   //   const videoWidth = v.videoWidth;
   //   const videoHeight = v.videoHeight;
-  //   console.log(videoWidth, ' ', videoHeight);
-  //   console.log(this.positionX, this.positionY);
   //   return [videoWidth, videoHeight];
   // }
 
-  onEnded(): void {
+  private onEnded(): void {
     this.ended.emit('');
   }
 
-  /**
-   * Get video URL with media fragments
-   */
-  getVideoUrl(): any {
-    return this.video.url;
-  }
-
-  getNativeVideo(): any {
+  private getNativeVideo(): any {
     if (this.videoplayer) {
       return this.videoplayer.nativeElement;
     }

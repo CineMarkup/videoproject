@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { VideoModel } from '../../_models/video-model';
 import { AnnotationModel } from '../../_models/annotation-model';
@@ -16,23 +15,28 @@ import { AlertModalComponent } from '../_components/alert-modal';
 export class AnnotationsComponent implements OnInit {
 
   @Input() video: VideoModel;
+
   @Input() annotation: AnnotationModel;
+
   @Input() editable = false;
+
   @Input() isPlaying =  false;
 
   @Output() editAnnotation: EventEmitter<AnnotationModel> = new EventEmitter();
+
   @Output() deleteAnnotation: EventEmitter<AnnotationModel> = new EventEmitter();
+
   @Output() playFromAnnotationStart: EventEmitter<AnnotationModel> = new EventEmitter();
 
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {}
 
-  onEditAnnotation(): void {
+  public onEditAnnotation(): void {
     this.editAnnotation.emit(this.annotation);
   }
 
-  onDeleteAnnotation(): void {
+  public onDeleteAnnotation(): void {
     const dialogRef = this.dialog.open(AlertModalComponent, {
               data: {
                     warnMessage: 'Click continue to delete the clip',
@@ -47,7 +51,7 @@ export class AnnotationsComponent implements OnInit {
     });
   }
 
-  onplayFromAnnotationStart(): void {
+  public onplayFromAnnotationStart(): void {
     this.playFromAnnotationStart.emit(this.annotation);
   }
 }

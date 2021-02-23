@@ -41,7 +41,7 @@
               <button mat-raised-button color="primary">
                   VIEW
               </button>
-              <span class="details">Created: {{v.video.createdAt}}</span>
+              <span class="details">Created: {{v.video.createdAt | date: 'mediumDate' }}</span>
             </mat-card-actions>
           </mat-card>
     </div>
