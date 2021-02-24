@@ -2,10 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\app\\dashboard",
-    "\\src\\app\\home"
+    "\\src\\app\\home",
+    "\\src\\app\\login",
+    "\\src\\app\\playlist",
+    "\\src\\app\\register",
+    "\\src\\app\\video-gallery",
+    "\\src\\app\\video-player"
   ],
-  "SelectedNode": "\\src\\app\\home\\home.component.ts",
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }

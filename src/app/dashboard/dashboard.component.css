@@ -4,6 +4,7 @@
     display: block;
 }
 
+
 .header-text h1, .header-text p {
     color: #000;
     text-shadow: 0 0.5rem 1rem rgba(50,0,100,0.1);
