@@ -10,11 +10,21 @@
 .publish-btn {
     margin-bottom: 10px;
     margin-right: 20px;
-    float: right;
+    position: absolute;
+    bottom: 10px;
+}
+.save-btn {
+    margin-bottom: 10px;
+    margin-right: 20px;
+    position: absolute;
+    bottom: 10px;
+    left: 110px;
 }
 .upload-btn {
-    float: right;
+    float: left;
     margin-right: 10%;
+    position: absolute;
+    bottom: 10px;
 }
 .group {
     display: inline;
@@ -42,6 +52,7 @@
 }
 .video-card {
     max-width: 600px;
+    margin-bottom: 20px;
 }
 .avatar-image {
     background-size: cover;
@@ -50,4 +61,15 @@
     color: grey;
     float: right;
     margin-left: 10px;
+}
+.description {
+    height: 70px;
+    display: -webkit-box;
+    max-width: 100%;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+::ng-deep #search .mat-form-field-flex {
+    padding: 0px;
 }

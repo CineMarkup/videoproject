@@ -6,8 +6,8 @@
     <div class="header-content">
       <div class="header-text">
         <h1>Record, Upload, <br>and Annotate Videos</h1>
-        <p>Easy to use, so you can <br> make memorable videos</p>
-        <button mat-raised-button color="primary">Sign up</button>
+        <!-- <p>Make memorable videos</p> -->
+        <button mat-raised-button color="primary" (click)="signUp()">Sign up to Add Your Videos</button>
       </div>
       
       <div class="header-visuals">
@@ -16,5 +16,12 @@
         </div>  
       </div>
     </div>
+</div>
 
-  </div>
+<app-video-gallery></app-video-gallery>
+
+<div class="row justify-content-center upload">
+  <button mat-raised-button color="primary">
+    Upload Your Own Video
+  </button>
+</div>

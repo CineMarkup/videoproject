@@ -1,42 +1,58 @@
 .cs-video {
-    position: relative;
-  }
-  .cs-video > video, .cs-video > canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 65%;
-    margin-top: .5em;
-  }
-  video {
-    width: 65%;
-  }
-  .header-group {
-      margin-bottom: -10px;
-  }
-  .recorder-input button {
-    margin-left: 1em;
-    padding:.4em;
-    vertical-align: bottom;
-  }
-  .recorder-input mat-form-field {
-    padding:.4em;
-  }
-  .recorder-input h2 {
-    display: inline-block;
-    margin-left: 1em;
-  }
-  .video-input {
-    margin-left: 1em;
-    width: 300px;
-  }
-  .button-group {
-    display: inline-block;
-  }
-  .header-group h1, h2 {
-    display: inline-block;
-  }
-  .header-group h2 {
-    color: var(--primary-color);
-  }
-  
+  position: relative;
+}
+.cs-video > video, .cs-video > canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 1520px;
+  margin-top: .5em;
+}
+video {
+  width: 1120px;
+}
+.header-group {
+    margin-bottom: -10px;
+}
+.recorder-input button {
+  margin-left: 1em;
+  padding:.4em;
+  vertical-align: bottom;
+}
+.recorder-input mat-form-field {
+  padding:.4em;
+}
+.recorder-input h2 {
+  display: inline-block;
+  margin-left: 1em;
+}
+.video-input {
+  margin-left: 1em;
+  width: 300px;
+}
+.header-group h1, h2 {
+  display: inline-block;
+}
+.header-group h2 {
+  color: var(--primary-color);
+}
+.row{
+  display: table-cell; 
+  vertical-align: bottom;
+}
+.button-group {
+  display: inline-block;
+  display: table-cell; 
+  vertical-align: bottom;
+}
+.button-group  button {
+  margin-bottom: 8px;
+}
+.input-group {
+  display: table-cell; 
+  vertical-align: bottom;
+}
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}

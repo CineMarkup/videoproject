@@ -5,6 +5,9 @@ import { HomeComponent } from './home/home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { RecorderComponent } from './recorder/recorder.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,7 +17,10 @@ const routes: Routes = [
   { path: 'playlist/:id', component: PlaylistComponent },
   { path: 'annotation', component: AnnotationEditorComponent },
   { path: 'annotation/:id', component: AnnotationEditorComponent },
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'video-gallery', component: VideoGalleryComponent }
 ];
 
 @NgModule({

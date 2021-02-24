@@ -118,11 +118,16 @@
             </div>
 
             <div class="row">
-                <div class="col-12">
+                <div class="col-1">
                     <button  
                     (click)="save()"
                     [disabled]="!clipForm.form.valid"
                     mat-raised-button color="primary">Save</button>
+                </div>
+                <div class="col-1">
+                    <button  
+                    (click)="viewPlaylist()"
+                    mat-raised-button color="primary">Back</button>
                 </div>
             </div>
         </form>

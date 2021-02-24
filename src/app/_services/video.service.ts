@@ -17,8 +17,8 @@ import { tap } from 'rxjs/operators';
  *
  */
 export class VideoService {
+
     hostUrl = 'http://localhost:8080/';
-    video: any;
 
     // Http Headers
     public httpOptions = {
@@ -29,36 +29,70 @@ export class VideoService {
 
     constructor(private http: HttpClient) {}
 
-    getVideos(): any {
-        return this.http.get( this.hostUrl + 'video/all');
+    public getVideos(): any {
+        return this.http.get( this.hostUrl + 'video');
     }
 
-    getVideoById(id: string): any {
+    public getVideoById(id: string): any {
         return this.http.get( this.hostUrl + 'video/' + id )
         .map(response => response as VideoModel);
     }
 
-    pushTag(videoID: string, tagID: string): Observable<any> {
+    public addTag(videoID: string, tagID: string): Observable<any> {
         const body = { 'tags': tagID };
         const url = this.hostUrl + 'video/push/' + videoID;
-        console.log(body);
-        console.log(url);
         return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
         .pipe(
-          tap( // Log the result or error
+          tap(
             data => console.log(data),
             error => console.log(error)
           )
         );
     }
-    // postTag(data): Observable<any> {
-    //     return this.http.post<TagModel>(this.hostUrl + 'tag', JSON.stringify(data), this.httpOptions)
-    //     .pipe(
-    //       tap( // Log the result or error
-    //         data => console.log(data),
-    //         error => console.log(error)
-    //       )
-    //     );
-    //   }
+
+    public addDescription(videoID: string, description: string): Observable<any> {
+        const body = { 'description': description };
+        const url = this.hostUrl + 'video/' + videoID;
+        return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
+        .pipe(
+          tap(
+            data => console.log(data),
+            error => console.log(error)
+          )
+        );
+    }
+
+    public addTitle(videoID: string, title: string): Observable<any> {
+        const body = { 'title': title };
+        const url = this.hostUrl + 'video/' + videoID;
+        return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
+        .pipe(
+          tap(
+            data => console.log(data),
+            error => console.log(error)
+          )
+        );
+    }
+
+    public addPublishedDate(videoID: string, published: string) {
+        const today = new Date().toString();
+        const body = { 'published': published, 'publishedAt': today };
+        const url = this.hostUrl + 'video/' + videoID;
+        return this.http.put<any>(url, JSON.stringify(body), this.httpOptions)
+        .subscribe((r) => {
+          console.log(r);
+        });
+    }
+
+    public deleteTagFromList(videoID: string, tagID: string): Observable<any> {
+      const url = this.hostUrl + 'video/' + videoID + '/remove/' + tagID;
+      return this.http.put<VideoModel>(url, {}, this.httpOptions)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.error(error)
+        )
+      );
+    }
 
 }

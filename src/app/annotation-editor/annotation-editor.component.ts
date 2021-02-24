@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { VideoModel } from '../../_models/video-model';
 import { Options } from 'ng5-slider';
 import { VideoService } from '../_services/video.service';
 import { AnnotationService } from '../_services/annotation.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {v4 as uuid} from 'uuid';
+import { AnnotationListService } from '../_services/annotation-list.service';
 
 /**
  * Add an annotation to a video along with the start and stop time
+ * and position on the video
  */
 @Component({
   selector: 'app-annotation-editor',
@@ -18,15 +18,19 @@ import {v4 as uuid} from 'uuid';
 })
 export class AnnotationEditorComponent implements OnInit {
 
-  @Input() video: VideoModel;
+  public video: VideoModel;
 
-  maxValue = 0;
+  public annotation: any;
 
-  annotation: any;
+  public loaded = false;
 
-  loaded = false;
+  public rangeOptions: Options;
 
-  rangeOptions: Options;
+  private annotationListID: string;
+
+  private annotationID: string;
+
+  private maxValue = 0;
 
   // tslint:disable-next-line: variable-name
   _minValue = 0;
@@ -39,33 +43,30 @@ export class AnnotationEditorComponent implements OnInit {
     return this._minValue;
   }
 
-  constructor(
-    private route: ActivatedRoute,
-    private videoService: VideoService,
-    private annotationService: AnnotationService,
-    private toastr: ToastrService,
-    private router: Router
+  constructor (
+      private route: ActivatedRoute,
+      private videoService: VideoService,
+      private annotationService: AnnotationService,
+      private annotationListService: AnnotationListService,
+      private toastr: ToastrService,
+      private router: Router,
+      private ngZone: NgZone
     ) {
 
-      const annotationId: string = this.route.snapshot.queryParamMap.get('annotationId');
       const videoId: string = this.route.snapshot.queryParamMap.get('videoId');
-      console.log( annotationId, ' ', videoId );
+      this.annotationID = this.route.snapshot.queryParamMap.get('annotationID');
+      this.annotationListID = this.route.snapshot.queryParamMap.get('annotationListID');
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
-      if (annotationId && videoId) {
-        // Editing a current annotation
-        this.annotationService.getAnnotationById(annotationId).subscribe(annotation => {
-            this.annotation = annotation;
-        });
-        this.videoService.getVideoById(videoId).subscribe(video => {
-          this.video = video;
-        });
-
-      } else if (videoId) {
+      if (this.annotationID && videoId) {
+        this.getAnnotationData(this.annotationID, videoId);
+      }
+      else if (videoId) {
         // Create a new annotation
         this.videoService.getVideoById(videoId).subscribe(video => {
           this.video = video;
           const newAnnotation = {
-            annotationId: uuid(),
+            annotationID: 'temp',
             createdAt: '2/11/2021',
             startTime: 0,
             text: '',
@@ -77,28 +78,58 @@ export class AnnotationEditorComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  onLoadedMetaData(video: VideoModel): void {
+  public onLoadedMetaData(video: VideoModel): void {
     this.video.duration = video.duration;
     if (!this.annotation) {
       this.annotation.stopTime = this.video.duration;
     }
     this.rangeOptions = {
       floor: 0,
-      ceil: this.video.duration
-      , showTicks: false
-      , showTicksValues: false
+      ceil: this.video.duration,
+      showTicks: false,
+      showTicksValues: false
     };
     this.loaded = true;
   }
 
-  onTimeUpdate(event: any): void {
+  public onTimeUpdate(event: any): void {
     if (this.maxValue === 0){
       this.maxValue = this.rangeOptions.ceil;
     }
   }
 
-  validate(): boolean {
-    // TODO make this validation more
+  public save(): void {
+    if (!this.validate()) {
+      this.toastr.error('Please review the values entered');
+    }
+    else{
+      if (!this.annotationID) {
+        this.saveNewAnnotation();
+      }
+      else {
+        const response = this.annotationService.putAnnotation(this.annotationID, this.annotation);
+        response.subscribe((r) => {
+          console.log(r);
+        });
+      }
+      this.toastr.success('We saved your annotation!');
+    }
+  }
+
+  public viewPlaylist() {
+    this.router.navigateByUrl('/playlist/' + this.annotationListID);
+  }
+
+  private getAnnotationData(annotationID: string, videoID: string) {
+    this.annotationService.getAnnotationById(annotationID).subscribe(annotation => {
+        this.annotation = annotation;
+    });
+    this.videoService.getVideoById(videoID).subscribe(video => {
+      this.video = video;
+    });
+  }
+
+  private validate(): boolean {
     if (this.annotation.start < 0){
       return false;
     } else if (!this.annotation.text) {
@@ -107,27 +138,15 @@ export class AnnotationEditorComponent implements OnInit {
     return true;
   }
 
-  save(): void {
-    if (!this.validate()) {
-      this.toastr.error('Please review the values entered');
-    }
-    else{
-      // TODO: make service calls to post edits to annotation
-      this.toastr.success('Saving...');
-      this.router.navigateByUrl('/playlist');
-
-      // if (this.annotation.id) {
-      //   this.videoService.updateAnnotation(this.video).then(() => {
-      //     this.toastr.success('Annotation updated successfully');
-      //     this.router.navigateByUrl('/playlist');
-      //   });
-      // } else {
-      //   this.videoService.addAnnotation(this.video).then(() => {
-      //     this.toastr.success('Annotation added successfully');
-      //     this.router.navigateByUrl('/playlist');
-      //   });
-      // }
-    }
-
+  private saveNewAnnotation() {
+    const response = this.annotationService.postAnnotation(this.annotation);
+    response.subscribe((res) => {
+      const annotation = { "annotationList" : res.annotationID};
+      const results = this.annotationListService.addAnnotationToList(this.annotationListID, annotation);
+      results.subscribe((r) => {
+        console.log(r);
+      });
+    });
   }
+
 }

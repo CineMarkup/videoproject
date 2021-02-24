@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnnotationEditorComponent } from './annotation-editor.component';
+import { VideoGalleryComponent } from './video-gallery.component';
 
-describe('AnnotationEditorComponent', () => {
-  let component: AnnotationEditorComponent;
-  let fixture: ComponentFixture<AnnotationEditorComponent>;
+describe('VideoGalleryComponent', () => {
+  let component: VideoGalleryComponent;
+  let fixture: ComponentFixture<VideoGalleryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnotationEditorComponent ]
+      declarations: [ VideoGalleryComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnnotationEditorComponent);
+    fixture = TestBed.createComponent(VideoGalleryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -23,4 +23,3 @@ describe('AnnotationEditorComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-

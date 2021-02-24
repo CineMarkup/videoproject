@@ -35,6 +35,9 @@ import { AnnotationEditorComponent } from './annotation-editor/annotation-editor
 import { AnnotationValidatorDirective } from './directives/annotation-validator.directive';
 import { AnnotationsComponent } from './annotations/annotations.component';
 import { TagsComponent } from './tags/tags.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import { TagsComponent } from './tags/tags.component';
     AnnotationEditorComponent,
     AnnotationValidatorDirective,
     AnnotationsComponent,
-    TagsComponent
+    TagsComponent,
+    LoginComponent,
+    RegisterComponent,
+    VideoGalleryComponent
   ],
   imports:      [
     BrowserModule,

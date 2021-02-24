@@ -1,92 +1,76 @@
 import {Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {v4 as uuid} from 'uuid';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AnnotationModel } from 'src/_models/annotation-model';
-
+import { tap } from 'rxjs/operators';
+import { AnnotationListModel } from 'src/_models/annotation-list-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnnotationService {
+
   hostUrl = 'http://localhost:8080/';
+
+  // Http Headers
+  public httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   constructor(private http: HttpClient) {}
 
-  annotations =  this.getAnnotations();
-
-  getAnnotations(): any {
-    return this.http.get( this.hostUrl + 'annotation/all');
+  public getAnnotations(): any {
+    return this.http.get( this.hostUrl + 'annotation');
   }
 
-  getAnnotationById(id: string): any {
+  public getAnnotationById(id: string): any {
     return this.http.get( this.hostUrl + 'annotation/' + id )
     .map(response => response as AnnotationModel);
   }
 
-//   sortAnnotation(): void {
-//     if (this.annotations) {
-//         this.annotations.sort((a, b) => {
-//             return a.startTime < b.startTime ? -1 : a.startTime;
-//         });
-//     }
-//     console.log( this.annotations );
-//   }
+  public postAnnotation(data): Observable<any> {
+    return this.http.post<AnnotationModel>(this.hostUrl + 'annotation', JSON.stringify(data), this.httpOptions)
+    .pipe(
+      tap(
+        data => console.log(data),
+        error => console.log(error)
+      )
+    );
+  }
 
-//   getMainAnnotation(): Promise<any> {
-//       return new Promise(resolve => {
-//           if (this.annotations) {
-//               resolve(this.annotations.find(annotation => annotation.isMain));
-//           } else {
-//               resolve('');
-//           }
-//       });
-//   }
+  public putAnnotation(annotationID: string, body: any): Observable<any> {
+    const url = this.hostUrl + 'annotation/' + annotationID;
+    return this.http.put<AnnotationModel>(url, JSON.stringify(body), this.httpOptions)
+    .pipe(
+      tap(
+        data => console.log(data),
+        error => console.error(error)
+      )
+    );
+  }
 
-//   addAnnotation(annotation: AnnotationModel): Promise<any> {
-//     // @ts-ignore
-//     return new Promise(resolve => {
-//       annotation.annotationId = uuid();
-//       this.annotations.push(annotation);
-//       console.log('Width ' + annotation.width);
-//       this.saveToStorage();
-//       resolve('');
-//     });
-//   }
+  public deleteAnnotation(annotationID: string): Observable<any> {
+    const url = this.hostUrl + 'annotation/' + annotationID;
+    return this.http.delete<AnnotationModel>(url)
+    .pipe(
+      tap(
+        data => console.log(data),
+        error => console.error(error)
+      )
+    );
+  }
 
-//   updateAnnotation(annotation: AnnotationModel): Promise<any> {
-//     return new Promise((resolve, reject) => {
-//         const index = this.annotations.findIndex(a => a.annotationId === annotation.annotationId);
-//         if (index >= 0) {
-//             this.annotations[index] = annotation;
-//             this.saveToStorage();
-//             resolve('');
-//         } else {
-//             reject('No video found with the id ' + annotation.annotationId);
-//         }
-//     });
-//   }
-
-//   deleteAnnotation(id: string): Promise<any> {
-//     return new Promise<void>(resolve => {
-//         const index = this.annotations.findIndex(video => video.annotationId === id);
-//         this.annotations.splice(index, 1);
-
-//         this.saveToStorage();
-//         resolve();
-//     });
-//   }
-
-//   saveToStorage(): void {
-//       localStorage.setItem('playlist', JSON.stringify(this.annotations));
-//   }
-
-//   getFromStorage(): any {
-//       const inStorage = localStorage.getItem('playlist');
-//       if (inStorage) {
-//           return JSON.parse(inStorage);
-//       }
-//   }
-
+  public deleteAnnotationFromList(annotationID: string, annotationListID: string): Observable<any> {
+    const url = this.hostUrl + 'annotationlist/' + annotationListID + '/remove/' + annotationID;
+    return this.http.put<AnnotationListModel>(url, {}, this.httpOptions)
+    .pipe(
+      tap(
+        data => console.log(data),
+        error => console.error(error)
+      )
+    );
+  }
 
 }
