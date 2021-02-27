@@ -59,11 +59,11 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @Output() loadedMetaData: EventEmitter<VideoModel> = new EventEmitter();
 
-  // tslint:disable-next-line: no-output-native
   @Output() ended = new EventEmitter();
 
-  // tslint:disable-next-line: no-output-native
   @Output() seeked = new EventEmitter<{time: number}>();
+
+  @Output() timeUpdated = new EventEmitter<{time: number}>();
 
   @ViewChild('videoplayer') videoplayer: ElementRef;
 
@@ -117,7 +117,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   private onTimeUpdate(event): void {
     if (this.annotation) {
-      if (this.annotation.stopTime && this.getNativeVideo().currentTime >= this.annotation.stopTime) {
+      //since current time milliseconds rounds down use + 1
+      if (this.annotation.stopTime && this.getNativeVideo().currentTime >= this.annotation.stopTime + 1) { 
         this.ended.emit('');
         this.showAnnotation = false;
       }
@@ -126,6 +127,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
       }
       this.setWidthAndHeight();
       this.setPosition();
+      //Set time
+      const time = this.getNativeVideo().currentTime;
+      this.timeUpdated.emit(time);
     }
   }
 
