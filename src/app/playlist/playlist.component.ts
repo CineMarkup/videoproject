@@ -144,7 +144,10 @@ export class PlaylistComponent implements AfterViewInit {
   }
 
   public highlightAnnotation(annotation: AnnotationModel) {
-    if (this.currentTime < annotation.startTime && annotation.annotationID == this.currentAnnotation.annotationID) {
+    const stopTime = Math.round(annotation.stopTime) + 1;
+    if ((this.currentTime < annotation.startTime || this.currentTime > stopTime) 
+        && annotation.annotationID == this.currentAnnotation.annotationID) {
+          console.log(this.currentTime + " " + annotation.stopTime)
       return false;
     } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
       return true;
