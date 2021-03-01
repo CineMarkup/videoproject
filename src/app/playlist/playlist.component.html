@@ -24,16 +24,38 @@
         <div class="row videos" >
             <div class="col-md-8 col-sm-6 videoplayer">
                 <ng-container *ngIf="currentAnnotation">
+                    <!-- Video player -->
                     <app-video-player 
                                         [annotation]="currentAnnotation"
                                         [video]="video"
                                         [autoplay]="true"
                                         (ended)="onEndedAnnotation()"
                                         (seeked)="onSeekVideo($event)"
+                                        (timeUpdated)="onTimeProgress($event)"
                                         [showTitle]="true"
                                         [currentTime]="videoCurrentTime"
                                         >
                     </app-video-player>
+
+                    <!-- Timeline -->
+                    <div class="timeline-container">
+                        <div class="timebar-container">
+                            <div class="timebar"
+                            [style.left.%]="timeLineBar"
+                            ></div>
+                        </div>
+                        <div class="timeline">
+                            <ng-container *ngIf="playlist.annotations">
+                                <ng-container *ngFor="let annotation of playlist.annotations;let i=index">
+                                    <div class="time-annotation" 
+                                        [style.width.%]="getSizeFromTime(annotation)"
+                                        [style.left.%]="getPositionFromTime(annotation)"
+                                        ></div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+
                 </ng-container>
             </div>
 
@@ -58,7 +80,7 @@
                             <app-annotations #annotations [video]="playlist.video"
                                 [annotation]="annotation"
                                 [editable]="editable"
-                                [isPlaying]="annotation.annotationID==currentAnnotation.annotationID"
+                                [isPlaying]="highlightAnnotation(annotation)"
                                 (editAnnotation)="onEditAnnotation(annotation)" 
                                 (deleteAnnotation)="onDeleteAnnotation(annotation.annotationID)"
                                 (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"
