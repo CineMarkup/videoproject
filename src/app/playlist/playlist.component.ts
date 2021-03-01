@@ -45,6 +45,8 @@ export class PlaylistComponent implements AfterViewInit {
 
   public timeLineBar = 0; //location of timeline bar
 
+  public currentTime = 0;
+
   constructor(private playlistService: PlaylistService,
               private annotationService: AnnotationService,
               private videoService: VideoService,
@@ -139,6 +141,14 @@ export class PlaylistComponent implements AfterViewInit {
   public publishVideo(videoID: string): void {
     this.videoService.addPublishedDate(videoID, "true");
     this.toastr.success('Your video is published');
+  }
+
+  public highlightAnnotation(annotation: AnnotationModel) {
+    if (this.currentTime < annotation.startTime && annotation.annotationID == this.currentAnnotation.annotationID) {
+      return false;
+    } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
+      return true;
+    }
   }
 
   private playAnnotation(index: number = 0): void {
@@ -244,6 +254,7 @@ export class PlaylistComponent implements AfterViewInit {
   public onTimeProgress(timeUpdate: any): void {
     const total = this.video.duration;
     this.timeLineBar = (timeUpdate/ total) * 100;
+    this.currentTime = timeUpdate;
   }
 
 }
