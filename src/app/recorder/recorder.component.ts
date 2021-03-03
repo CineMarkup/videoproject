@@ -4,7 +4,10 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+
+import { VideoService } from '../_services/video.service';
 import * as RecordRTC from 'recordrtc';
+import {TagService} from "../_services/tag.service";
 
 /**
  * Records a video
@@ -15,6 +18,8 @@ import * as RecordRTC from 'recordrtc';
   styleUrls: ['./recorder.component.css']
 })
 export class RecorderComponent implements AfterViewInit {
+
+  constructor( private videoService: VideoService) {}
 
   /*
     Public
@@ -316,4 +321,19 @@ export class RecorderComponent implements AfterViewInit {
     return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 8);
   }
 
+  public upload(): void {
+    // TODO: complete the post and validate
+    if (this.isSaved) {
+      // TBD - upload video
+      const obj = {
+        videofile: this.blob,
+        title: this.getVideoName(),
+        description: ''
+      };
+      this.videoService.postVideo(obj);
+    }
+    else {
+      console.error('ERROR: Record and save before uploading.');
+    }
+  }
 }

@@ -3,6 +3,7 @@ import {VideoModel} from '../../_models/video-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import {TagModel} from "../../_models/tag-model";
 
 
 @Injectable({
@@ -38,7 +39,18 @@ export class VideoService {
         .map(response => response as VideoModel);
     }
 
-    public addTag(videoID: string, tagID: string): Observable<any> {
+  public postVideo(data): Observable<any> {
+    return this.http.post<VideoModel>(this.hostUrl + 'video', data, this.httpOptions)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
+        )
+      );
+  }
+
+
+  public addTag(videoID: string, tagID: string): Observable<any> {
         const body = { 'tags': tagID };
         const url = this.hostUrl + 'video/push/' + videoID;
         return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
