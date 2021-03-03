@@ -1,3 +1,4 @@
+import { VideoService } from './../_services/video.service';
 import {
   Component,
   AfterViewInit,
@@ -34,6 +35,8 @@ export class RecorderComponent implements AfterViewInit {
 
   public videoName = 'Video Title';
 
+  public annotationListId = '';
+
   /*
     Private
   */
@@ -45,8 +48,11 @@ export class RecorderComponent implements AfterViewInit {
 
   private recorder: RecordRTC | any;
 
+  private startRecordingTime : Date;
+
   @ViewChild('videoElement', {static: false}) videoElement: ElementRef | undefined;
 
+  constructor(private videoService: VideoService) {}
 
   ngAfterViewInit(): void {
     if (this.videoElement) {
@@ -62,7 +68,6 @@ export class RecorderComponent implements AfterViewInit {
     this.isRecording = true;
     this.isSaved = false;
 
-    // TODO: add a modal pop up asking if they want screen or camera or both
     if (this.selectedScreenCamera === 'withCameraAndScreen') {
       this.captureScreen((screen: any) => {
         this.captureCamera((camera: any) => {
@@ -90,6 +95,7 @@ export class RecorderComponent implements AfterViewInit {
     else {
       console.error('ERROR: Share your screen or camera.');
     }
+    this.startRecordingTime = new Date();
   }
 
   public saveRecording(): void {
@@ -113,8 +119,34 @@ export class RecorderComponent implements AfterViewInit {
     }
   }
 
+  private getVideoDuration() {
+    const duration = this.videoElement.nativeElement.duration;
+    console.log("DURATION: " + duration);
+    return duration;
+  }
+
+  private getCurrentUser() {
+    // TODO get user from login
+    return 'u5';
+  }
+
+  private saveToDB(blob: any) {
+    // TODO add description
+    const formData = new FormData();
+    const duration = this.getVideoDuration();
+    formData.append('url', blob);
+    formData.append('title', this.videoName);
+    formData.append('duration', duration.toString());
+    formData.append('fileName', this.getVideoName() + '.webm');
+    formData.append('createdBy', this.getCurrentUser());
+    const response = this.videoService.postVideo(formData);
+    response.subscribe((res) => {
+      this.annotationListId = res.annotationListID;
+      // TODO ToastrModule
+    });
+  }
+
   public download(): void {
-    // TODO: add a modal pop up to ask for the file type to save as
     const fileName = this.getVideoName() + '.webm';
     if (this.isSaved) {
       RecordRTC.invokeSaveAsDialog(this.blob, fileName);
@@ -287,7 +319,6 @@ export class RecorderComponent implements AfterViewInit {
   }
 
   private watchVideoRecording(blob: Blob, video: HTMLVideoElement): void {
-    // TODO: upload this blob to the azure blob storage
     this.blob = blob;
     video.srcObject = null;
     video.src = URL.createObjectURL(blob);
@@ -297,6 +328,12 @@ export class RecorderComponent implements AfterViewInit {
     video.onloadeddata = () => {
       video.play();
     };
+    video.ondurationchange = (event) => {
+      if (video.duration !== Number.POSITIVE_INFINITY) {
+        //save to database
+        this.saveToDB(blob);
+      }
+    }
   }
 
   private toggleControls(): void {
@@ -309,7 +346,7 @@ export class RecorderComponent implements AfterViewInit {
   }
 
   private getVideoName(): string {
-    return this.videoName + ' ' + this.generateRandomID();
+    return this.videoName.replace(/ /g, "_") + '_' + this.generateRandomID();
   }
 
   private generateRandomID(): string {

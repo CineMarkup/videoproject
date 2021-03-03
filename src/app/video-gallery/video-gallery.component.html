@@ -18,9 +18,10 @@
   
 
 <div class="row video-gallery">
-    <div *ngFor="let v of videos" class="col-lg-3 col-md-6">
+    <ng-container *ngFor="let v of videos">
+      <div class="col-lg-3 col-md-6" *ngIf="v.video.published=='true'">
         <mat-card class="video-card">
-            <mat-card-header>
+            <mat-card-header *ngIf="v.user  && v.user.displayName">
               <div mat-card-avatar class="avatar-image"
                 [ngStyle]="{'background-image': 'url(' + v.user.avatar + ')'}"
               ></div>
@@ -33,16 +34,19 @@
                 >
             <mat-card-content>
               <p class="description">
-                {{v.video.description}}
+                {{getDescription(v.video)}}
               </p>
               
             </mat-card-content>
             <mat-card-actions>
-              <button mat-raised-button color="primary">
+              <button mat-raised-button color="primary"
+                [routerLink]="['/playlist/', v.id]"
+              >
                   VIEW
               </button>
               <span class="details">Created: {{v.video.createdAt | date: 'mediumDate' }}</span>
             </mat-card-actions>
           </mat-card>
-    </div>
+        </div>
+    </ng-container>
 </div>

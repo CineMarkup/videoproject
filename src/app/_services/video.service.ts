@@ -28,6 +28,12 @@ export class VideoService {
         })
     };
 
+    public httpOptionsFormData = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data'
+      })
+    };
+
     constructor(private http: HttpClient) {}
 
     public getVideos(): any {
@@ -92,6 +98,17 @@ export class VideoService {
         tap(
           data => console.log(data),
           error => console.error(error)
+        )
+      );
+    }
+
+    public postVideo(data): Observable<any> {
+      const url = this.hostUrl + 'video';
+      return this.http.post<VideoModel>(url, data)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
         )
       );
     }
