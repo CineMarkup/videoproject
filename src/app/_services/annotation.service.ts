@@ -4,13 +4,15 @@ import { Observable } from 'rxjs';
 import { AnnotationModel } from 'src/_models/annotation-model';
 import { tap } from 'rxjs/operators';
 import { AnnotationListModel } from 'src/_models/annotation-list-model';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnnotationService {
 
-  hostUrl = 'http://localhost:8080/';
+  hostUrl = environment.apiUrl + 'app/';
 
   // Http Headers
   public httpOptions = {

@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {TagModel} from "../../_models/tag-model";
+import { environment } from '../../environments/environment';
+
 
 
 @Injectable({
@@ -19,7 +21,7 @@ import {TagModel} from "../../_models/tag-model";
  */
 export class VideoService {
 
-    hostUrl = 'http://localhost:8080/';
+  hostUrl = environment.apiUrl + 'app/';
 
     // Http Headers
     public httpOptions = {

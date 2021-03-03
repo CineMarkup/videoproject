@@ -5,6 +5,7 @@ import { AnnotationModel } from 'src/_models/annotation-model';
 import { AnnotationListModel } from 'src/_models/annotation-list-model';
 import 'rxjs/add/operator/map';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { tap } from 'rxjs/operators';
 })
 export class AnnotationListService {
 
-  hostUrl = 'http://localhost:8080/';
+  hostUrl = environment.apiUrl + 'app/';
 
   // Http Headers
   public httpOptions = {
