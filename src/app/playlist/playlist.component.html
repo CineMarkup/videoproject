@@ -1,4 +1,4 @@
-<div class="body">
+<div class="body" xmlns="http://www.w3.org/1999/html">
     <div class="row header-group">
         <h1 class="col-8">
             <ng-container *ngIf="!playListId">
@@ -25,7 +25,7 @@
             <div class="col-md-8 col-sm-6 videoplayer">
                 <ng-container *ngIf="currentAnnotation">
                     <!-- Video player -->
-                    <app-video-player 
+                    <app-video-player
                                         [annotation]="currentAnnotation"
                                         [video]="video"
                                         [autoplay]="true"
@@ -47,7 +47,7 @@
                         <div class="timeline">
                             <ng-container *ngIf="playlist.annotations">
                                 <ng-container *ngFor="let annotation of playlist.annotations;let i=index">
-                                    <div class="time-annotation" 
+                                    <div class="time-annotation"
                                         [style.width.%]="getSizeFromTime(annotation)"
                                         [style.left.%]="getPositionFromTime(annotation)"
                                         ></div>
@@ -67,21 +67,21 @@
                         color="primary"
                         (click)="addAnnotation()">Add Annotation</button>
                     <mat-form-field class="search"  id="search">
-                        <input matInput 
+                        <input matInput
                         placeholder="Search the annotations"
                         [(ngModel)]="searchText"
                         (input)="onSearch($event)"
                         >
                     </mat-form-field>
                 </div>
-                
+
                 <div class="annotations">
                     <ng-container *ngFor="let annotation of playlist.annotations;let i=index">
                             <app-annotations #annotations [video]="playlist.video"
                                 [annotation]="annotation"
                                 [editable]="editable"
                                 [isPlaying]="highlightAnnotation(annotation)"
-                                (editAnnotation)="onEditAnnotation(annotation)" 
+                                (editAnnotation)="onEditAnnotation(annotation)"
                                 (deleteAnnotation)="onDeleteAnnotation(annotation.annotationID)"
                                 (playFromAnnotationStart)="onplayFromAnnotationStart(annotation,i)"
                                 [style.display]="annotation.display"
@@ -108,9 +108,9 @@
         <div class="row">
             <h4 class="col-lg-2">Click a video to go to edit it.</h4>
             <div class="col-lg-6">
-            <button mat-raised-button
+            <input type="file" mat-raised-button
                 class="upload-btn"
-                color="primary">Upload a New Video</button>
+                color="primary" (click)="upload()" text="Upload a New Video">
             </div>
         </div>
         <div class="row">
@@ -123,7 +123,7 @@
                       <mat-card-title class="header">{{videoGroup.video.title}}</mat-card-title>
                       <mat-card-subtitle>Author: {{videoGroup.user.displayName}}</mat-card-subtitle>
                     </mat-card-header>
-                    <img mat-card-image  
+                    <img mat-card-image
                         (click)="editPlaylist(videoGroup.id)"
                         [src]="getThumbnail(videoGroup.video.thumbnail)"
                         loading="lazy"
