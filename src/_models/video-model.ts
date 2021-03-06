@@ -1,3 +1,5 @@
+import { CommentModel } from './comment-model';
+
 export interface VideoModel {
     videoID: string;
     url: string;
@@ -7,5 +9,6 @@ export interface VideoModel {
     maxWidth?: number; // calculated based on video width by video-player
     maxHeight?: number; // calculated based on video height by video-player
     createdBy: string,
-    published: boolean
+    published: boolean,
+    comments: Array<CommentModel>
 }

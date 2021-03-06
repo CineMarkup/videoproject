@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AnnotationService } from '../_services/annotation.service';
 import { VideoService } from '../_services/video.service';
+import { F } from '@angular/cdk/keycodes';
 
 
 /**
@@ -122,7 +123,21 @@ export class PlaylistComponent implements AfterViewInit {
   }
 
   public getThumbnail(v: any): string {
-    return 'assets/images/' + v;
+    if (v.thumbnail) {
+      return 'assets/images/' + v.thumbnail;
+    }
+    else{ 
+      return 'assets/images/Default.PNG';
+    }
+  }
+
+  public getDescription(video: any): string {
+    if (video.description) {
+      return video.description;
+    }
+    else{ 
+      return 'Make sure to add a description to help users better understand your content.';
+    }
   }
 
   public onSearch(event: any): void {
@@ -154,6 +169,16 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
+  public isCurrentUser(user: any) {
+    // TODO check if user once authentication is complete with google auth
+    if (user.userID === 'u5') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   private playAnnotation(index: number = 0): void {
     if (this.playlist.annotations && this.playlist.annotations.length > index) {
       this.currentAnnotationIndex = index;
@@ -173,6 +198,7 @@ export class PlaylistComponent implements AfterViewInit {
       result => {
         if (result) {
           this.playlist = result;
+          console.log(this.playlist.annotations);
           this.video = result.video;
           this.videoTags = result.video.tags;
           this.playAnnotation(0);
