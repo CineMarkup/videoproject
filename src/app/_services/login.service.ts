@@ -15,15 +15,15 @@ export class LoginService {
   public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
 
   constructor(private http: HttpClient) {
   }
 
-
   public getLogin(): any {
-    return this.http.get(this.hostUrl + 'login');
+    return this.http.get(this.hostUrl + 'auth/loginstatus', this.httpOptions);
   }
 
 }
