@@ -4,7 +4,11 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+
+import {VideoService} from '../_services/video.service';
 import * as RecordRTC from 'recordrtc';
+import {TagService} from '../_services/tag.service';
+import {VideoModel} from '../../_models/video-model';
 
 /**
  * Records a video
@@ -16,10 +20,13 @@ import * as RecordRTC from 'recordrtc';
 })
 export class RecorderComponent implements AfterViewInit {
 
+  constructor(private videoService: VideoService) {
+  }
+
   /*
     Public
   */
-  public audioDevices: {name: string, id: string}[] = [];
+  public audioDevices: { name: string, id: string }[] = [];
 
   public audioDeviceId: string | undefined;
 
@@ -71,23 +78,20 @@ export class RecorderComponent implements AfterViewInit {
           screen.fullcanvas = true;
           camera.width = 487;
           camera.height = 274;
-          camera.top =  screen.height - camera.height;
+          camera.top = screen.height - camera.height;
           camera.left = screen.width - camera.width;
           this.successVideoMultiCallback([screen, camera]);
         });
       });
-    }
-    else if (this.selectedScreenCamera === 'withScreen') { // just screen
+    } else if (this.selectedScreenCamera === 'withScreen') { // just screen
       this.captureScreen((stream: MediaStream) => {
         this.successVideoCallback(stream);
       });
-    }
-    else if (this.selectedScreenCamera === 'withCamera') { // just camera
+    } else if (this.selectedScreenCamera === 'withCamera') { // just camera
       this.captureCamera((stream: MediaStream) => {
         this.successVideoCallback(stream);
       });
-    }
-    else {
+    } else {
       console.error('ERROR: Share your screen or camera.');
     }
   }
@@ -96,19 +100,18 @@ export class RecorderComponent implements AfterViewInit {
     this.isRecording = false;
     this.isSaved = true;
     if (this.videoElement && (this.recorder || this.recorder)) {
-        const video: HTMLVideoElement = this.videoElement.nativeElement;
-        if (this.selectedScreenCamera === 'withCameraAndScreen') {
-          this.recorder.stopRecording().then(() => {
-            this.recorder.getBlob().then((blob: Blob) => {
-              this.watchVideoRecording(blob, video);
-            });
+      const video: HTMLVideoElement = this.videoElement.nativeElement;
+      if (this.selectedScreenCamera === 'withCameraAndScreen') {
+        this.recorder.stopRecording().then(() => {
+          this.recorder.getBlob().then((blob: Blob) => {
+            this.watchVideoRecording(blob, video);
           });
-        } else {
-          this.recorder.stopRecording( this.stopRecording.bind(this) );
-        }
-        this.stopTracks();
-    }
-    else {
+        });
+      } else {
+        this.recorder.stopRecording(this.stopRecording.bind(this));
+      }
+      this.stopTracks();
+    } else {
       console.error('ERROR: Can\'t find video element or stream.');
     }
   }
@@ -118,8 +121,7 @@ export class RecorderComponent implements AfterViewInit {
     const fileName = this.getVideoName() + '.webm';
     if (this.isSaved) {
       RecordRTC.invokeSaveAsDialog(this.blob, fileName);
-    }
-    else {
+    } else {
       console.error('ERROR: Record and save before downloading.');
     }
   }
@@ -128,8 +130,7 @@ export class RecorderComponent implements AfterViewInit {
     // returns size in MB or GB
     if (this.blob) {
       return RecordRTC.bytesToSize(this.blob.size);
-    }
-    else {
+    } else {
       console.error('ERROR: Record and save before getting the size.');
       return '';
     }
@@ -139,8 +140,7 @@ export class RecorderComponent implements AfterViewInit {
     try {
       // asks for permission to access device list
       await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    }
-    catch {
+    } catch {
       console.error('ERROR: Please give permission to audio and video');
     }
   }
@@ -149,21 +149,20 @@ export class RecorderComponent implements AfterViewInit {
     if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
       console.error('ERROR: Can not get audiodevices.');
       return;
-    }
-    else {
+    } else {
       this.getMediaAccess();
       navigator.mediaDevices.enumerateDevices()
-      .then(devices => {
-        this.audioDevices = devices
-          .filter(d => d.kind === 'audioinput')
-          .map(d => {
-            return { name: d.label, id: d.deviceId };
-          });
-        this.audioDeviceId = this.audioDevices[0].id;
-      })
-      .catch(err => {
-        console.error('ERROR: Can not get MediaDeviceInfo list.', err.name, ': ', err.message);
-      });
+        .then(devices => {
+          this.audioDevices = devices
+            .filter(d => d.kind === 'audioinput')
+            .map(d => {
+              return {name: d.label, id: d.deviceId};
+            });
+          this.audioDeviceId = this.audioDevices[0].id;
+        })
+        .catch(err => {
+          console.error('ERROR: Can not get MediaDeviceInfo list.', err.name, ': ', err.message);
+        });
     }
   }
 
@@ -189,13 +188,13 @@ export class RecorderComponent implements AfterViewInit {
 
   private captureCamera(callback: any): void {
     const constraints = {
-        video: {
-          facingMode: 'user',
-          width: 1280,
-          height: 720
+      video: {
+        facingMode: 'user',
+        width: 1280,
+        height: 720
       },
       audio: {
-        deviceId: { exact: this.audioDeviceId }
+        deviceId: {exact: this.audioDeviceId}
       },
     };
     navigator.mediaDevices.getUserMedia(constraints)
@@ -209,8 +208,8 @@ export class RecorderComponent implements AfterViewInit {
     const constraints = {
       type: 'video',
       video: {
-         width: 1280,
-         height: 720,
+        width: 1280,
+        height: 720,
       }
     };
 
@@ -259,7 +258,7 @@ export class RecorderComponent implements AfterViewInit {
           mimeType: 'video/webm',
           bitsPerSecond: 51200000,
           frameRate: 60,
-          previewStream:  (s: MediaStream) => {
+          previewStream: (s: MediaStream) => {
             video.srcObject = s;
           },
         }
@@ -276,12 +275,10 @@ export class RecorderComponent implements AfterViewInit {
           track.stop();
         });
       });
-    }
-    else if (this.stream) {
+    } else if (this.stream) {
       this.stream.getAudioTracks().forEach(track => track.stop());
       this.stream.getVideoTracks().forEach(track => track.stop());
-    }
-    else {
+    } else {
       console.error('ERROR: Stream is not defined.');
     }
   }
@@ -316,4 +313,55 @@ export class RecorderComponent implements AfterViewInit {
     return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 8);
   }
 
+  public blobToFile = (theBlob: Blob, callback) => {
+    // return new File([theBlob], fileName, { lastModified: new Date().getTime(), type: theBlob.type });
+    // const reader = new FileReader();
+    // reader.onload = function(e) {
+    //   const buffer = this.result || e.target.result;
+    //   return buffer;
+    // };
+    // return reader.readAsArrayBuffer(theBlob);
+
+    // const reader = new FileReader();
+    // reader.onload = (e) => {
+    //   const dataURL = e.target.result;
+    //   callback(dataURL);
+    // };
+    // reader.readAsDataURL(this.recorder.blob);
+
+    callback(theBlob);
+  }
+
+  // URL.createObjectURL(this.blob),
+  public upload(): void {
+    const videoname = this.getVideoName();
+    console.log('---------------- upload', videoname);
+    if (this.isSaved) {
+
+      // tslint:disable-next-line:class-name
+      interface blobFile extends File {
+        lastModifiedDate: any;
+        name: any;
+      }
+      const myblobFile = this.blob as blobFile;
+
+      // this.blobToFile(this.blob, (processedblob) => {
+      myblobFile.lastModifiedDate = new Date();
+      myblobFile.name = 'Recording_' + this.getVideoName() + '.webm';
+
+      // @ts-ignore
+      const videoModel: VideoModel = {
+        file: null,
+        createdBy: '', published: false, videoID: '', url: '',
+        blob: myblobFile,
+        title: videoname,
+        duration: 10
+      };
+      this.videoService.postVideo(videoModel)
+        .subscribe(result => console.log('Result --------', result));
+      // });
+    } else {
+      console.error('ERROR: Record and save before uploading.');
+    }
+  }
 }

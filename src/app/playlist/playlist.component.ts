@@ -72,7 +72,7 @@ export class PlaylistComponent implements AfterViewInit {
 
   public addAnnotation(): void {
     this.router.navigate(['/annotation/'], { queryParams: {
-      videoId: this.video.videoID, 
+      videoId: this.video.videoID,
       annotationListID: this.playListId,
     }});
   }
@@ -93,7 +93,7 @@ export class PlaylistComponent implements AfterViewInit {
   public onEditAnnotation(annotation: AnnotationModel): void {
      this.router.navigate(['/annotation/'], { queryParams: {
        annotationID: annotation.annotationID,
-       videoId: this.video.videoID, 
+       videoId: this.video.videoID,
        annotationListID: this.playListId
      }});
   }
@@ -145,7 +145,7 @@ export class PlaylistComponent implements AfterViewInit {
 
   public highlightAnnotation(annotation: AnnotationModel) {
     const stopTime = Math.round(annotation.stopTime) + 1;
-    if ((this.currentTime < annotation.startTime || this.currentTime > stopTime) 
+    if ((this.currentTime < annotation.startTime || this.currentTime > stopTime)
         && annotation.annotationID == this.currentAnnotation.annotationID) {
           console.log(this.currentTime + " " + annotation.stopTime)
       return false;
@@ -160,7 +160,7 @@ export class PlaylistComponent implements AfterViewInit {
       this.currentAnnotation = this.playlist.annotations[index];
     }
   }
-  
+
   private playNextAnnotation(): void {
     if (this.playlist.annotations.length > (this.currentAnnotationIndex + 1)) {
       this.currentAnnotationIndex++;
@@ -224,11 +224,11 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  private getPositionAndOffset(): void { 
+  private getPositionAndOffset(): void {
     if (this.playlist) {
       let totalWidth = 0;
       let lastStopTime = -1;
-      this.playlist.annotations.forEach((annotation) => { 
+      this.playlist.annotations.forEach((annotation) => {
         if (lastStopTime === annotation.startTime) {
           annotation.timelineOffset = 0;
           annotation.timelineWidth = this.getWidth(annotation, 0);
@@ -259,5 +259,17 @@ export class PlaylistComponent implements AfterViewInit {
     this.timeLineBar = (timeUpdate/ total) * 100;
     this.currentTime = timeUpdate;
   }
+
+  public upload(): void {
+    // TODO: complete the post and validate
+    console.log('----------------:upload');
+      // // TBD - upload video
+      // const obj = {
+      //   videofile: '',
+      //   title:'' ,
+      //   description: ''
+      // };
+      // this.videoService.postVideo(obj);
+    }
 
 }
