@@ -6,6 +6,7 @@ import { PlaylistService } from '../_services/playlist.service';
   templateUrl: './video-gallery.component.html',
   styleUrls: ['./video-gallery.component.css']
 })
+
 export class VideoGalleryComponent implements OnInit {
 
   public videos: any;
