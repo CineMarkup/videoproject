@@ -1,19 +1,19 @@
 <!-- HEADER -->
 <div class="body">
-    <div class="header-group">
-        <h1>
-        Recording
-        </h1>
-        <h2 *ngIf="videoName.length">: {{videoName}} </h2>
-    </div>
-    
-    <!-- INPUT -->
-    <span class="recorder-input">
+  <div class="header-group">
+    <h1>
+      Recording
+    </h1>
+    <h2 *ngIf="videoName.length">: {{videoName}} </h2>
+  </div>
+
+  <!-- INPUT -->
+  <span class="recorder-input">
     <div class="row">
             <div class="input-group">
-                <mat-form-field class="video-input" appearance="fill" >
-                    <input matInput 
-                    [(ngModel)]="videoName"
+                <mat-form-field class="video-input" appearance="fill">
+                    <input matInput
+                           [(ngModel)]="videoName"
                     >
                 </mat-form-field>
 
@@ -38,22 +38,22 @@
 
             <div class="button-group">
 
-                <button mat-raised-button color="primary" 
-                (click)="startRecording()">
+                <button mat-raised-button color="primary"
+                        (click)="startRecording()">
                 Record
                 </button>
 
-                <button mat-raised-button color="accent" 
-                (click)="saveRecording()" [disabled]="isRecording ? false : true">
+                <button mat-raised-button color="accent"
+                        (click)="saveRecording()" [disabled]="isRecording ? false : true">
                 Save
                 </button>
 
-                <button mat-raised-button color="accent" 
-                (click)="download()" [disabled]="isSaved ? false : true">
+                <button mat-raised-button color="accent"
+                        (click)="download()" [disabled]="isSaved ? false : true">
                 Download
                 </button>
 
-                <button mat-raised-button color="accent" 
+                <button mat-raised-button color="accent"
                 [disabled]="annotationListId ? false : true"
                 [routerLink]="['/playlist/', annotationListId]"
                 >
@@ -63,16 +63,15 @@
     </div>
     </span>
 
-    <br>
+  <br>
 
-    <!-- LIVE PREVIEW -->
-    <div
+  <!-- LIVE PREVIEW -->
+  <div
     class="cs-video">
 
-    <video     
-        #videoElement
-        class="video"></video>
+    <video
+      #videoElement
+      class="video"></video>
 
-    </div>
+  </div>
 </div>
-  
