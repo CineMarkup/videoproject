@@ -2,8 +2,8 @@
 <mat-toolbar color="primary" >
   <mat-toolbar-row>
 
-    <a mat-button routerLink="/" routerLinkActive="active"> 
-      <h1 class="logo"><span>Cine</span>Markup</h1> 
+    <a mat-button routerLink="/" routerLinkActive="active">
+      <h1 class="logo"><span>Cine</span>Markup</h1>
     </a>
 
     <span class="menu-spacer"></span>
@@ -11,7 +11,8 @@
       <a mat-button routerLink="/record" routerLinkActive="active"> Record a Video </a>
       <a mat-button routerLink="/playlist"> Add Annotations </a>
       <a mat-button routerLink="/dashboard" routerLinkActive="active"> View Videos </a>
-      <a mat-button routerLink="/login" > Log In </a>
+      <a mat-button href="http://localhost:8080/app/auth/google" *ngIf="loggedOut"> Log In </a>
+      <a mat-button *ngIf="!loggedOut">{{name}} ( {{email}} ) </a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
