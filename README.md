@@ -23,6 +23,17 @@ npm start
 
 Goto http://localhost:4200/
 
+
+## Deploying to Azure 
+
+this projectis dpeloyed to Cloud ( Azure App) via the video-bacekend project 
+To deploy run `npm build` and copy the generated dist file to angularSrc folder on video-backend project's main branch . 
+
+```shell
+cp -r dist/videoproject/ ../video-backend/angularSrc
+```
+Any push to video-backend main branch triggers a cloud deployment to azure 
+
 ## User Interface
 
 Editor 
