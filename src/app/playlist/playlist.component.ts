@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { VideoModel } from '../../_models/video-model';
 import { PlaylistService } from '../_services/playlist.service';
 import { PlaylistModel } from '../../_models/playlist-model.';
@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AnnotationService } from '../_services/annotation.service';
 import { VideoService } from '../_services/video.service';
+import { F } from '@angular/cdk/keycodes';
 
 
 /**
@@ -17,7 +18,7 @@ import { VideoService } from '../_services/video.service';
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements AfterViewInit {
 
   @Input() editable = true;
 
@@ -43,6 +44,10 @@ export class PlaylistComponent implements OnInit {
 
   public playListId = '';
 
+  public timeLineBar = 0; //location of timeline bar
+
+  public currentTime = 0;
+
   constructor(private playlistService: PlaylistService,
               private annotationService: AnnotationService,
               private videoService: VideoService,
@@ -52,7 +57,7 @@ export class PlaylistComponent implements OnInit {
     this.getPlaylistData();
   }
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {}
 
   private getPlaylistData() {
     this.route.params.subscribe(params => {
@@ -118,7 +123,21 @@ export class PlaylistComponent implements OnInit {
   }
 
   public getThumbnail(v: any): string {
-    return 'assets/images/' + v;
+    if (v.thumbnail) {
+      return 'assets/images/' + v.thumbnail;
+    }
+    else{ 
+      return 'assets/images/Default.PNG';
+    }
+  }
+
+  public getDescription(video: any): string {
+    if (video.description) {
+      return video.description;
+    }
+    else{ 
+      return 'Make sure to add a description to help users better understand your content.';
+    }
   }
 
   public onSearch(event: any): void {
@@ -137,6 +156,27 @@ export class PlaylistComponent implements OnInit {
   public publishVideo(videoID: string): void {
     this.videoService.addPublishedDate(videoID, "true");
     this.toastr.success('Your video is published');
+  }
+
+  public highlightAnnotation(annotation: AnnotationModel) {
+    const stopTime = Math.round(annotation.stopTime) + 1;
+    if ((this.currentTime < annotation.startTime || this.currentTime > stopTime) 
+        && annotation.annotationID == this.currentAnnotation.annotationID) {
+          console.log(this.currentTime + " " + annotation.stopTime)
+      return false;
+    } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
+      return true;
+    }
+  }
+
+  public isCurrentUser(user: any) {
+    // TODO check if user once authentication is complete with google auth
+    if (user.userID === 'u5') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   private playAnnotation(index: number = 0): void {
@@ -158,11 +198,13 @@ export class PlaylistComponent implements OnInit {
       result => {
         if (result) {
           this.playlist = result;
+          console.log(this.playlist.annotations);
           this.video = result.video;
           this.videoTags = result.video.tags;
           this.playAnnotation(0);
           this.hasPlaylist = true;
           this.sortAnnotations();
+          this.getPositionAndOffset();
         }
         else {
           this.hasPlaylist = false;
@@ -189,6 +231,59 @@ export class PlaylistComponent implements OnInit {
             return a.startTime < b.startTime ? -1 : a.startTime;
         });
     }
+  }
+
+  // Timeline
+  public getSizeFromTime(annotation: any) {
+    return annotation.timelineWidth * 100;
+  }
+
+  public getPositionFromTime(annotation: any) {
+    const start = annotation.startTime;
+    const offset = annotation.timelineOffset;
+    const total = this.video.duration;
+    if (offset === 0) {
+      return 0;
+    }
+    else {
+      return ((start/ total) * 100) - (offset * 100);
+    }
+  }
+
+  private getPositionAndOffset(): void { 
+    if (this.playlist) {
+      let totalWidth = 0;
+      let lastStopTime = -1;
+      this.playlist.annotations.forEach((annotation) => { 
+        if (lastStopTime === annotation.startTime) {
+          annotation.timelineOffset = 0;
+          annotation.timelineWidth = this.getWidth(annotation, 0);
+        }
+        else{
+          annotation.timelineOffset = totalWidth;
+          annotation.timelineWidth = this.getWidth(annotation, 1);
+        }
+        lastStopTime = annotation.stopTime;
+        totalWidth += annotation.timelineWidth;
+      })
+      if (totalWidth >= 1) {
+        const annotation = this.playlist.annotations[0];
+        this.playlist.annotations[0].timelineWidth = this.getWidth(annotation, 0);
+      }
+    }
+  }
+
+  private getWidth(annotation: any, addition: number): number {
+    const start = annotation.startTime;
+    const stop = annotation.stopTime;
+    const total = this.video.duration;
+    return ((stop - start + addition) / total);
+  }
+
+  public onTimeProgress(timeUpdate: any): void {
+    const total = this.video.duration;
+    this.timeLineBar = (timeUpdate/ total) * 100;
+    this.currentTime = timeUpdate;
   }
 
 }

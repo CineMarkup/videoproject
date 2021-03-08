@@ -3,6 +3,7 @@ import {VideoModel} from '../../_models/video-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -18,13 +19,19 @@ import { tap } from 'rxjs/operators';
  */
 export class VideoService {
 
-    hostUrl = 'http://localhost:8080/';
+  hostUrl = environment.apiUrl + 'app/';
 
     // Http Headers
     public httpOptions = {
         headers: new HttpHeaders({
         'Content-Type': 'application/json'
         })
+    };
+
+    public httpOptionsFormData = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data'
+      })
     };
 
     constructor(private http: HttpClient) {}
@@ -91,6 +98,17 @@ export class VideoService {
         tap(
           data => console.log(data),
           error => console.error(error)
+        )
+      );
+    }
+
+    public postVideo(data): Observable<any> {
+      const url = this.hostUrl + 'video';
+      return this.http.post<VideoModel>(url, data)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
         )
       );
     }

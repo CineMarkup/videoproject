@@ -54,7 +54,9 @@
                 </button>
 
                 <button mat-raised-button color="accent" 
-                [disabled]="isSaved ? false : true">
+                [disabled]="annotationListId ? false : true"
+                [routerLink]="['/playlist/', annotationListId]"
+                >
                 Add Annotations
                 </button>
             </div>

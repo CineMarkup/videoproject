@@ -9,10 +9,10 @@ import { PlaylistService } from '../_services/playlist.service';
 
 export class VideoGalleryComponent implements OnInit {
 
-  videos: any;
+  public videos: any;
 
   constructor(private playlistService: PlaylistService) { 
-    this.playlistService.getVideos().subscribe(
+    this.playlistService.getPlaylists().subscribe(
       result => {
         if (result) {
           this.videos = result;
@@ -26,7 +26,22 @@ export class VideoGalleryComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getThumbnail(v: any): string {
-    return 'assets/images/' + v;
+  public getThumbnail(thumbnail: any): string {
+    if (thumbnail) {
+      return 'assets/images/' + thumbnail;
+    }
+    else{ 
+      return 'assets/images/Default.PNG';
+    }
   }
+
+  public getDescription(video: any): string {
+    if (video.description) {
+      return video.description;
+    }
+    else{ 
+      return 'Make sure to add a description to help users better understand your content.';
+    }
+  }
+
 }

@@ -3,13 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TagModel } from 'src/_models/tag-model';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TagService {
 
-  hostUrl = 'http://localhost:8080/';
+  hostUrl = environment.apiUrl + 'app/';
 
   // Http Headers
   public httpOptions = {
