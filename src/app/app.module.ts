@@ -27,6 +27,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertModalComponent } from './_components/alert-modal';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { VideoService } from './_services/video.service';
+import { LoginService } from './_services/login.service';
 import { AnnotationService } from './_services/annotation.service';
 import { AnnotationListService } from './_services/annotation-list.service';
 import { PlaylistService } from './_services/playlist.service';
@@ -85,6 +86,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AnnotationListService,
     VideoService,
     PlaylistService,
+    LoginService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
