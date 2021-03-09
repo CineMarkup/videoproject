@@ -8,7 +8,7 @@
                 Video Player
             </ng-container>
         </h1>
-        <ng-container *ngIf="playlist&&playlist.video">
+        <ng-container *ngIf="playlist&&playlist.video&&allowEditing">
             <div class="col-4">
                 <button mat-raised-button
                     class="publish-btn"
@@ -57,13 +57,16 @@
 
             </div>
 
+            <!-- Annotations -->
             <div class="col-md-4 col-sm-6" >
                 <ng-container *ngIf="playlist">
                 <div class="group">
+                    <ng-container *ngIf="allowEditing">
                     <button mat-raised-button
                         class="add-annotation-btn"
                         color="primary"
                         (click)="addAnnotation()">Add Annotation</button>
+                    </ng-container>
                     <mat-form-field class="search"  id="search">
                         <input matInput 
                         placeholder="Search the annotations"
@@ -77,7 +80,7 @@
                     <ng-container *ngFor="let annotation of playlist.annotations;let i=index">
                             <app-annotations #annotations [video]="playlist.video"
                                 [annotation]="annotation"
-                                [editable]="editable"
+                                [editable]="allowEditing"
                                 [isPlaying]="highlightAnnotation(annotation)"
                                 (editAnnotation)="onEditAnnotation(annotation)" 
                                 (deleteAnnotation)="onDeleteAnnotation(annotation.annotationID)"
@@ -122,7 +125,7 @@
                         <mat-card-title class="header">{{videoGroup.video.title}}</mat-card-title>
                         <mat-card-subtitle>Author: {{videoGroup.user.displayName}}</mat-card-subtitle>
                         </mat-card-header>
-                        <img mat-card-image  
+                        <img mat-card-image 
                             (click)="editPlaylist(videoGroup.id)"
                             [src]="getThumbnail(videoGroup.video)"
                             loading="lazy"

@@ -44,7 +44,6 @@ export class AnnotationsComponent implements OnInit {
                   }
               });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if (result === 'Continue') {
         this.deleteAnnotation.emit(this.annotation);
       }

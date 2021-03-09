@@ -15,7 +15,6 @@ export class VideoGalleryComponent implements OnInit {
       result => {
         if (result) {
           this.videos = result;
-          console.log(this.videos)
         }
       },
       (err) => { console.log('ERROR ' + err); },

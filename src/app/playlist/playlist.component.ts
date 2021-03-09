@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AnnotationService } from '../_services/annotation.service';
 import { VideoService } from '../_services/video.service';
-import { F } from '@angular/cdk/keycodes';
 
 
 /**
@@ -48,6 +47,8 @@ export class PlaylistComponent implements AfterViewInit {
 
   public currentTime = 0;
 
+  public allowEditing = true;
+
   constructor(private playlistService: PlaylistService,
               private annotationService: AnnotationService,
               private videoService: VideoService,
@@ -60,6 +61,9 @@ export class PlaylistComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   private getPlaylistData() {
+    if (this.router.url.split("/")[1] == "view") {
+      this.allowEditing = false;
+    }
     this.route.params.subscribe(params => {
       this.playListId = params.id;
       if (this.playListId) {
@@ -162,7 +166,6 @@ export class PlaylistComponent implements AfterViewInit {
     const stopTime = Math.round(annotation.stopTime) + 1;
     if ((this.currentTime < annotation.startTime || this.currentTime > stopTime) 
         && annotation.annotationID == this.currentAnnotation.annotationID) {
-          console.log(this.currentTime + " " + annotation.stopTime)
       return false;
     } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
       return true;
@@ -198,7 +201,6 @@ export class PlaylistComponent implements AfterViewInit {
       result => {
         if (result) {
           this.playlist = result;
-          console.log(this.playlist.annotations);
           this.video = result.video;
           this.videoTags = result.video.tags;
           this.playAnnotation(0);
@@ -241,7 +243,7 @@ export class PlaylistComponent implements AfterViewInit {
   public getPositionFromTime(annotation: any) {
     const start = annotation.startTime;
     const offset = annotation.timelineOffset;
-    const total = this.video.duration;
+    const total = this.video.duration as number;
     if (offset === 0) {
       return 0;
     }
@@ -276,12 +278,12 @@ export class PlaylistComponent implements AfterViewInit {
   private getWidth(annotation: any, addition: number): number {
     const start = annotation.startTime;
     const stop = annotation.stopTime;
-    const total = this.video.duration;
+    const total = this.video.duration as number;
     return ((stop - start + addition) / total);
   }
 
   public onTimeProgress(timeUpdate: any): void {
-    const total = this.video.duration;
+    const total = this.video.duration as number;
     this.timeLineBar = (timeUpdate/ total) * 100;
     this.currentTime = timeUpdate;
   }

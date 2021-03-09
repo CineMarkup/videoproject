@@ -37,12 +37,12 @@ export class VideoService {
     constructor(private http: HttpClient) {}
 
     public getVideos(): any {
-        return this.http.get( this.hostUrl + 'video');
+        return this.http.get<Array<VideoModel>>( this.hostUrl + 'video');
     }
 
     public getVideoById(id: string): any {
-        return this.http.get( this.hostUrl + 'video/' + id )
-        .map(response => response as VideoModel);
+        return this.http.get<VideoModel>( this.hostUrl + 'video/' + id )
+        .map(response => response);
     }
 
     public addTag(videoID: string, tagID: string): Observable<any> {

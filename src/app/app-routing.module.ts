@@ -20,7 +20,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'video-gallery', component: VideoGalleryComponent }
+  { path: 'video-gallery', component: VideoGalleryComponent },
+  { path: 'view/:id', component: PlaylistComponent },
 ];
 
 @NgModule({

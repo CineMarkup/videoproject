@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit, EventEm
 import { Options } from 'ng5-slider';
 import { AnnotationModel } from 'src/_models/annotation-model';
 import { VideoModel } from '../../_models/video-model';
+import { environment } from '../../environments/environment';
+
 
 /**
  * Just plays a video
@@ -92,7 +94,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
    * Get video URL with media fragments
    */
   public getVideoUrl(): any {
-    return this.video.url;
+    return environment.apiUrl + this.video.url;
   }
 
   private playVideo(): void {
@@ -105,7 +107,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   }
 
   private onLoadedMetaData(): void {
-    this.video.duration = this.getNativeVideo().duration;
+    const duration = this.getNativeVideo().duration;
+    if (duration !== Number.POSITIVE_INFINITY){
+      this.video.duration = duration;
+    }
     this.setWidthAndHeight();
     this.setPosition();
     this.loaded = true;
@@ -117,6 +122,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   private onTimeUpdate(event): void {
     if (this.annotation) {
+      this.setWidthAndHeight();
+      this.setPosition();
       //since current time milliseconds rounds down use + 1
       if (this.annotation.stopTime && this.getNativeVideo().currentTime >= this.annotation.stopTime + 1) { 
         this.ended.emit('');
@@ -125,8 +132,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
       else if ((this.annotation.startTime !== null) && this.getNativeVideo().currentTime >= this.annotation.startTime) {
         this.showAnnotation = true;
       }
-      this.setWidthAndHeight();
-      this.setPosition();
       //Set time
       const time = this.getNativeVideo().currentTime;
       this.timeUpdated.emit(time);
@@ -146,10 +151,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   private setPosition(): void {
     if (this.annotation) {
-      if (this.annotation.positionX) {
+      if (typeof this.annotation.positionX !== 'undefined') {
         this.positionX = this.annotation.positionX + 'px';
       }
-      if (this.annotation.positionY) {
+      if (typeof this.annotation.positionY !== 'undefined') {
         this.positionY = this.annotation.positionY + 'px';
       }
     }
