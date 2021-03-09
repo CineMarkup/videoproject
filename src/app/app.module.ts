@@ -27,6 +27,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertModalComponent } from './_components/alert-modal';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { VideoService } from './_services/video.service';
+import { LoginService } from './_services/login.service';
 import { AnnotationService } from './_services/annotation.service';
 import { AnnotationListService } from './_services/annotation-list.service';
 import { PlaylistService } from './_services/playlist.service';
@@ -38,6 +39,7 @@ import { TagsComponent } from './tags/tags.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
     TagsComponent,
     LoginComponent,
     RegisterComponent,
-    VideoGalleryComponent
+    VideoGalleryComponent,
+    DashboardComponent
   ],
   imports:      [
     BrowserModule,
@@ -83,6 +86,7 @@ import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
     AnnotationListService,
     VideoService,
     PlaylistService,
+    LoginService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

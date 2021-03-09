@@ -104,17 +104,17 @@ export class RecorderComponent implements AfterViewInit {
     this.isRecording = false;
     this.isSaved = true;
     if (this.videoElement && (this.recorder || this.recorder)) {
-        const video: HTMLVideoElement = this.videoElement.nativeElement;
-        if (this.selectedScreenCamera === 'withCameraAndScreen') {
-          this.recorder.stopRecording().then(() => {
-            this.recorder.getBlob().then((blob: Blob) => {
-              this.watchVideoRecording(blob, video);
-            });
+      const video: HTMLVideoElement = this.videoElement.nativeElement;
+      if (this.selectedScreenCamera === 'withCameraAndScreen') {
+        this.recorder.stopRecording().then(() => {
+          this.recorder.getBlob().then((blob: Blob) => {
+            this.watchVideoRecording(blob, video);
           });
-        } else {
-          this.recorder.stopRecording( this.stopRecording.bind(this) );
-        }
-        this.stopTracks();
+        });
+      } else {
+        this.recorder.stopRecording( this.stopRecording.bind(this) );
+      }
+      this.stopTracks();
     }
     else {
       console.error('ERROR: Can\'t find video element or stream.');
@@ -186,17 +186,17 @@ export class RecorderComponent implements AfterViewInit {
     else {
       this.getMediaAccess();
       navigator.mediaDevices.enumerateDevices()
-      .then(devices => {
-        this.audioDevices = devices
-          .filter(d => d.kind === 'audioinput')
-          .map(d => {
-            return { name: d.label, id: d.deviceId };
-          });
-        this.audioDeviceId = this.audioDevices[0].id;
-      })
-      .catch(err => {
-        console.error('ERROR: Can not get MediaDeviceInfo list.', err.name, ': ', err.message);
-      });
+        .then(devices => {
+          this.audioDevices = devices
+            .filter(d => d.kind === 'audioinput')
+            .map(d => {
+              return { name: d.label, id: d.deviceId };
+            });
+          this.audioDeviceId = this.audioDevices[0].id;
+        })
+        .catch(err => {
+          console.error('ERROR: Can not get MediaDeviceInfo list.', err.name, ': ', err.message);
+        });
     }
   }
 
@@ -222,10 +222,10 @@ export class RecorderComponent implements AfterViewInit {
 
   private captureCamera(callback: any): void {
     const constraints = {
-        video: {
-          facingMode: 'user',
-          width: 1280,
-          height: 720
+      video: {
+        facingMode: 'user',
+        width: 1280,
+        height: 720
       },
       audio: {
         deviceId: { exact: this.audioDeviceId }
@@ -242,8 +242,8 @@ export class RecorderComponent implements AfterViewInit {
     const constraints = {
       type: 'video',
       video: {
-         width: 1280,
-         height: 720,
+        width: 1280,
+        height: 720,
       }
     };
 

@@ -2,6 +2,8 @@ import { CommentModel } from './comment-model';
 
 export interface VideoModel {
     videoID: string;
+    blob: string | Blob;
+    file: File;
     url: string;
     title: string;
     duration?: number; // calculated in annotation-editor

@@ -1,6 +1,6 @@
-# Videoproject
+# Video project
 
-## features
+## Features
 
 - MongoDB - document database
 - Express(.js) - Node.js web routing framework
@@ -23,12 +23,23 @@ npm start
 
 Goto http://localhost:4200/
 
-## UI
 
-editor 
+## Deploying to Azure 
+
+this projectis dpeloyed to Cloud ( Azure App) via the video-bacekend project 
+To deploy run `npm build` and copy the generated dist file to angularSrc folder on video-backend project's main branch . 
+
+```shell
+cp -r dist/videoproject/ ../video-backend/angularSrc
+```
+Any push to video-backend main branch triggers a cloud deployment to azure 
+
+## User Interface
+
+Editor 
 ![editor UI](screenshots/editorui.png)
 
-player 
+Player 
 ![player UI](screenshots/playerui.png)
 
 ## Archive
@@ -59,6 +70,24 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 
+## AI
+
+### Computer vision 
+
+Azure computer Vision models and capabilities
+- Image classification
+- Object detection
+- Semantic segmentation
+- Image analysis
+- Face detection, analysis, and recognition
+- Optical character recognition (OCR)
+
+### Natural language processing (NLP)
+
+- Text Analytics
+- Translator Text
+- Speech
+- Language Understanding Intelligent Service (LUIS)
 
 ## References 
 
