@@ -12,5 +12,7 @@ export interface VideoModel {
     maxHeight?: number; // calculated based on video height by video-player
     createdBy: string;
     published: boolean;
-    comments: Array<CommentModel>;
+    comments?: Array<CommentModel>;
+    publishedAt?: Date;
+    views?: number;
 }
