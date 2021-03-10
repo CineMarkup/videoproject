@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AnnotationModel } from 'src/_models/annotation-model';
 import { AnnotationListModel } from 'src/_models/annotation-list-model';
 import 'rxjs/add/operator/map';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 
+/**
+ * Annotation list service gets a list of the annotations associated with 
+ * each video and deletes an annotation associated with a video.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +37,8 @@ export class AnnotationListService {
   }
 
   public addAnnotationToList(id: string, data): Observable<any> {
-    return this.http.put<AnnotationListModel>(this.hostUrl + 'annotationlist/push/' + id, JSON.stringify(data), this.httpOptions)
+    return this.http.put<AnnotationListModel>(this.hostUrl + 'annotationlist/push/'
+      + id, JSON.stringify(data), this.httpOptions)
     .pipe(
       tap(
         data => console.log(data),

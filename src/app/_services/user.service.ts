@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
 import { TagModel } from 'src/_models/tag-model';
-import { errorHandler } from './utilities';
-import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 
+/**
+ * User service gets user profile information
+ */
 @Injectable({
   providedIn: 'root'
 })

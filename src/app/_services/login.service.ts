@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, finalize, tap} from 'rxjs/operators';
+import {HttpClient,  HttpHeaders } from '@angular/common/http';
 
+
+/**
+ * Login service gets the credentials relying on single sine on from the server.
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -6,4 +6,5 @@ export interface CommentModel {
     startTime: Number,
     createdAt: Date,
     user?: UserModel,
+    isPlaying?: boolean
 }
