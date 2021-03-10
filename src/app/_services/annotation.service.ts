@@ -7,6 +7,10 @@ import { AnnotationListModel } from 'src/_models/annotation-list-model';
 import { environment } from '../../environments/environment';
 
 
+/**
+ * Annotation service gets, posts, updates, and deletes annotations that
+ * are displayed on the video.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +37,8 @@ export class AnnotationService {
   }
 
   public postAnnotation(data): Observable<any> {
-    return this.http.post<AnnotationModel>(this.hostUrl + 'annotation', JSON.stringify(data), this.httpOptions)
+    return this.http.post<AnnotationModel>(this.hostUrl + 'annotation', 
+      JSON.stringify(data), this.httpOptions)
     .pipe(
       tap(
         data => console.log(data),

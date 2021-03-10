@@ -162,6 +162,11 @@ export class PlaylistComponent implements AfterViewInit {
     this.toastr.success('Your video is published');
   }
 
+  public unPublishVideo(videoID: string): void {
+    this.videoService.addPublishedDate(videoID, "false");
+    this.toastr.success('Your video was un-published');
+  }
+
   public highlightAnnotation(annotation: AnnotationModel) {
     const stopTime = Math.round(annotation.stopTime) + 1;
     if ((this.currentTime < annotation.startTime || this.currentTime > stopTime)

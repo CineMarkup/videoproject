@@ -15,6 +15,11 @@ import { UserService } from './user.service';
 import { CommentModel } from 'src/_models/comment-model';
 
 
+/**
+ * Playlist service is a parent service that relies on the
+ * annotation list, annotations, videos, and user service to
+ * combine the information for the playlist.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -53,6 +58,7 @@ export class PlaylistService {
           comments.forEach((comment: CommentModel) => {
             const commentUser = results[3].find(v => v.userID === comment.createdBy);
             comment.user = commentUser;
+            comment.isPlaying = false;
           })
           const value = {
             id,

@@ -27,7 +27,8 @@
     bottom: 10px;
 }
 .group {
-    display: inline;
+    /* display: inline; */
+    margin-top:20px;
 }
 .search {
     min-width: 150px;
@@ -36,12 +37,9 @@
     display: inline-block;
     margin-left: 20px;
 }
-.search-full-width {
-    width: 100%;
-}
 .annotations {
     width: 100%;
-    height: 82%;
+    /* height: 100%; */
     overflow-y: scroll;
 }
 .title {
@@ -110,4 +108,7 @@
     -ms-transition: .5s;
     -o-transition: .5s;
     transition: .5s;
+}
+.btn-publish {
+    margin-top: 10px;
 }
