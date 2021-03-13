@@ -11,11 +11,15 @@
       <a mat-button routerLink="/record" routerLinkActive="active"> Record a Video </a>
       <a mat-button routerLink="/playlist"> Add Annotations </a>
       <a mat-button routerLink="/dashboard" routerLinkActive="active"> View Videos </a>
+
       <a mat-button href="app/auth/google" *ngIf="!loggedIn"> Log In </a>
-<!--     Todo: find the username from login status -->
-<!--      <a mat-button *ngIf="loggedIn">{{name}} ( {{email}} ) </a>-->
-      <a mat-button *ngIf="loggedIn">{{name}} </a>
-      <a mat-button href="/app/auth/logout" *ngIf="loggedIn"> Log Out </a>
+
+      <a mat-button (click)="logout()" *ngIf="loggedIn"> Log Out </a>
+      <a mat-button *ngIf="loggedIn"> 
+        <img *ngIf="loggedIn" class="avatar" [src] ="avatar"> 
+        {{name}} - {{email}} 
+      </a>
+
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

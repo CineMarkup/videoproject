@@ -21,10 +21,23 @@ export class UserService {
     })
   };
 
+  public withCreds = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    }),
+    withCredentials: true
+  };
+
   constructor(private http: HttpClient) {}
 
   public getUsers(): any {
     return this.http.get( this.hostUrl + 'user');
+  }
+
+  public getId(): any {
+    let printable = this.http.get( this.hostUrl + 'user/getid', this.withCreds);
+    console.log('printable');
+    return printable;
   }
 
   public getUserById(id: string): any {

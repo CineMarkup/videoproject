@@ -14,3 +14,11 @@
     top: 0;
     z-index: 1000; 
 }
+
+.avatar {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
