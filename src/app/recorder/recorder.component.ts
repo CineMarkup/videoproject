@@ -1,4 +1,4 @@
-import { VideoService } from './../_services/video.service';
+import {VideoService} from './../_services/video.service';
 import {
   Component,
   AfterViewInit,
@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import * as RecordRTC from 'recordrtc';
-import { ToastrService } from 'ngx-toastr';
 
 /**
  * Records a video
@@ -22,7 +21,7 @@ export class RecorderComponent implements AfterViewInit {
   /*
     Public
   */
-  public audioDevices: {name: string, id: string}[] = [];
+  public audioDevices: { name: string, id: string }[] = [];
 
   public audioDeviceId: string | undefined;
 
@@ -54,12 +53,11 @@ export class RecorderComponent implements AfterViewInit {
 
   @ViewChild('videoElement', {static: false}) videoElement: ElementRef | undefined;
 
-<<<<<<< HEAD
-  constructor(private videoService: VideoService,   private toastr: ToastrService) {}
-=======
   constructor(private videoService: VideoService,
-              private toastr: ToastrService,) {}
->>>>>>> master
+              private toastr: ToastrService) {
+  }
+
+
 
   ngAfterViewInit(): void {
     if (this.videoElement) {
@@ -83,23 +81,20 @@ export class RecorderComponent implements AfterViewInit {
           screen.fullcanvas = true;
           camera.width = 487;
           camera.height = 274;
-          camera.top =  screen.height - camera.height;
+          camera.top = screen.height - camera.height;
           camera.left = screen.width - camera.width;
           this.successVideoMultiCallback([screen, camera]);
         });
       });
-    }
-    else if (this.selectedScreenCamera === 'withScreen') { // just screen
+    } else if (this.selectedScreenCamera === 'withScreen') { // just screen
       this.captureScreen((stream: MediaStream) => {
         this.successVideoCallback(stream);
       });
-    }
-    else if (this.selectedScreenCamera === 'withCamera') { // just camera
+    } else if (this.selectedScreenCamera === 'withCamera') { // just camera
       this.captureCamera((stream: MediaStream) => {
         this.successVideoCallback(stream);
       });
-    }
-    else {
+    } else {
       console.error('ERROR: Share your screen or camera.');
     }
     this.startRecordingTime = new Date();
@@ -117,43 +112,37 @@ export class RecorderComponent implements AfterViewInit {
           });
         });
       } else {
-        this.recorder.stopRecording( this.stopRecording.bind(this) );
+        this.recorder.stopRecording(this.stopRecording.bind(this));
       }
       this.stopTracks();
-    }
-    else {
+    } else {
       console.error('ERROR: Can\'t find video element or stream.');
     }
   }
 
-  private getVideoDuration() {
+  private getVideoDuration(): number {
     const duration = this.videoElement.nativeElement.duration;
     return duration;
   }
 
-  private getCurrentUser() {
+  private getCurrentUser(): any {
     // TODO get user from login
     return 'u5';
   }
 
-  private saveToDB(blob: any) {
+  private saveToDB(blob: any): void {
     // TODO add description
     const formData = new FormData();
     const duration = this.getVideoDuration();
     formData.append('url', blob);
     formData.append('title', this.videoName);
-    formData.append('duration', duration);
+    formData.append('duration', this.getVideoDuration().toString());
     formData.append('fileName', this.getVideoName() + '.webm');
     formData.append('createdBy', this.getCurrentUser());
     const response = this.videoService.postVideo(formData);
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
-<<<<<<< HEAD
-      // TODO ToastrModule
       this.toastr.success('Your video is saved');
-=======
-      this.toastr.success('Save complete!');
->>>>>>> master
     });
   }
 
@@ -161,8 +150,7 @@ export class RecorderComponent implements AfterViewInit {
     const fileName = this.getVideoName() + '.webm';
     if (this.isSaved) {
       RecordRTC.invokeSaveAsDialog(this.blob, fileName);
-    }
-    else {
+    } else {
       console.error('ERROR: Record and save before downloading.');
     }
   }
@@ -171,8 +159,7 @@ export class RecorderComponent implements AfterViewInit {
     // returns size in MB or GB
     if (this.blob) {
       return RecordRTC.bytesToSize(this.blob.size);
-    }
-    else {
+    } else {
       console.error('ERROR: Record and save before getting the size.');
       return '';
     }
@@ -182,8 +169,7 @@ export class RecorderComponent implements AfterViewInit {
     try {
       // asks for permission to access device list
       await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    }
-    catch {
+    } catch {
       console.error('ERROR: Please give permission to audio and video');
     }
   }
@@ -192,15 +178,14 @@ export class RecorderComponent implements AfterViewInit {
     if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
       console.error('ERROR: Can not get audiodevices.');
       return;
-    }
-    else {
+    } else {
       this.getMediaAccess();
       navigator.mediaDevices.enumerateDevices()
         .then(devices => {
           this.audioDevices = devices
             .filter(d => d.kind === 'audioinput')
             .map(d => {
-              return { name: d.label, id: d.deviceId };
+              return {name: d.label, id: d.deviceId};
             });
           this.audioDeviceId = this.audioDevices[0].id;
         })
@@ -238,7 +223,7 @@ export class RecorderComponent implements AfterViewInit {
         height: 720
       },
       audio: {
-        deviceId: { exact: this.audioDeviceId }
+        deviceId: {exact: this.audioDeviceId}
       },
     };
     navigator.mediaDevices.getUserMedia(constraints)
@@ -302,7 +287,7 @@ export class RecorderComponent implements AfterViewInit {
           mimeType: 'video/webm',
           bitsPerSecond: 51200000,
           frameRate: 60,
-          previewStream:  (s: MediaStream) => {
+          previewStream: (s: MediaStream) => {
             video.srcObject = s;
           },
         }
@@ -319,12 +304,10 @@ export class RecorderComponent implements AfterViewInit {
           track.stop();
         });
       });
-    }
-    else if (this.stream) {
+    } else if (this.stream) {
       this.stream.getAudioTracks().forEach(track => track.stop());
       this.stream.getVideoTracks().forEach(track => track.stop());
-    }
-    else {
+    } else {
       console.error('ERROR: Stream is not defined.');
     }
   }
