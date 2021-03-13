@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { VideoModel } from '../../_models/video-model';
-import { PlaylistService } from '../_services/playlist.service';
-import { PlaylistModel } from '../../_models/playlist-model.';
-import { AnnotationModel } from 'src/_models/annotation-model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AnnotationService } from '../_services/annotation.service';
-import { VideoService } from '../_services/video.service';
-import { F } from '@angular/cdk/keycodes';
+import {Component, OnInit, Input, EventEmitter, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+import {VideoModel} from '../../_models/video-model';
+import {PlaylistService} from '../_services/playlist.service';
+import {PlaylistModel} from '../../_models/playlist-model.';
+import {AnnotationModel} from 'src/_models/annotation-model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {AnnotationService} from '../_services/annotation.service';
+import {VideoService} from '../_services/video.service';
+import {F} from '@angular/cdk/keycodes';
 
 
 /**
@@ -19,6 +19,15 @@ import { F } from '@angular/cdk/keycodes';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements AfterViewInit {
+
+  constructor(private playlistService: PlaylistService,
+              private annotationService: AnnotationService,
+              private videoService: VideoService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private toastr: ToastrService) {
+    this.getPlaylistData();
+  }
 
   @Input() editable = true;
 
@@ -44,38 +53,35 @@ export class PlaylistComponent implements AfterViewInit {
 
   public playListId = '';
 
-  public timeLineBar = 0; //location of timeline bar
+  public timeLineBar = 0; // location of timeline bar
 
   public currentTime = 0;
 
-  constructor(private playlistService: PlaylistService,
-              private annotationService: AnnotationService,
-              private videoService: VideoService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private toastr: ToastrService) {
-    this.getPlaylistData();
-  }
+  fileToUpload: File = null;
 
-  ngAfterViewInit(): void {}
+  public annotationListId = '';
+
+  ngAfterViewInit(): void {
+  }
 
   private getPlaylistData() {
     this.route.params.subscribe(params => {
       this.playListId = params.id;
       if (this.playListId) {
         this.getPlaylistByID();
-      }
-      else {
+      } else {
         this.getPlaylists();
       }
     });
   }
 
   public addAnnotation(): void {
-    this.router.navigate(['/annotation/'], { queryParams: {
-      videoId: this.video.videoID,
-      annotationListID: this.playListId,
-    }});
+    this.router.navigate(['/annotation/'], {
+      queryParams: {
+        videoId: this.video.videoID,
+        annotationListID: this.playListId,
+      }
+    });
   }
 
   public onEndedAnnotation(): void {
@@ -84,7 +90,7 @@ export class PlaylistComponent implements AfterViewInit {
 
   public onSeekVideo(seeked: any): void {
     this.playlist.annotations.forEach((clip, ind) => {
-      if (seeked >= clip.startTime && seeked <=  clip.stopTime) {
+      if (seeked >= clip.startTime && seeked <= clip.stopTime) {
         this.currentAnnotationIndex = ind;
         this.currentAnnotation = clip;
       }
@@ -92,11 +98,13 @@ export class PlaylistComponent implements AfterViewInit {
   }
 
   public onEditAnnotation(annotation: AnnotationModel): void {
-     this.router.navigate(['/annotation/'], { queryParams: {
-       annotationID: annotation.annotationID,
-       videoId: this.video.videoID,
-       annotationListID: this.playListId
-     }});
+    this.router.navigate(['/annotation/'], {
+      queryParams: {
+        annotationID: annotation.annotationID,
+        videoId: this.video.videoID,
+        annotationListID: this.playListId
+      }
+    });
   }
 
   public onplayFromAnnotationStart(annotations: AnnotationModel, index: number): void {
@@ -107,13 +115,17 @@ export class PlaylistComponent implements AfterViewInit {
   public onDeleteAnnotation(annotationID: string): void {
     // remove from db
     this.annotationService.deleteAnnotation(annotationID)
-      .subscribe((r) => { console.log(r); });
+      .subscribe((r) => {
+        console.log(r);
+      });
     this.annotationService.deleteAnnotationFromList(annotationID, this.playListId)
-      .subscribe((r) => { console.log(r); });
+      .subscribe((r) => {
+        console.log(r);
+      });
 
     // remove locally
     this.playlist.annotations.splice(
-        this.playlist.annotations.findIndex(item => item.annotationID === annotationID), 1
+      this.playlist.annotations.findIndex(item => item.annotationID === annotationID), 1
     );
     this.toastr.success('Deleted annotation');
   }
@@ -125,8 +137,7 @@ export class PlaylistComponent implements AfterViewInit {
   public getThumbnail(v: any): string {
     if (v.thumbnail) {
       return 'assets/images/' + v.thumbnail;
-    }
-    else{ 
+    } else {
       return 'assets/images/Default.PNG';
     }
   }
@@ -134,8 +145,7 @@ export class PlaylistComponent implements AfterViewInit {
   public getDescription(video: any): string {
     if (video.description) {
       return video.description;
-    }
-    else{ 
+    } else {
       return 'Make sure to add a description to help users better understand your content.';
     }
   }
@@ -146,23 +156,50 @@ export class PlaylistComponent implements AfterViewInit {
       const text = annotation.text;
       if (text.toUpperCase().indexOf(filter) > -1) {
         annotation.display = '';
-      }
-      else {
+      } else {
         annotation.display = 'none';
       }
     });
   }
 
+  public saveVideo(event: Event): void {
+    let fileList = [];
+    if ((event.target as HTMLInputElement).files && (event.target as HTMLInputElement).files.length) {
+      // @ts-ignore
+      fileList = event.target.files;
+    }
+    this.fileToUpload = fileList[0];
+
+    const filesize = (( this.fileToUpload.size / 1024) / 1024).toFixed(4); // MB
+    // tslint:disable-next-line:radix
+    if (parseInt(filesize) > 200){
+      alert('too big to upload');
+    }
+    const formData = new FormData();
+    // const duration = this.fileToUpload.getVideoDuration();
+    formData.append('url', this.fileToUpload);
+    formData.append('title', this.fileToUpload.name);
+    // formData.append('duration', duration.toString());
+    formData.append('fileName', this.fileToUpload.name);
+    formData.append('createdBy', this.getCurrentUser());
+    const response = this.videoService.postVideo(formData);
+    response.subscribe((res) => {
+      this.annotationListId = res.annotationListID;
+      this.toastr.success('Your video is saved');
+      this.router.navigateByUrl('/playlist/');
+    });
+  }
+
   public publishVideo(videoID: string): void {
-    this.videoService.addPublishedDate(videoID, "true");
+    this.videoService.addPublishedDate(videoID, 'true');
     this.toastr.success('Your video is published');
   }
 
   public highlightAnnotation(annotation: AnnotationModel) {
     const stopTime = Math.round(annotation.stopTime) + 1;
     if ((this.currentTime < annotation.startTime || this.currentTime > stopTime)
-        && annotation.annotationID == this.currentAnnotation.annotationID) {
-          console.log(this.currentTime + " " + annotation.stopTime)
+      && annotation.annotationID == this.currentAnnotation.annotationID) {
+      console.log(this.currentTime + ' ' + annotation.stopTime);
       return false;
     } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
       return true;
@@ -173,10 +210,14 @@ export class PlaylistComponent implements AfterViewInit {
     // TODO check if user once authentication is complete with google auth
     if (user.userID === 'u5') {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
+  }
+
+  private getCurrentUser() {
+    // TODO get user from login
+    return 'u5';
   }
 
   private playAnnotation(index: number = 0): void {
@@ -205,12 +246,13 @@ export class PlaylistComponent implements AfterViewInit {
           this.hasPlaylist = true;
           this.sortAnnotations();
           this.getPositionAndOffset();
-        }
-        else {
+        } else {
           this.hasPlaylist = false;
         }
       },
-      (err) => { console.log('ERROR ' + err); },
+      (err) => {
+        console.log('ERROR ' + err);
+      },
     );
   }
 
@@ -221,15 +263,17 @@ export class PlaylistComponent implements AfterViewInit {
           this.playlists = result;
         }
       },
-      (err) => { console.log('ERROR ' + err); },
+      (err) => {
+        console.log('ERROR ' + err);
+      },
     );
   }
 
   private sortAnnotations(): void {
     if (this.playlist) {
       this.playlist.annotations.sort((a, b) => {
-            return a.startTime < b.startTime ? -1 : a.startTime;
-        });
+        return a.startTime < b.startTime ? -1 : a.startTime;
+      });
     }
   }
 
@@ -244,9 +288,8 @@ export class PlaylistComponent implements AfterViewInit {
     const total = this.video.duration;
     if (offset === 0) {
       return 0;
-    }
-    else {
-      return ((start/ total) * 100) - (offset * 100);
+    } else {
+      return ((start / total) * 100) - (offset * 100);
     }
   }
 
@@ -258,14 +301,13 @@ export class PlaylistComponent implements AfterViewInit {
         if (lastStopTime === annotation.startTime) {
           annotation.timelineOffset = 0;
           annotation.timelineWidth = this.getWidth(annotation, 0);
-        }
-        else{
+        } else {
           annotation.timelineOffset = totalWidth;
           annotation.timelineWidth = this.getWidth(annotation, 1);
         }
         lastStopTime = annotation.stopTime;
         totalWidth += annotation.timelineWidth;
-      })
+      });
       if (totalWidth >= 1) {
         const annotation = this.playlist.annotations[0];
         this.playlist.annotations[0].timelineWidth = this.getWidth(annotation, 0);
@@ -282,20 +324,20 @@ export class PlaylistComponent implements AfterViewInit {
 
   public onTimeProgress(timeUpdate: any): void {
     const total = this.video.duration;
-    this.timeLineBar = (timeUpdate/ total) * 100;
+    this.timeLineBar = (timeUpdate / total) * 100;
     this.currentTime = timeUpdate;
   }
 
   public upload(): void {
     // TODO: complete the post and validate
     console.log('----------------:upload');
-      // // TBD - upload video
-      // const obj = {
-      //   videofile: '',
-      //   title:'' ,
-      //   description: ''
-      // };
-      // this.videoService.postVideo(obj);
-    }
+    // // TBD - upload video
+    // const obj = {
+    //   videofile: '',
+    //   title:'' ,
+    //   description: ''
+    // };
+    // this.videoService.postVideo(obj);
+  }
 
 }

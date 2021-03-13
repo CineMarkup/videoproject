@@ -5,6 +5,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
 import * as RecordRTC from 'recordrtc';
 
 /**
@@ -52,7 +53,7 @@ export class RecorderComponent implements AfterViewInit {
 
   @ViewChild('videoElement', {static: false}) videoElement: ElementRef | undefined;
 
-  constructor(private videoService: VideoService) {}
+  constructor(private videoService: VideoService,   private toastr: ToastrService) {}
 
   ngAfterViewInit(): void {
     if (this.videoElement) {
@@ -143,6 +144,7 @@ export class RecorderComponent implements AfterViewInit {
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
       // TODO ToastrModule
+      this.toastr.success('Your video is saved');
     });
   }
 
