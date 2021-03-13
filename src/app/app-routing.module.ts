@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'video-gallery', component: VideoGalleryComponent },
   { path: 'view/:id', component: PlaylistComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
 ];
 
 @NgModule({

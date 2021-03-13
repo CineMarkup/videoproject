@@ -43,6 +43,7 @@ import { RegisterComponent } from './register/register.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommentsComponent } from './comments/comments.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { CommentsComponent } from './comments/comments.component';
     RegisterComponent,
     VideoGalleryComponent,
     DashboardComponent,
-    CommentsComponent
+    CommentsComponent,
+    AdminDashboardComponent
   ],
   imports:      [
     BrowserModule,

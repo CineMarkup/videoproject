@@ -12,11 +12,6 @@ export class AppComponent {
   email: any = 'anon@gmail.com';
   name: any = 'Logged-in';
 
-  constructor(loginService: LoginService) {
-    loginService.getLogin().subscribe(res => {
-      this.loggedIn = res.loggedIn;
-      this.email = res.loggedIn;
-      console.log("LOGGED IN " + res.loggedIn);
-    });
+  constructor() {
   }
 }
