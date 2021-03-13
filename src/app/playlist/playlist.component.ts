@@ -9,7 +9,6 @@ import {AnnotationService} from '../_services/annotation.service';
 import {VideoService} from '../_services/video.service';
 import {F} from '@angular/cdk/keycodes';
 
-
 /**
  * Play a video along with the annotations
  */
@@ -59,12 +58,17 @@ export class PlaylistComponent implements AfterViewInit {
 
   fileToUpload: File = null;
 
+  public allowEditing = true;
+
   public annotationListId = '';
 
   ngAfterViewInit(): void {
   }
 
   private getPlaylistData() {
+    if (this.router.url.split('/')[1] == 'view') {
+      this.allowEditing = false;
+    }
     this.route.params.subscribe(params => {
       this.playListId = params.id;
       if (this.playListId) {
@@ -198,18 +202,24 @@ export class PlaylistComponent implements AfterViewInit {
     this.toastr.success('Your video is published');
   }
 
-  public highlightAnnotation(annotation: AnnotationModel) {
+  public unPublishVideo(videoID: string): void {
+    this.videoService.addPublishedDate(videoID, 'false');
+    this.toastr.success('Your video was un-published');
+  }
+
+  public highlightAnnotation(annotation: AnnotationModel): boolean {
     const stopTime = Math.round(annotation.stopTime) + 1;
     if ((this.currentTime < annotation.startTime || this.currentTime > stopTime)
       && annotation.annotationID == this.currentAnnotation.annotationID) {
       console.log(this.currentTime + ' ' + annotation.stopTime);
       return false;
+      // tslint:disable-next-line:triple-equals
     } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
       return true;
     }
   }
 
-  public isCurrentUser(user: any) {
+  public isCurrentUser(user: any) :boolean{
     // TODO check if user once authentication is complete with google auth
     if (user.userID === 'u5') {
       return true;
@@ -218,13 +228,14 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  private getCurrentUser() {
+  private getCurrentUser() : any{
     // TODO get user from login
     return 'u5';
   }
 
   private playAnnotation(index: number = 0): void {
-    if (this.playlist.annotations && this.playlist.annotations.length > index) {
+    if (this.playlist.annotations && this.playlist.annotations.length > index
+    ) {
       this.currentAnnotationIndex = index;
       this.currentAnnotation = this.playlist.annotations[index];
     }
@@ -237,12 +248,11 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  private getPlaylistByID() {
+  private getPlaylistByID(){
     this.playlistService.getPlaylistById(this.playListId).subscribe(
       result => {
         if (result) {
           this.playlist = result;
-          console.log(this.playlist.annotations);
           this.video = result.video;
           this.videoTags = result.video.tags;
           this.playAnnotation(0);
@@ -273,14 +283,15 @@ export class PlaylistComponent implements AfterViewInit {
   }
 
   private sortAnnotations(): void {
-    if (this.playlist) {
+    if (this.playlist
+    ) {
       this.playlist.annotations.sort((a, b) => {
         return a.startTime < b.startTime ? -1 : a.startTime;
       });
     }
   }
 
-  // Timeline
+// Timeline
   public getSizeFromTime(annotation: any) {
     return annotation.timelineWidth * 100;
   }
@@ -288,7 +299,7 @@ export class PlaylistComponent implements AfterViewInit {
   public getPositionFromTime(annotation: any) {
     const start = annotation.startTime;
     const offset = annotation.timelineOffset;
-    const total = this.video.duration;
+    const total = this.video.duration as number;
     if (offset === 0) {
       return 0;
     } else {
@@ -321,7 +332,7 @@ export class PlaylistComponent implements AfterViewInit {
   private getWidth(annotation: any, addition: number): number {
     const start = annotation.startTime;
     const stop = annotation.stopTime;
-    const total = this.video.duration;
+    const total = this.video.duration as number;
     return ((stop - start + addition) / total);
   }
 

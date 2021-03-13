@@ -59,6 +59,7 @@ export class AnnotationEditorComponent implements OnInit {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
       if (this.annotationID && videoId) {
+        // Editing an annotation
         this.getAnnotationData(this.annotationID, videoId);
       }
       else if (videoId) {
@@ -79,13 +80,13 @@ export class AnnotationEditorComponent implements OnInit {
   ngOnInit(): void { }
 
   public onLoadedMetaData(video: VideoModel): void {
-    this.video.duration = video.duration;
+    this.video.duration = video.duration as number;
     if (!this.annotation) {
-      this.annotation.stopTime = this.video.duration;
+      this.annotation.stopTime = this.video.duration as number;
     }
     this.rangeOptions = {
       floor: 0,
-      ceil: this.video.duration,
+      ceil: video.duration as number,
       showTicks: false,
       showTicksValues: false
     };

@@ -6,17 +6,12 @@ import {tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 
 
+/**
+ * Video service gets and posts videos and edits their attributes
+ */
 @Injectable({
   providedIn: 'root'
 })
-/**
- * Video service...
- *
- * IMPORTANT: Promise in each method are added to simulate server side processing
- * Uses LocalStorage
- *
- *
- */
 export class VideoService {
 
   hostUrl = environment.apiUrl + 'app/';
@@ -38,12 +33,12 @@ export class VideoService {
   }
 
   public getVideos(): any {
-    return this.http.get(this.hostUrl + 'video');
+      return this.http.get<Array<VideoModel>>( this.hostUrl + 'video');
   }
 
   public getVideoById(id: string): any {
-    return this.http.get(this.hostUrl + 'video/' + id)
-      .map(response => response as VideoModel);
+      return this.http.get<VideoModel>( this.hostUrl + 'video/' + id )
+      .map(response => response);
   }
 
   public addTag(videoID: string, tagID: string): Observable<any> {

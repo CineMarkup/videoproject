@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import * as RecordRTC from 'recordrtc';
+import { ToastrService } from 'ngx-toastr';
 
 /**
  * Records a video
@@ -53,7 +54,12 @@ export class RecorderComponent implements AfterViewInit {
 
   @ViewChild('videoElement', {static: false}) videoElement: ElementRef | undefined;
 
+<<<<<<< HEAD
   constructor(private videoService: VideoService,   private toastr: ToastrService) {}
+=======
+  constructor(private videoService: VideoService,
+              private toastr: ToastrService,) {}
+>>>>>>> master
 
   ngAfterViewInit(): void {
     if (this.videoElement) {
@@ -122,7 +128,6 @@ export class RecorderComponent implements AfterViewInit {
 
   private getVideoDuration() {
     const duration = this.videoElement.nativeElement.duration;
-    console.log('DURATION: ' + duration);
     return duration;
   }
 
@@ -137,14 +142,18 @@ export class RecorderComponent implements AfterViewInit {
     const duration = this.getVideoDuration();
     formData.append('url', blob);
     formData.append('title', this.videoName);
-    formData.append('duration', duration.toString());
+    formData.append('duration', duration);
     formData.append('fileName', this.getVideoName() + '.webm');
     formData.append('createdBy', this.getCurrentUser());
     const response = this.videoService.postVideo(formData);
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
+<<<<<<< HEAD
       // TODO ToastrModule
       this.toastr.success('Your video is saved');
+=======
+      this.toastr.success('Save complete!');
+>>>>>>> master
     });
   }
 

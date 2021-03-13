@@ -6,6 +6,9 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 
+/**
+ * Tag service gets, posts, and deletes tags
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +35,8 @@ export class TagService {
   }
 
   public postTag(data): Observable<any> {
-    return this.http.post<TagModel>(this.hostUrl + 'tag', JSON.stringify(data), this.httpOptions)
+    return this.http.post<TagModel>(this.hostUrl + 'tag', JSON.stringify(data), 
+      this.httpOptions)
     .pipe(
       tap(
         data => console.log(data),

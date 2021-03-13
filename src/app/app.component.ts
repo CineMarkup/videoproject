@@ -16,9 +16,7 @@ export class AppComponent {
     loginService.getLogin().subscribe(res => {
       this.loggedIn = res.loggedIn;
       this.email = res.loggedIn;
-      // if (this.loggedIn == res.loggedIn){
-      //   loggedIn =
-      // }
+      console.log("LOGGED IN " + res.loggedIn);
     });
   }
 }

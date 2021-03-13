@@ -18,7 +18,4 @@ export class DashboardComponent implements OnInit {
   public signUp(): void {
     this.router.navigateByUrl('/register');
   }
-  //ngOnInit(): void {
-  //}
-
 }

@@ -7,6 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule} from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { Ng5SliderModule } from 'ng5-slider';
 import { ToastrModule } from 'ngx-toastr';
@@ -38,6 +40,7 @@ import { AnnotationsComponent } from './annotations/annotations.component';
 import { TagsComponent } from './tags/tags.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AnnotationsComponent,
     TagsComponent,
     VideoGalleryComponent,
-    DashboardComponent
+    DashboardComponent,
+    CommentsComponent
   ],
   imports:      [
     BrowserModule,
@@ -62,6 +66,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HttpClientModule,
     MatChipsModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatMenuModule,
     MatRippleModule,
     MatToolbarModule,
@@ -71,6 +76,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatGridListModule,
     MatInputModule,
     MatSelectModule,
+    MatTabsModule,
     MatDialogModule,
     Ng5SliderModule,
     ReactiveFormsModule,

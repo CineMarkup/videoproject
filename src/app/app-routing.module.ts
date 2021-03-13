@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'annotation', component: AnnotationEditorComponent },
   { path: 'annotation/:id', component: AnnotationEditorComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'video-gallery', component: VideoGalleryComponent }
+  { path: 'video-gallery', component: VideoGalleryComponent },
+  { path: 'view/:id', component: PlaylistComponent },
 ];
 
 @NgModule({

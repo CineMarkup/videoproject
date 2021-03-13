@@ -13,9 +13,13 @@ import { VideoModel } from 'src/_models/video-model';
 import { UserModel } from 'src/_models/user-model';
 import { UserService } from './user.service';
 import { CommentModel } from 'src/_models/comment-model';
-import { environment } from '../../environments/environment';
 
 
+/**
+ * Playlist service is a parent service that relies on the
+ * annotation list, annotations, videos, and user service to
+ * combine the information for the playlist.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -48,17 +52,14 @@ export class PlaylistService {
           const id = item.id;
           const annotationLists = item.annotationList;
           const video = results[1].find(v => v.videoID === item.videoID);
+          video.duration = video.duration as number;
           const user = results[3].find(v => v.userID === video.createdBy);
           const comments = video.comments;
           comments.forEach((comment: CommentModel) => {
             const commentUser = results[3].find(v => v.userID === comment.createdBy);
             comment.user = commentUser;
+            comment.isPlaying = false;
           })
-          const urlRoute = environment.apiUrl + video.url;
-          video.url = urlRoute;
-          console.log("VIDEEEE");
-          console.log(video);
-
           const value = {
             id,
             video,
@@ -71,7 +72,6 @@ export class PlaylistService {
             value.annotations.push(annotation);
           });
           this.playlist = value;
-          console.log(this.playlist);
           return this.playlist;
        });
   }
@@ -98,7 +98,7 @@ export class PlaylistService {
               const commentUser = results[3].find(v => v.userID === comment.createdBy);
               comment.user = commentUser;
             })
-            const urlRoute = environment.apiUrl + video.url;
+            const urlRoute = video.url;
             video.url = urlRoute;
 
             const value = {
@@ -114,7 +114,6 @@ export class PlaylistService {
             });
             playlists.push(value);
          });
-         console.log(playlists);
          return playlists;
        });
   }

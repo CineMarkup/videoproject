@@ -19,7 +19,7 @@
 
 <div class="row video-gallery">
     <ng-container *ngFor="let v of videos">
-      <div class="col-lg-3 col-md-6" *ngIf="v.video.published=='true'">
+      <div class="col-lg-3 col-md-6" *ngIf="v.video.published">
         <mat-card class="video-card">
             <mat-card-header *ngIf="v.user  && v.user.displayName">
               <div mat-card-avatar class="avatar-image"
@@ -40,7 +40,7 @@
             </mat-card-content>
             <mat-card-actions>
               <button mat-raised-button color="primary"
-                [routerLink]="['/playlist/', v.id]"
+                [routerLink]="['/view/', v.id]"
               >
                   VIEW
               </button>
