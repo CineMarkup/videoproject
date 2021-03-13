@@ -49,7 +49,7 @@ export class RecorderComponent implements AfterViewInit {
 
   private recorder: RecordRTC | any;
 
-  private startRecordingTime : Date;
+  private startRecordingTime: Date;
 
   @ViewChild('videoElement', {static: false}) videoElement: ElementRef | undefined;
 
@@ -332,10 +332,10 @@ export class RecorderComponent implements AfterViewInit {
     };
     video.ondurationchange = (event) => {
       if (video.duration !== Number.POSITIVE_INFINITY) {
-        //save to database
+        // save to database
         this.saveToDB(blob);
       }
-    }
+    };
   }
 
   private toggleControls(): void {
@@ -348,7 +348,7 @@ export class RecorderComponent implements AfterViewInit {
   }
 
   private getVideoName(): string {
-    return this.videoName.replace(/ /g, "_") + '_' + this.generateRandomID();
+    return this.videoName.replace(/ /g, '_') + '_' + this.generateRandomID();
   }
 
   private generateRandomID(): string {

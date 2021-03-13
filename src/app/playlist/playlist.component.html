@@ -110,13 +110,15 @@
         <button mat-raised-button
                 class="upload-btn"
                 color="primary"
-                (click)="uploadvideofile.click()">Upload a New Video</button>
+                (click)="uploadvideofile.click()">Upload a New Video
+        </button>
 
-          <input id="uploadvideofile" #uploadvideofile
-                 class="upload-btn"
-                 (change)="saveVideo($event)"
-                 accept="video/VP8,video/3gpp,video/mp4"
-                 type="file" hidden/>
+        <input id="uploadvideofile" #uploadvideofile
+               class="upload-btn"
+               (change)="saveVideo($event)"
+               accept="video/VP8,video/3gpp,video/mp4"
+               type="file" hidden/>
+
       </div>
     </div>
     <div class="row">

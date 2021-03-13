@@ -170,11 +170,14 @@ export class PlaylistComponent implements AfterViewInit {
     }
     this.fileToUpload = fileList[0];
 
-    const filesize = (( this.fileToUpload.size / 1024) / 1024).toFixed(4); // MB
+    const filesize = ((this.fileToUpload.size / 1024) / 1024).toFixed(4); // MB
     // tslint:disable-next-line:radix
-    if (parseInt(filesize) > 200){
+    if (parseInt(filesize) > 200) {
       alert('too big to upload');
     }
+
+    // TODO calculate duration
+
     const formData = new FormData();
     // const duration = this.fileToUpload.getVideoDuration();
     formData.append('url', this.fileToUpload);
@@ -186,7 +189,7 @@ export class PlaylistComponent implements AfterViewInit {
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
       this.toastr.success('Your video is saved');
-      this.router.navigateByUrl('/playlist/');
+      this.router.navigateByUrl('/playlist/' + this.annotationListId);
     });
   }
 

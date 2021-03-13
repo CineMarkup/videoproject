@@ -7,7 +7,6 @@
       <div class="header-text">
         <h1>Record, Upload, <br>and Annotate Videos</h1>
         <!-- <p>Make memorable videos</p> -->
-<!--        <button mat-raised-button color="primary" (click)="signUp()">Sign up to Add Your Videos</button>-->
         <button mat-raised-button color="primary" [routerLink]="'app/auth/google'" *ngIf="!loggedIn" >Log In to Add Your Videos</button>
       </div>
 
