@@ -5,8 +5,6 @@ import { HomeComponent } from './home/home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { RecorderComponent } from './recorder/recorder.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 
 const routes: Routes = [
@@ -18,8 +16,6 @@ const routes: Routes = [
   { path: 'annotation', component: AnnotationEditorComponent },
   { path: 'annotation/:id', component: AnnotationEditorComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'video-gallery', component: VideoGalleryComponent },
   { path: 'view/:id', component: PlaylistComponent },
 ];
