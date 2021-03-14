@@ -1,4 +1,5 @@
 export const environment = {
-  production: true, 
-  apiUrl: '/'
+  production: true,
+  apiUrl: '/',
+  cognitiveServer: 'https://altprocessor.azurewebsites.net'
 };
