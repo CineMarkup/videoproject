@@ -38,8 +38,6 @@ import { AnnotationEditorComponent } from './annotation-editor/annotation-editor
 import { AnnotationValidatorDirective } from './directives/annotation-validator.directive';
 import { AnnotationsComponent } from './annotations/annotations.component';
 import { TagsComponent } from './tags/tags.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommentsComponent } from './comments/comments.component';
@@ -57,8 +55,6 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     AnnotationValidatorDirective,
     AnnotationsComponent,
     TagsComponent,
-    LoginComponent,
-    RegisterComponent,
     VideoGalleryComponent,
     DashboardComponent,
     CommentsComponent,

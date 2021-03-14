@@ -2,26 +2,33 @@
 
     <div class="cover"></div>
     <div class="header-background"></div>
-    
+
     <div class="header-content">
       <div class="header-text">
         <h1>Record, Upload, <br>and Annotate Videos</h1>
         <!-- <p>Make memorable videos</p> -->
-        <button mat-raised-button color="primary" (click)="signUp()">Sign up to Add Your Videos</button>
+        <button mat-raised-button color="primary" [routerLink]="'app/auth/google'" *ngIf="!loggedIn" >Log In to Add Your Videos</button>
       </div>
-      
+
       <div class="header-visuals">
         <div class="banner">
             <div class="banner-image"></div>
-        </div>  
+        </div>
       </div>
     </div>
 </div>
 
 <app-video-gallery></app-video-gallery>
 
-<div class="row justify-content-center upload">
-  <button mat-raised-button color="primary">
-    Upload Your Own Video
-  </button>
-</div>
+<!--<div class="row justify-content-center upload">-->
+<!--  <button mat-raised-button color="primary"-->
+<!--          (click)="uploadvideofile.click()">-->
+<!--    Upload Your Own Video-->
+<!--  </button>-->
+
+<!--  <input id="uploadvideofile" #uploadvideofile-->
+<!--         class="upload-btn"-->
+<!--         (change)="saveVideo($event)"-->
+<!--         accept="video/VP8,video/3gpp,video/mp4"-->
+<!--         type="file" hidden/>-->
+<!--</div>-->
