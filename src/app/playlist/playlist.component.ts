@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {AnnotationService} from '../_services/annotation.service';
 import {VideoService} from '../_services/video.service';
+import {AiService} from '../_services/ai.service';
 import {F} from '@angular/cdk/keycodes';
 
 /**
@@ -24,7 +25,8 @@ export class PlaylistComponent implements AfterViewInit {
               private videoService: VideoService,
               private route: ActivatedRoute,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private aiService: AiService) {
     this.getPlaylistData();
   }
 
@@ -189,6 +191,12 @@ export class PlaylistComponent implements AfterViewInit {
     // formData.append('duration', duration.toString());
     formData.append('fileName', this.fileToUpload.name);
     formData.append('createdBy', this.getCurrentUser());
+
+    const airesponse = this.aiService.getTags(formData);
+    airesponse.subscribe((res) => {
+      this.videoTags = res.results;
+    });
+
     const response = this.videoService.postVideo(formData);
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
@@ -29,7 +28,7 @@ export class AiService {
           data => console.log(data),
           error => console.log(error)
         )
-      );;
+      );
   }
 
   public getTags(videodata): Observable<any> {
@@ -39,7 +38,7 @@ export class AiService {
           data => console.log(data),
           error => console.log(error)
         )
-      );;
+      );
   }
 
 

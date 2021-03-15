@@ -42,7 +42,7 @@ export class VideoService {
   }
 
   public addTag(videoID: string, tagID: string): Observable<any> {
-    const body = {'tags': tagID};
+    const body = {tags: tagID};
     const url = this.hostUrl + 'video/push/' + videoID;
     return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
       .pipe(

@@ -1,10 +1,9 @@
 import {COMMA, ENTER, R} from '@angular/cdk/keycodes';
 import {Component, Input, OnInit} from '@angular/core';
 import {MatChipInputEvent} from '@angular/material/chips';
-import { TagModel } from 'src/_models/tag-model';
-import { TagService } from '../_services/tag.service';
-import { VideoService } from '../_services/video.service';
-import { AiService } from '../_services/ai.service';
+import {TagModel} from 'src/_models/tag-model';
+import {TagService} from '../_services/tag.service';
+import {VideoService} from '../_services/video.service';
 
 @Component({
   selector: 'app-tags',
@@ -28,20 +27,13 @@ export class TagsComponent implements OnInit {
   public tags = [];
 
   constructor(private tagService: TagService,
-              private videoService: VideoService) {}
+              private videoService: VideoService) {
+  }
 
   ngOnInit(): void {
-
-    // const formData = new FormData();
-    // formData.append('url', blob);
-    // const response = this.AiService.getTags(formData);
-    // response.subscribe((res) => {
-    //   this.aiTagsList = res.results;
-    // });
-
     this.tagsList.forEach((tagID, ind) => {
       this.tagService.getTagById(tagID).subscribe((tag) => {
-        const val = { name: tag.text, tagID: tag.tagID };
+        const val = {name: tag.text, tagID: tag.tagID};
         this.tags.push(val);
       });
     });
@@ -55,7 +47,7 @@ export class TagsComponent implements OnInit {
       this.tags.push({name: value.trim()});
 
       // add to database
-      const body = { text: value.trim()};
+      const body = {text: value.trim()};
       const response = this.tagService.postTag(body);
       response.subscribe((res) => {
         const results = this.videoService.addTag(this.videoID, res.tagID);
@@ -75,12 +67,16 @@ export class TagsComponent implements OnInit {
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
-    console.log(tag.tagID + " " +  this.videoID);
+    console.log(tag.tagID + ' ' + this.videoID);
 
     // remove from database
     this.videoService.deleteTagFromList(this.videoID, tag.tagID)
-      .subscribe((r) => { console.log(r); });
+      .subscribe((r) => {
+        console.log(r);
+      });
     this.tagService.deleteTag(tag.tagID)
-      .subscribe((r) => { console.log(r); });
+      .subscribe((r) => {
+        console.log(r);
+      });
   }
 }
