@@ -15,4 +15,5 @@ export interface VideoModel {
     comments?: Array<CommentModel>;
     publishedAt?: Date;
     views?: number;
+    description?: string;
 }
