@@ -1,4 +1,5 @@
 export const environment = {
   production: true, 
-  apiUrl: '/'
+  apiUrl: '/',
+  blobUrl: 'https://cinemarkupstorage.blob.core.windows.net/'
 };

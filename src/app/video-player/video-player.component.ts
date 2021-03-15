@@ -94,7 +94,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
    * Get video URL with media fragments
    */
   public getVideoUrl(): any {
-    return environment.apiUrl + this.video.url;
+    return environment.blobUrl + this.video.url;
   }
 
   private playVideo(): void {
