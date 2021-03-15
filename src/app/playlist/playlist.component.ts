@@ -228,6 +228,20 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
+  public save(): void {
+    const value = this.playlist.video.description;
+    // add description
+    const response = this.videoService.addDescription( this.video.videoID, value.trim());
+    response.subscribe((r) => {
+        console.log(r);
+    });
+  }
+
+  public removeDescription(): void {
+    this.playlist.video.description = '';
+  }
+
+
   private getCurrentUser() : any{
     // TODO get user from login
     return 'u5';
