@@ -13,7 +13,6 @@
     padding-left: 20px;
 }
 
-
 .count-right {
     float: left;
     font-weight: bolder;
@@ -43,3 +42,6 @@
 }
 
 
+.table-container {
+    margin-top: 250px;
+}

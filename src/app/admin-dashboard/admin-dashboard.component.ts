@@ -35,7 +35,6 @@ export class AdminDashboardComponent implements OnInit {
       this.tagCount = res.tagCount;
       this.annotationListCount = res.annotationListCount;
       this.annotationCount = res.annotationCount;
-      console.log('projectCount', this.projectCount, res.projectCount);
     }, 
     error => {
       console.log(error);
