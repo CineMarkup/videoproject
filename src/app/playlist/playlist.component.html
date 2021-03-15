@@ -5,20 +5,41 @@
               Edit Your Videos
           </ng-container>
           <ng-container *ngIf="playListId">
-              Video Player
+              Video: 
+              <span *ngIf="playlist&&playlist.video.title" class="title">
+                  {{playlist.video.title}}
+              </span>
+
           </ng-container>
       </h1>
+      <div class="col-1" *ngIf="playListId">
+        <button  class="save"
+        (click)="save()"
+        mat-raised-button color="accent">Save</button>
+      </div>
+
+      <!-- Description -->
+      <mat-form-field class="description-input" *ngIf="playlist" >
+        <mat-label>Description</mat-label>
+        <textarea matInput  [(ngModel)]="playlist.video.description"></textarea>
+        <button mat-button *ngIf="playlist.video.description" matSuffix mat-icon-button aria-label="Clear" 
+          (click)="removeDescription()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+
       <ng-container *ngIf="playlist&&playlist.video&&allowEditing">
           <div class="col-4">
+            <mat-button-toggle-group color="accent" class="btn-publish" aria-label="Font Style" [(ngModel)]="playlist.video.published">
+                <mat-button-toggle  [value]="true"
+                    (click)="publishVideo(playlist.video.videoID)"
+                    >Published</mat-button-toggle>
+                <mat-button-toggle  [value]="false"
+                    (click)="unPublishVideo(playlist.video.videoID)"
+                    >Unpublished</mat-button-toggle>
+            </mat-button-toggle-group>
 
-              <mat-button-toggle-group color="accent" class="btn-publish" aria-label="Font Style" [(ngModel)]="playlist.video.published">
-                  <mat-button-toggle  [value]="true"
-                      (click)="publishVideo(playlist.video.videoID)"
-                      >Published</mat-button-toggle>
-                  <mat-button-toggle  [value]="false"
-                      (click)="unPublishVideo(playlist.video.videoID)"
-                      >Unpublished</mat-button-toggle>
-              </mat-button-toggle-group>
 
           </div>
       </ng-container>
