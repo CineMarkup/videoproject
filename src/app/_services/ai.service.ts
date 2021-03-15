@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
+import {tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +14,33 @@ export class AiService {
   cognitiveURL = environment.cognitiveServer;
 
   // Http Headers
-  public httpOptions = {
+  public httpOptionsFormData = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    }),
-    withCredentials: true
+      'Content-Type': 'multipart/form-data'
+    })
   };
 
   constructor(private http: HttpClient) { }
 
-  public getThumbnail(): any {
-    return this.http.get(this.cognitiveURL + 'thumbnail', this.httpOptions);
+  public getThumbnail(videodata): Observable<any> {
+    return this.http.post(this.cognitiveURL + 'video/thumbnail', this.httpOptionsFormData, videodata)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
+        )
+      );;
   }
 
-  public getTags(): any {
-    return this.http.get(this.cognitiveURL + 'thumbnail', this.httpOptions);
+  public getTags(videodata): Observable<any> {
+    return this.http.post(this.cognitiveURL + 'image/tags', this.httpOptionsFormData, videodata)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
+        )
+      );;
   }
 
-  public getDescription(): any {
-    return this.http.get(this.cognitiveURL + 'thumbnail', this.httpOptions);
-  }
 
 }

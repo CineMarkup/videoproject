@@ -4,6 +4,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import { TagModel } from 'src/_models/tag-model';
 import { TagService } from '../_services/tag.service';
 import { VideoService } from '../_services/video.service';
+import { AiService } from '../_services/ai.service';
 
 @Component({
   selector: 'app-tags',
@@ -26,10 +27,18 @@ export class TagsComponent implements OnInit {
 
   public tags = [];
 
-  constructor(private tagService: TagService, 
+  constructor(private tagService: TagService,
               private videoService: VideoService) {}
 
   ngOnInit(): void {
+
+    // const formData = new FormData();
+    // formData.append('url', blob);
+    // const response = this.AiService.getTags(formData);
+    // response.subscribe((res) => {
+    //   this.aiTagsList = res.results;
+    // });
+
     this.tagsList.forEach((tagID, ind) => {
       this.tagService.getTagById(tagID).subscribe((tag) => {
         const val = { name: tag.text, tagID: tag.tagID };
