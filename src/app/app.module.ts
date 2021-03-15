@@ -42,6 +42,7 @@ import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommentsComponent } from './comments/comments.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminService } from './_services/admin.service';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     AnnotationListService,
     VideoService,
     PlaylistService,
-    LoginService
+    LoginService,
+    AdminService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

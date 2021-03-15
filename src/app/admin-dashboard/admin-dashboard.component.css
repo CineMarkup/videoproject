@@ -1,0 +1,45 @@
+.wrapper {
+    padding-left: 5px;
+}
+
+.count-container {
+    margin: auto;
+}
+
+.count-left {
+    text-align: right;
+    float: left;
+    padding-right: 10px;
+    padding-left: 20px;
+}
+
+
+.count-right {
+    float: left;
+    font-weight: bolder;
+}
+
+.user-container {
+    margin-left: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    float: left;
+    background-image: linear-gradient(rgb(245, 245, 255), white);
+}
+
+.user-container-legend {
+    margin-left: 10px;
+    padding-left: 20px;
+    padding-bottom: 30px;
+}
+
+.admin-view {
+    clear: both;
+    padding-top: 10px;
+}
+
+.clear {
+    clear: both;
+}
+
+
