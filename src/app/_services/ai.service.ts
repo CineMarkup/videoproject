@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
@@ -10,7 +10,7 @@ import {Observable} from 'rxjs';
 export class AiService {
 
   hostUrl = environment.apiUrl + 'app/';
-  cognitiveURL = environment.cognitiveServer;
+  cognitiveURL = environment.cognitiveServer + '/';
 
   // Http Headers
   public httpOptionsFormData = {
@@ -19,7 +19,8 @@ export class AiService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   public getThumbnail(videodata): Observable<any> {
     return this.http.post(this.cognitiveURL + 'video/thumbnail', this.httpOptionsFormData, videodata)
@@ -31,8 +32,8 @@ export class AiService {
       );
   }
 
-  public getTags(videodata): Observable<any> {
-    return this.http.post(this.cognitiveURL + 'image/tags', this.httpOptionsFormData, videodata)
+  public getSnapshot(videodata): Observable<any> {
+    return this.http.post(this.cognitiveURL + 'video/snapshot', this.httpOptionsFormData, videodata)
       .pipe(
         tap(
           data => console.log(data),
@@ -41,5 +42,13 @@ export class AiService {
       );
   }
 
-
+  public getTags(imagedata): Observable<any> {
+    return this.http.post(this.cognitiveURL + 'image/tags', this.httpOptionsFormData, imagedata)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
+        )
+      );
+  }
 }

@@ -191,17 +191,12 @@ export class PlaylistComponent implements AfterViewInit {
     // formData.append('duration', duration.toString());
     formData.append('fileName', this.fileToUpload.name);
     formData.append('createdBy', this.getCurrentUser());
-
-    const airesponse = this.aiService.getTags(formData);
-    airesponse.subscribe((res) => {
-      this.videoTags = res.results;
-    });
-
     const response = this.videoService.postVideo(formData);
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
       this.toastr.success('Your video is saved');
-      this.router.navigateByUrl('/playlist/' + this.annotationListId);
+      // this.router.navigateByUrl('/playlist/' + this.annotationListId + '?new=true');
+      this.router.navigate(['/playlist/' + this.annotationListId], {queryParams: {new: true}});
     });
   }
 
@@ -227,7 +222,7 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  public isCurrentUser(user: any) :boolean{
+  public isCurrentUser(user: any): boolean {
     // TODO check if user once authentication is complete with google auth
     if (user.userID === 'u5') {
       return true;
@@ -239,9 +234,9 @@ export class PlaylistComponent implements AfterViewInit {
   public save(): void {
     const value = this.playlist.video.description;
     // add description
-    const response = this.videoService.addDescription( this.video.videoID, value.trim());
+    const response = this.videoService.addDescription(this.video.videoID, value.trim());
     response.subscribe((r) => {
-        console.log(r);
+      console.log(r);
     });
   }
 
@@ -250,7 +245,7 @@ export class PlaylistComponent implements AfterViewInit {
   }
 
 
-  private getCurrentUser() : any{
+  private getCurrentUser(): any {
     // TODO get user from login
     return 'u5';
   }
@@ -270,7 +265,7 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  private getPlaylistByID(){
+  private getPlaylistByID() {
     this.playlistService.getPlaylistById(this.playListId).subscribe(
       result => {
         if (result) {
