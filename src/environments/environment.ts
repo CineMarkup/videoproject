@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/',
-  blobUrl: 'https://cinemarkupstorage.blob.core.windows.net/'
+  blobUrl: 'https://cinemarkupstorage.blob.core.windows.net/',
+  cognitiveServer: 'http://localhost:7000'
 };
 
 /*
