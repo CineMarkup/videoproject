@@ -76,10 +76,52 @@ export class PlaylistService {
        });
   }
 
+  // public getPlaylists(): Observable<any> {
+
+  //   const annotationList: Promise<Array<AnnotationListModel>> = this.annotationList.getAllAnnotationLists();
+  //   const videos: Promise<Array<VideoModel>> = this.videos.getVideos();
+  //   const annotations: Promise<Array<AnnotationModel>> = this.annotations.getAnnotations();
+  //   const users: Promise<Array<UserModel>> = this.users.getUsers();
+  
+  //   // tslint:disable-next-line: deprecation
+  //   return Observable.forkJoin([annotationList, videos, annotations, users]).map(
+  //      (results) => {
+  //        const playlists = [];
+  //        results[0].map(item => {
+  //           this.annotationAndVids = item;
+  //           const id = item.id;
+  //           const annotationLists = item.annotationList;
+  //           const video = results[1].find(v => v.videoID === item.videoID);
+  //           const user = results[3].find(v => v.userID === video.createdBy);
+  //           const comments = video.comments;
+  //           comments.forEach((comment: CommentModel) => {
+  //             const commentUser = results[3].find(v => v.userID === comment.createdBy);
+  //             comment.user = commentUser;
+  //           })
+  //           const urlRoute = video.url;
+  //           video.url = urlRoute;
+
+  //           const value = {
+  //             id,
+  //             video,
+  //             annotations: [],
+  //             user,
+  //             comments,
+  //           };
+  //           annotationLists.map((annotationID) => {
+  //             const annotation = results[2].find(a => a.annotationID === annotationID);
+  //             value.annotations.push(annotation);
+  //           });
+  //           playlists.push(value);
+  //        });
+  //        return playlists;
+  //      });
+  // }
+
   public getPlaylists(): Observable<any> {
 
     const annotationList: Promise<Array<AnnotationListModel>> = this.annotationList.getAllAnnotationLists();
-    const videos: Promise<Array<VideoModel>> = this.videos.getVideos();
+    const videos: Promise<Array<VideoModel>> = this.videos.getUserVideos();
     const annotations: Promise<Array<AnnotationModel>> = this.annotations.getAnnotations();
     const users: Promise<Array<UserModel>> = this.users.getUsers();
   
@@ -92,28 +134,32 @@ export class PlaylistService {
             const id = item.id;
             const annotationLists = item.annotationList;
             const video = results[1].find(v => v.videoID === item.videoID);
-            const user = results[3].find(v => v.userID === video.createdBy);
-            const comments = video.comments;
-            comments.forEach((comment: CommentModel) => {
-              const commentUser = results[3].find(v => v.userID === comment.createdBy);
-              comment.user = commentUser;
-            })
-            const urlRoute = video.url;
-            video.url = urlRoute;
+            if (video) {
+              const user = results[3].find(v => v.userID === video.createdBy);
+              const comments = video.comments;
+              comments.forEach((comment: CommentModel) => {
+                const commentUser = results[3].find(v => v.userID === comment.createdBy);
+                comment.user = commentUser;
+              })
+              const urlRoute = video.url;
+              video.url = urlRoute;
 
-            const value = {
-              id,
-              video,
-              annotations: [],
-              user,
-              comments,
-            };
-            annotationLists.map((annotationID) => {
-              const annotation = results[2].find(a => a.annotationID === annotationID);
-              value.annotations.push(annotation);
-            });
-            playlists.push(value);
+              const value = {
+                id,
+                video,
+                annotations: [],
+                user,
+                comments,
+              };
+              annotationLists.map((annotationID) => {
+                const annotation = results[2].find(a => a.annotationID === annotationID);
+                value.annotations.push(annotation);
+              });
+              playlists.push(value);
+            }
          });
+         console.log("Results");
+         console.log(playlists);
          return playlists;
        });
   }
