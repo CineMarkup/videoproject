@@ -7,9 +7,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {AnnotationService} from '../_services/annotation.service';
 import {VideoService} from '../_services/video.service';
+import {AiService} from '../_services/ai.service';
+import {tap} from 'rxjs/operators';
 import { UserService } from '../_services/user.service';
 import {F} from '@angular/cdk/keycodes';
 import { UserModel } from 'src/_models/user-model';
+
 
 /**
  * Play a video along with the annotations
@@ -27,7 +30,8 @@ export class PlaylistComponent implements AfterViewInit {
               private userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private aiService: AiService) {
     this.getPlaylistData();
   }
 
@@ -144,11 +148,22 @@ export class PlaylistComponent implements AfterViewInit {
     this.router.navigateByUrl('/playlist/' + id);
   }
 
-  public getThumbnail(v: any): string {
+  public getThumbnail(v: any): any {
     if (v.thumbnail) {
       return 'assets/images/' + v.thumbnail;
     } else {
-      return 'assets/images/Default.PNG';
+      const thumbnail = 'assets/images/Default.PNG';
+      // const thumbnailresponse = this.aiService.getThumbnail(v.getVideoUrl());
+      // thumbnailresponse.subscribe((res) => {
+      //   return res;
+      // });
+
+      const formData = new FormData();
+      formData.append('video', v.getVideoUrl());
+      this.aiService.getSnapshot(formData)
+        .subscribe((imageres) => {
+          return imageres;
+        });
     }
   }
 
@@ -199,7 +214,8 @@ export class PlaylistComponent implements AfterViewInit {
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
       this.toastr.success('Your video is saved');
-      this.router.navigateByUrl('/playlist/' + this.annotationListId);
+      // this.router.navigateByUrl('/playlist/' + this.annotationListId + '?new=true');
+      this.router.navigate(['/playlist/' + this.annotationListId], {queryParams: {new: true}});
     });
   }
 
@@ -217,7 +233,7 @@ export class PlaylistComponent implements AfterViewInit {
     const stopTime = Math.round(annotation.stopTime) + 1;
     if ((this.currentTime < annotation.startTime || this.currentTime > stopTime)
       && annotation.annotationID == this.currentAnnotation.annotationID) {
-      console.log(this.currentTime + ' ' + annotation.stopTime);
+      // console.log(this.currentTime + ' ' + annotation.stopTime);
       return false;
       // tslint:disable-next-line:triple-equals
     } else if (annotation.annotationID == this.currentAnnotation.annotationID) {
@@ -228,9 +244,9 @@ export class PlaylistComponent implements AfterViewInit {
   public save(): void {
     const value = this.playlist.video.description;
     // add description
-    const response = this.videoService.addDescription( this.video.videoID, value.trim());
+    const response = this.videoService.addDescription(this.video.videoID, value.trim());
     response.subscribe((r) => {
-        console.log(r);
+      console.log(r);
     });
   }
 
@@ -260,7 +276,7 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  private getPlaylistByID(){
+  private getPlaylistByID() {
     this.playlistService.getPlaylistById(this.playListId).subscribe(
       result => {
         if (result) {

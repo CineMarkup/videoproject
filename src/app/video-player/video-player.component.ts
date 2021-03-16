@@ -124,8 +124,8 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     if (this.annotation) {
       this.setWidthAndHeight();
       this.setPosition();
-      //since current time milliseconds rounds down use + 1
-      if (this.annotation.stopTime && this.getNativeVideo().currentTime >= this.annotation.stopTime + 1) { 
+      // since current time milliseconds rounds down use + 1
+      if (this.annotation.stopTime && this.getNativeVideo().currentTime >= this.annotation.stopTime + 1) {
         this.ended.emit('');
         this.showAnnotation = false;
       }
