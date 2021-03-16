@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TagModel } from 'src/_models/tag-model';
 import { environment } from '../../environments/environment';
+import { UserModel } from 'src/_models/user-model';
 
 
 /**
@@ -40,9 +41,9 @@ export class UserService {
     return printable;
   }
 
-  public getUserById(id: string): any {
-    return this.http.get( this.hostUrl + 'user/' + id )
-    .map(response => response as TagModel);
+  public getCurrentAuthenticatedUser(): any {
+    return this.http.get( this.hostUrl + 'auth/loginstatus', this.withCreds)
+    .map(response => response as UserModel);
   }
 
 }
