@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
-
+import {AiService} from './ai.service';
 
 /**
  * Video service gets and posts videos and edits their attributes
@@ -29,7 +29,8 @@ export class VideoService {
     })
   };
 
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private aiService: AiService) {
   }
 
   public getVideos(): any {
@@ -37,7 +38,30 @@ export class VideoService {
   }
 
   public getVideoData(url: string): any {
-    return this.http.get(url);
+    // return this.http.get(url, {'mode': 'no-cors'});
+    fetch(url)
+      .then((data) => data.blob())
+      .then(url => {
+        console.log('Video data returned from azure service');
+        const formData = new FormData();
+        formData.append('video', url);
+        this.aiService.getSnapshot(formData)
+          .subscribe((imageres) => {
+            console.log('imageres', imageres);
+            // imageres.blob().then(iurl=>{
+            // });
+            const formDataImage = new FormData();
+            formDataImage.append('image', imageres);
+            const airesponse = this.aiService.getTags(formDataImage);
+            airesponse.subscribe((tags) => {
+              return tags;
+            });
+          });
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        return [];
+      });
   }
 
   public getUserVideos(): any {

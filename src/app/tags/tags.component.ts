@@ -44,22 +44,10 @@ export class TagsComponent implements OnInit {
 
         this.videoService.getVideoById(this.videoID)
           .subscribe(res => {
-            this.videoService.getVideoData('https://cinemarkupstorage.blob.core.windows.net/' + res.url)
-              .subscribe(data => {
-                console.log(' ============ data ', data);
-
-                const snapresponse = this.aiService.getSnapshot(data);
-                snapresponse.subscribe((imageres) => {
-                  console.log('imageres', imageres);
-                  // const formDataImage = new FormData();
-                  // formDataImage.append('image', imageres.body);
-                  // const airesponse = this.aiService.getTags(formDataImage);
-                  // airesponse.subscribe((tags) => {
-                  //   this.tags = this.tags + tags.results;
-                  // });
-                });
-
-              });
+            this.videoService.getVideoData('https://cinemarkupstorage.blob.core.windows.net/' + res.url);
+              // .then(res => {
+              //   this.tags.push(res);
+              // });
           });
 
         // fetch('https://cinemarkupstorage.blob.core.windows.net/' + res.url)
