@@ -144,6 +144,8 @@ export class PlaylistComponent implements AfterViewInit {
     if (v.thumbnail) {
       return 'assets/images/' + v.thumbnail;
     } else {
+      console.log(" =================== >>>>> ", v.url);
+      this.aiService.getSnapshot(v.url);
       return 'assets/images/Default.PNG';
     }
   }
