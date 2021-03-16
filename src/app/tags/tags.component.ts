@@ -39,17 +39,19 @@ export class TagsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['new']) {
         this.videoService.getVideoById(this.videoID).subscribe(res => {
-          console.log(' video ID ', this.videoID, 'http://localhost:8080/' + res.url);
-          // const snapresponse = this.aiService.getSnapshot('http://localhost:8080/' + res.url);
-          const snapresponse = this.aiService.getSnapshot('http://localhost:8080/videos/Math_video.webm');
-          snapresponse.subscribe((imageres) => {
-            const formDataImage = new FormData();
-            formDataImage.append('image', imageres.body);
-            const airesponse = this.aiService.getTags(formDataImage);
-            airesponse.subscribe((tags) => {
-              this.tags = this.tags + tags.results;
+          fetch('http://cinemarkupwebapp.azurewebsites.net/videos/' + res.url)
+            .then(data => {
+              const snapresponse = this.aiService.getSnapshot(data);
+              snapresponse.subscribe((imageres) => {
+                console.log('imageres', imageres);
+                // const formDataImage = new FormData();
+                // formDataImage.append('image', imageres.body);
+                // const airesponse = this.aiService.getTags(formDataImage);
+                // airesponse.subscribe((tags) => {
+                //   this.tags = this.tags + tags.results;
+                // });
+              });
             });
-          });
         });
       } else {
         this.tagsList.forEach((tagID, ind) => {

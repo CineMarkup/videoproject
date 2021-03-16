@@ -141,18 +141,18 @@ export class PlaylistComponent implements AfterViewInit {
     this.router.navigateByUrl('/playlist/' + id);
   }
 
-  public getThumbnail(v: any): string {
+  public getThumbnail(v: any): any {
     if (v.thumbnail) {
       return 'assets/images/' + v.thumbnail;
     } else {
-      let thumbnail= 'assets/images/Default.PNG';
-      console.log(" ====== >>>>> ", v.url);
-      this.aiService.getSnapshot(v.url).pipe(
-        tap(
-          data => thumbnail = data,
-          error => console.log(error)
-        )
-      );
+      // const thumbnail = 'assets/images/Default.PNG';
+      // console.log(' ====== >>>>> ', v.url);
+      // const thumbnailresponse = this.aiService.getSnapshot(v.getVideoUrl());
+      // thumbnailresponse.subscribe((res) => {
+      //   console.log('thumbnail', res);
+      //   return res;
+      // });
+
     }
   }
 
@@ -238,7 +238,6 @@ export class PlaylistComponent implements AfterViewInit {
       return false;
     }
   }
-
 
 
   public save(): void {

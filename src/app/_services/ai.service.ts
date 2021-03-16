@@ -10,7 +10,7 @@ import {Observable} from 'rxjs';
 export class AiService {
 
   hostUrl = environment.apiUrl + 'app/';
-  cognitiveURL = environment.cognitiveServer + '/';
+  cognitiveURL = environment.cognitiveServer;
 
   // Http Headers
   public httpOptionsFormData = {
@@ -23,13 +23,14 @@ export class AiService {
   }
 
   public getThumbnail(videodata): Observable<any> {
-    return this.http.post(this.cognitiveURL + 'video/thumbnail', this.httpOptionsFormData, videodata);
-      // .pipe(
-      //   tap(
-      //     data => console.log(data),
-      //     error => console.log(error)
-      //   )
-      // );
+    console.log( ' videodata : --------', videodata);
+    return this.http.post(this.cognitiveURL + 'video/thumbnail', this.httpOptionsFormData, videodata)
+      .pipe(
+        tap(
+          data => console.log(data),
+          error => console.log(error)
+        )
+      );
   }
 
   public getSnapshot(videodata): Observable<any> {
