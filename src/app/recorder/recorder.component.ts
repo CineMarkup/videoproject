@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import * as RecordRTC from 'recordrtc';
+import { UserService } from '../_services/user.service';
+import { UserModel } from 'src/_models/user-model';
 
 /**
  * Records a video
@@ -38,6 +40,8 @@ export class RecorderComponent implements AfterViewInit {
 
   public annotationListId = '';
 
+  private currentUser = '';
+
   /*
     Private
   */
@@ -54,10 +58,10 @@ export class RecorderComponent implements AfterViewInit {
   @ViewChild('videoElement', {static: false}) videoElement: ElementRef | undefined;
 
   constructor(private videoService: VideoService,
+              private userService: UserService,
               private toastr: ToastrService) {
+      this.getCurrentUser();
   }
-
-
 
   ngAfterViewInit(): void {
     if (this.videoElement) {
@@ -126,19 +130,19 @@ export class RecorderComponent implements AfterViewInit {
   }
 
   private getCurrentUser(): any {
-    // TODO get user from login
-    return 'u5';
+    const response = this.userService.getCurrentAuthenticatedUser();
+    response.subscribe((r) => {
+      this.currentUser = r.userID;
+    });
   }
 
   private saveToDB(blob: any): void {
-    // TODO add description
     const formData = new FormData();
-    const duration = this.getVideoDuration();
     formData.append('url', blob);
     formData.append('title', this.videoName);
     formData.append('duration', this.getVideoDuration().toString());
     formData.append('fileName', this.getVideoName() + '.webm');
-    formData.append('createdBy', this.getCurrentUser());
+    formData.append('createdBy', this.currentUser);
     const response = this.videoService.postVideo(formData);
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;

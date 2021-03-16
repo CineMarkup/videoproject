@@ -1,0 +1,49 @@
+<div class="background-color"></div>
+
+<!-- Container for loose information-->
+<div class="wrapper">
+    <h1>
+        Admin Dashboard
+    </h1>
+
+    <div class="count-container">
+        <h3>Current database totals:</h3>
+        <div class="count-left">
+            <p>Total <b>users:</b></p>
+            <p>Total <b>projects:</b></p>
+            <p>Total <b>videos:</b></p>
+            <p>Total <b>annotation lists:</b></p>
+            <p>Total <b>annotations:</b></p>
+            <p>Total <b>tags:</b></p>
+        </div>
+
+        <div class="count-right">
+            <p>{{userCount}}</p>
+            <p>{{projectCount}}</p>
+            <p>{{videoCount}}</p>
+            <p>{{annotationListCount}}</p>
+            <p>{{annotationCount}}</p>
+            <p>{{tagCount}}</p>
+        </div>
+
+    </div>
+
+    <div class="table-container clear">
+        <div class="admin-view">
+            <h3>Top accounts:</h3>
+            <ng-container class="row" *ngFor="let user of users">
+                <mat-card class="user-container col-3">
+                    <mat-card-title>{{user.displayName}}</mat-card-title>
+                    <p>
+                        User ID: <b>{{user.userID}}</b><br>
+                        email: <b>{{user.email}}</b><br>
+                        Type: <b>{{user.userType}}</b><br>
+                        Logged in: <b>{{user.loginStatus}}</b>
+                    </p>
+                </mat-card>
+            </ng-container>
+        </div>
+    </div>
+
+</div>
+<!-- List of most recent videos. -->
