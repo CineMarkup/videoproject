@@ -36,6 +36,10 @@ export class VideoService {
       return this.http.get<Array<VideoModel>>( this.hostUrl + 'video');
   }
 
+  public getUserVideos(): any {
+    return this.http.get<Array<VideoModel>>( this.hostUrl + 'videos/user');
+  }
+
   public getVideoById(id: string): any {
       return this.http.get<VideoModel>( this.hostUrl + 'video/' + id )
       .map(response => response);

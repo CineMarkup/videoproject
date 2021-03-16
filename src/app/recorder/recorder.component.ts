@@ -147,7 +147,7 @@ export class RecorderComponent implements AfterViewInit {
   }
 
   public download(): void {
-    const fileName = this.getVideoName() + '.webm';
+    const fileName = this.getVideoName() + '.mp4';
     if (this.isSaved) {
       RecordRTC.invokeSaveAsDialog(this.blob, fileName);
     } else {
