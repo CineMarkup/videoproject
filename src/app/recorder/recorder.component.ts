@@ -200,8 +200,6 @@ export class RecorderComponent implements AfterViewInit {
     const video: HTMLVideoElement = this.videoElement.nativeElement;
     const recordRTC = this.recorder;
     video.src = audioVideoWebMURL;
-    // Todo : store duartion
-    // video.duration= startdate-Date.now();
     const recordedBlob = recordRTC.getBlob();
     this.watchVideoRecording(recordedBlob, video);
   }

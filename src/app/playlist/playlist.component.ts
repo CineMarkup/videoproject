@@ -145,14 +145,11 @@ export class PlaylistComponent implements AfterViewInit {
     if (v.thumbnail) {
       return 'assets/images/' + v.thumbnail;
     } else {
-      // const thumbnail = 'assets/images/Default.PNG';
-      // console.log(' ====== >>>>> ', v.url);
-      // const thumbnailresponse = this.aiService.getSnapshot(v.getVideoUrl());
+      const thumbnail = 'assets/images/Default.PNG';
+      // const thumbnailresponse = this.aiService.getThumbnail(v.getVideoUrl());
       // thumbnailresponse.subscribe((res) => {
-      //   console.log('thumbnail', res);
       //   return res;
       // });
-
     }
   }
 

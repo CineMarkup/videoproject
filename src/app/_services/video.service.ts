@@ -33,20 +33,24 @@ export class VideoService {
   }
 
   public getVideos(): any {
-      return this.http.get<Array<VideoModel>>( this.hostUrl + 'video');
+    return this.http.get<Array<VideoModel>>(this.hostUrl + 'video');
+  }
+
+  public getVideoData(url: string): any {
+    return this.http.get(url);
   }
 
   public getUserVideos(): any {
-    return this.http.get<Array<VideoModel>>( this.hostUrl + 'videos/user');
+    return this.http.get<Array<VideoModel>>(this.hostUrl + 'videos/user');
   }
 
   public getVideoById(id: string): any {
-      return this.http.get<VideoModel>( this.hostUrl + 'video/' + id )
+    return this.http.get<VideoModel>(this.hostUrl + 'video/' + id)
       .map(response => response);
   }
 
   public addTag(videoID: string, tagID: string): Observable<any> {
-    const body = {tags: tagID};
+    const body = {'tags': tagID};
     const url = this.hostUrl + 'video/push/' + videoID;
     return this.http.put<VideoModel>(url, JSON.stringify(body), this.httpOptions)
       .pipe(
