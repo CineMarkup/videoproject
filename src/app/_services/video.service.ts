@@ -37,7 +37,7 @@ export class VideoService {
     return this.http.get<Array<VideoModel>>(this.hostUrl + 'video');
   }
 
-  public getVideoData(url: string): any {
+  public getVideoData(url: string, cb: any): any {
     // return this.http.get(url, {'mode': 'no-cors'});
     fetch(url)
       .then((data) => data.blob())
@@ -47,20 +47,17 @@ export class VideoService {
         formData.append('video', url);
         this.aiService.getSnapshot(formData)
           .subscribe((imageres) => {
-            console.log('imageres', imageres);
-            // imageres.blob().then(iurl=>{
-            // });
             const formDataImage = new FormData();
             formDataImage.append('image', imageres);
             const airesponse = this.aiService.getTags(formDataImage);
             airesponse.subscribe((tags) => {
-              return tags;
+              cb(tags);
             });
           });
       })
       .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
-        return [];
+        cb(null);
       });
   }
 

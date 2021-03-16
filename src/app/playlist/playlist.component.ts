@@ -157,6 +157,13 @@ export class PlaylistComponent implements AfterViewInit {
       // thumbnailresponse.subscribe((res) => {
       //   return res;
       // });
+
+      const formData = new FormData();
+      formData.append('video', v.getVideoUrl());
+      this.aiService.getSnapshot(formData)
+        .subscribe((imageres) => {
+          return imageres;
+        });
     }
   }
 

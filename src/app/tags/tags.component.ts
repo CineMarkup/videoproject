@@ -39,20 +39,20 @@ export class TagsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       let data;
       if (params['new']) {
-
-        console.log('this video Id ', this.videoID);
-
         this.videoService.getVideoById(this.videoID)
           .subscribe(res => {
-            this.videoService.getVideoData('https://cinemarkupstorage.blob.core.windows.net/' + res.url);
-              // .then(res => {
-              //   this.tags.push(res);
-              // });
+            this.videoService.getVideoData('https://cinemarkupstorage.blob.core.windows.net/' + res.url, results => {
+              // console.log('results ', results);
+              // tslint:disable-next-line:forin
+              results = JSON.parse(results);
+              console.log('results' , results);
+              for (let x in results.tags) {
+                this.tags.push({
+                  name: results.tags[x].name
+                });
+              }
+            });
           });
-
-        // fetch('https://cinemarkupstorage.blob.core.windows.net/' + res.url)
-        //   .then(data =>{
-        // });
       } else {
         this.tagsList.forEach((tagID, ind) => {
           this.tagService.getTagById(tagID).subscribe((tag) => {
