@@ -23,13 +23,13 @@ export class AiService {
   }
 
   public getThumbnail(videodata): Observable<any> {
-    return this.http.post(this.cognitiveURL + 'video/thumbnail', this.httpOptionsFormData, videodata)
-      .pipe(
-        tap(
-          data => console.log(data),
-          error => console.log(error)
-        )
-      );
+    return this.http.post(this.cognitiveURL + 'video/thumbnail', this.httpOptionsFormData, videodata);
+      // .pipe(
+      //   tap(
+      //     data => console.log(data),
+      //     error => console.log(error)
+      //   )
+      // );
   }
 
   public getSnapshot(videodata): Observable<any> {

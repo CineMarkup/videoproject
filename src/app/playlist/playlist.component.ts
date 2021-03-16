@@ -9,6 +9,7 @@ import {AnnotationService} from '../_services/annotation.service';
 import {VideoService} from '../_services/video.service';
 import {AiService} from '../_services/ai.service';
 import {F} from '@angular/cdk/keycodes';
+import {tap} from 'rxjs/operators';
 
 /**
  * Play a video along with the annotations
@@ -144,9 +145,14 @@ export class PlaylistComponent implements AfterViewInit {
     if (v.thumbnail) {
       return 'assets/images/' + v.thumbnail;
     } else {
-      console.log(" =================== >>>>> ", v.url);
-      this.aiService.getSnapshot(v.url);
-      return 'assets/images/Default.PNG';
+      let thumbnail= 'assets/images/Default.PNG';
+      console.log(" ====== >>>>> ", v.url);
+      this.aiService.getSnapshot(v.url).pipe(
+        tap(
+          data => thumbnail = data,
+          error => console.log(error)
+        )
+      );
     }
   }
 
