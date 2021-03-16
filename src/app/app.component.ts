@@ -14,23 +14,15 @@ export class AppComponent {
   email: any = 'anon@gmail.com';
   name: any = 'Logged-in';
   avatar: any = 'default';
-
+  userType: any = 'user';
+  
   constructor(loginService: LoginService) {
     loginService.getLogin().subscribe(res => {
       this.loggedIn = true;
       this.email = res.email;
       this.name = res.displayName;
       this.avatar = res.avatar;
-      /* ABOUT res fields:
-        res.
-          _id = mongodb id (BAD FORM TO USE THIS)
-          userID = 'u192'
-          googleID = 'numeric string I think'
-          avatar = 'url'
-          displayName = 'user chosen display name'
-          email = 'string'
-          userType = 'user'
-      */
+      this.userType = res.userType;
     },
     error => {
       // server sends back 403 on unauthenticated getLogin()

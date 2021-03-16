@@ -41,6 +41,8 @@ import { TagsComponent } from './tags/tags.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommentsComponent } from './comments/comments.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminService } from './_services/admin.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { CommentsComponent } from './comments/comments.component';
     TagsComponent,
     VideoGalleryComponent,
     DashboardComponent,
-    CommentsComponent
+    CommentsComponent,
+    AdminDashboardComponent
   ],
   imports:      [
     BrowserModule,
@@ -88,7 +91,8 @@ import { CommentsComponent } from './comments/comments.component';
     AnnotationListService,
     VideoService,
     PlaylistService,
-    LoginService
+    LoginService,
+    AdminService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

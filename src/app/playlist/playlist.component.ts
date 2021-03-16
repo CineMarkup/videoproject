@@ -8,8 +8,11 @@ import {ToastrService} from 'ngx-toastr';
 import {AnnotationService} from '../_services/annotation.service';
 import {VideoService} from '../_services/video.service';
 import {AiService} from '../_services/ai.service';
-import {F} from '@angular/cdk/keycodes';
 import {tap} from 'rxjs/operators';
+import { UserService } from '../_services/user.service';
+import {F} from '@angular/cdk/keycodes';
+import { UserModel } from 'src/_models/user-model';
+
 
 /**
  * Play a video along with the annotations
@@ -24,6 +27,7 @@ export class PlaylistComponent implements AfterViewInit {
   constructor(private playlistService: PlaylistService,
               private annotationService: AnnotationService,
               private videoService: VideoService,
+              private userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
               private toastr: ToastrService,
@@ -65,6 +69,8 @@ export class PlaylistComponent implements AfterViewInit {
 
   public annotationListId = '';
 
+  private currentUser = '';
+
   ngAfterViewInit(): void {
   }
 
@@ -80,6 +86,7 @@ export class PlaylistComponent implements AfterViewInit {
         this.getPlaylists();
       }
     });
+    this.getCurrentUser();
   }
 
   public addAnnotation(): void {
@@ -195,7 +202,7 @@ export class PlaylistComponent implements AfterViewInit {
     formData.append('title', this.fileToUpload.name);
     // formData.append('duration', duration.toString());
     formData.append('fileName', this.fileToUpload.name);
-    formData.append('createdBy', this.getCurrentUser());
+    formData.append('createdBy', this.currentUser);
     const response = this.videoService.postVideo(formData);
     response.subscribe((res) => {
       this.annotationListId = res.annotationListID;
@@ -227,16 +234,6 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
-  public isCurrentUser(user: any): boolean {
-    // TODO check if user once authentication is complete with google auth
-    if (user.userID === 'u5') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
   public save(): void {
     const value = this.playlist.video.description;
     // add description
@@ -250,10 +247,11 @@ export class PlaylistComponent implements AfterViewInit {
     this.playlist.video.description = '';
   }
 
-
   private getCurrentUser(): any {
-    // TODO get user from login
-    return 'u5';
+    const response = this.userService.getCurrentAuthenticatedUser();
+    response.subscribe((r) => {
+      this.currentUser = r.userID;
+    });
   }
 
   private playAnnotation(index: number = 0): void {
@@ -293,9 +291,11 @@ export class PlaylistComponent implements AfterViewInit {
   }
 
   private getPlaylists() {
-    this.playlistService.getPlaylists().subscribe(
+    this.playlistService.getPlaylistsforAuthenticatedUser().subscribe(
       result => {
         if (result) {
+          console.log('PLAYLIST');
+          console.log(result);
           this.playlists = result;
         }
       },
@@ -368,13 +368,6 @@ export class PlaylistComponent implements AfterViewInit {
   public upload(): void {
     // TODO: complete the post and validate
     console.log('----------------:upload');
-    // // TBD - upload video
-    // const obj = {
-    //   videofile: '',
-    //   title:'' ,
-    //   description: ''
-    // };
-    // this.videoService.postVideo(obj);
   }
 
 }

@@ -8,9 +8,10 @@
 
     <span class="menu-spacer"></span>
     <div class="nav">
-      <a mat-button routerLink="/record" routerLinkActive="active"> Record a Video </a>
-      <a mat-button routerLink="/playlist"> Add Annotations </a>
+      <a mat-button routerLink="/record" routerLinkActive="active" *ngIf="loggedIn"> Record a Video </a>
+      <a mat-button routerLink="/playlist" *ngIf="loggedIn"> Add Annotations </a>
       <a mat-button routerLink="/dashboard" routerLinkActive="active"> View Videos </a>
+      <a mat-button routerLink="/admin-dashboard" *ngIf="userType=='admin'&&loggedIn"> Admin Dashboard </a>
 
       <a mat-button href="app/auth/google" *ngIf="!loggedIn"> Log In </a>
 

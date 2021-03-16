@@ -6,6 +6,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { RecorderComponent } from './recorder/recorder.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoGalleryComponent } from './video-gallery/video-gallery.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'video-gallery', component: VideoGalleryComponent },
   { path: 'view/:id', component: PlaylistComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
 ];
 
 @NgModule({
