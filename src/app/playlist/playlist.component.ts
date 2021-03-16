@@ -228,6 +228,8 @@ export class PlaylistComponent implements AfterViewInit {
     }
   }
 
+
+
   public save(): void {
     const value = this.playlist.video.description;
     // add description
